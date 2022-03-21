@@ -1,5 +1,5 @@
 
-import { styled } from '@mui/material/styles';
+import { styled, alpha} from '@mui/material/styles';
 import Button from '@mui/material/Button/Button';
 
 
@@ -8,5 +8,8 @@ const CustomButton = styled(Button)(({ theme }) => ({
     color: '#FFFFFF',
     textTransform: 'capitalize',
     borderRadius: '3px',
+    '&:hover,&:focus': {
+        backgroundColor: alpha(theme.palette.primary.dark, 1),
+    },
 }));
 export default CustomButton;
