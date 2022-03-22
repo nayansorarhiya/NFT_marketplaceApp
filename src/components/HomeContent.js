@@ -11,13 +11,32 @@ import CardMedia from '@mui/material/CardMedia';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import vector from '../assets/images/vectorCorrect.svg';
-import scullLogo from '../assets/images/Ellipse2.png';
+import scullLogoDark from '../assets/images/Ellipse2.png';
+import scullLogoLight from '../assets/images/Ellipse1.png';
+import { makeStyles } from '@mui/styles';
+
+const useStyles = makeStyles({
+    bgGradiant: {
+        position : 'absolute',
+        width: '690.92px',
+        background: 'radial-gradient(72.4% 72.4% at 17.21% 12.93%, #9ED8F2 0% , #B6BBE5 100%)',
+        opacity: '0.6',
+        zIndex : 0,
+        filter: 'blur(100px)',
+        left : '-100px',
+        transform: 'rotate(30deg)',
+        height: '512px',
+    },
+});
+
 function HomeContent() {
     const theme = useTheme();
-
+    const classes = useStyles();
     return (<>
-        <Grid container spacing={{ xs: 1, md: 2, lg: 3 }} columns={{ lg: 12 }} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
-            <Grid item md={3} lg={6} >
+        <Box className={classes.bgGradiant}></Box>
+        <Grid container spacing={{ xs: 1, md: 2, lg: 3 }} columns={{ lg: 12 }} sx={{ display: 'flex', 
+        justifyContent: 'center', alignItems: 'flex-start',position: 'relative', zIndex : 1 }}>
+            <Grid item md={3} lg={6}  >
                 <Typography className="mainheading" sx={{ marginTop: '108px', color: alpha(theme.palette.primary.font, 1) }}>
                     Discover, Collect, and <br />
                     Sell Extraordinary NFTs
@@ -47,9 +66,9 @@ function HomeContent() {
                 <Box sx={{ ml: '10px', textAlign: 'end' }}>
                     <img src={homeimage} alt="bkimage" width="100%"></img>  {/*  430px  ||  75% */}
                     <Box sx={{
-                        minWidth: 180, maxWidth: 180, position: 'relative', textAlign: "center",
+                        width: { xs: 180, sm: 180, md: 180, lg: 180 }, maxWidth: 180, position: 'relative', textAlign: "center",
                         boxShadow: '0px 12px 34px rgba(72, 95, 230, 0.2)', borderRadius: '6px',
-                        mt: { md: '-35px', lg: '-220px' }, ml: { md: '30%', lg: '-130px' }
+                        mt: { xs: '-35px', sm: '-35px', md: '-35px', lg: '-220px' }, ml: { xs: '20%', sm: '28%', md: '30%', lg: '-130px' }
                     }}>
 
                         <Box sx={{
@@ -73,7 +92,7 @@ function HomeContent() {
                                 <CardMedia
                                     component="img"
                                     sx={{ width: 70, mt: '7px', position: 'absolute' }}
-                                    image={scullLogo}
+                                    image={theme.palette.mode === 'dark' ? scullLogoDark : scullLogoLight}
                                     alt="Live from space album cover"
                                 />
                             </Box>
@@ -98,8 +117,6 @@ function HomeContent() {
                             </CardActions>
                         </Card>
                     </Box>
-
-
                 </Box>
             </Grid>
         </Grid>
