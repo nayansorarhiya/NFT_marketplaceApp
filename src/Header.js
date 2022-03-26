@@ -3,7 +3,7 @@ import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import Button from '@mui/material/Button/Button';
+import CustomButton from './components/CustomButton';
 import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
@@ -16,15 +16,16 @@ import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import { useTheme } from '@mui/material/styles';
 import Divider from '@mui/material/Divider/Divider';
+// import logo from './assets/images/logo.png';
 
 
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.primary.dark, 0.15),
+    backgroundColor: alpha(theme.palette.primary.search, 1),
     '&:hover': {
-        backgroundColor: alpha(theme.palette.primary.dark, 0.25),
+        backgroundColor: alpha(theme.palette.primary.search,1),
     },
     marginRight: theme.spacing(2),
     marginLeft: 0,
@@ -37,6 +38,7 @@ const Search = styled('div')(({ theme }) => ({
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
     padding: theme.spacing(0, 2),
+    color: alpha(theme.palette.primary.searchIcon, 1),
     height: '100%',
     position: 'absolute',
     pointerEvents: 'none',
@@ -61,48 +63,17 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function Header(props) {
     const theme = useTheme();
-    const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
-    const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-    const handleProfileMenuOpen = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
 
     const handleMobileMenuClose = () => {
         setMobileMoreAnchorEl(null);
     };
 
-    const handleMenuClose = () => {
-        setAnchorEl(null);
-        handleMobileMenuClose();
-    };
-
     const handleMobileMenuOpen = (event) => {
         setMobileMoreAnchorEl(event.currentTarget);
     };
-
-    const menuId = 'primary-search-account-menu';
-    const renderMenu = (
-        <Menu
-            anchorEl={anchorEl}
-            anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-            }}
-            id={menuId}
-            keepMounted
-            transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-            }}
-            open={isMenuOpen}
-            onClose={handleMenuClose}
-        >
-        </Menu>
-    );
 
     const mobileMenuId = 'primary-search-account-menu-mobile';
     const renderMobileMenu = (
@@ -121,8 +92,19 @@ export default function Header(props) {
             open={isMobileMenuOpen}
             onClose={handleMobileMenuClose}
             className="menulist"
-
         >
+            <MenuItem sx={{ display: { xs: 'block', sm: 'block', md: 'none', lg: 'none' } }}>
+                <Search >
+                    <SearchIconWrapper>
+                        <SearchIcon />
+                    </SearchIconWrapper>
+                    <StyledInputBase
+                        placeholder="Search..."
+                        inputProps={{ 'aria-label': 'search' }}
+                    />
+                </Search>
+            </MenuItem>
+
             <MenuItem>
                 discover
             </MenuItem>
@@ -139,19 +121,8 @@ export default function Header(props) {
                 sell
             </MenuItem>
             <Divider />
-            <MenuItem onClick={props.onClickTheme}>
-                {theme.palette.mode === 'dark' ? <LightModeOutlinedIcon /> : <DarkModeOutlinedIcon />}
-            </MenuItem>
-            <Divider />
             <MenuItem>
-                <Button variant="contained">Connect Wallet</Button>
-            </MenuItem>
-            <Divider />
-            <MenuItem>
-                <Badge badgeContent={1} color="error">
-                    <ShoppingCartOutlinedIcon />
-                </Badge>
-                <p>Cart</p>
+                <CustomButton variant="contained">Connect Wallet</CustomButton>
             </MenuItem>
         </Menu>
     );
@@ -163,35 +134,27 @@ export default function Header(props) {
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
                 <Toolbar>
-                    {/* <IconButton
-                        size="large"
-                        edge="start"
-                        color="inherit"
-                        aria-label="open drawer"
-                        sx={{ mr: 2 }}
-                    >
-                        <MenuIcon />
-                    </IconButton> */}
                     <Typography
                         variant="h6"
                         noWrap
                         component="div"
-                        sx={{ display: { xs: 'none', md: 'flex' }, marginLeft: theme.spacing(3) }}
+                        sx={{ display: { xs: 'block', sm: 'block', md: 'block', lg: 'block' }, marginLeft: theme.spacing(3) }}
                         className="headerlogo"
                     >
                         logo
                     </Typography>
-                    <Search>
+                    <Box sx={{ flexGrow: 1 }} />
+                    <Search sx={{ display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex' } }}>
                         <SearchIconWrapper>
                             <SearchIcon />
                         </SearchIconWrapper>
                         <StyledInputBase
-                            placeholder="Search…"
+                            placeholder="Search items, collections and profiles "
                             inputProps={{ 'aria-label': 'search' }}
                         />
                     </Search>
 
-                    <Box sx={{ display: { xs: 'none', md: 'flex' }, color: alpha(theme.palette.primary.dark) }} className="menulist">
+                    <Box sx={{ display: { xs: 'none', sm: 'none', md: 'none', lg: 'flex' }, color: alpha(theme.palette.primary.dark) }} className="menulist">
                         <Box sx={{ ml: 5 }}>
                             <MenuItem>
                                 discover
@@ -212,25 +175,26 @@ export default function Header(props) {
                                 sell
                             </MenuItem>
                         </Box>
-
                     </Box>
-
                     <Box sx={{ flexGrow: 1 }} />
-
-                    <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                    <Box sx={{ display: { xs: 'flex', sm: 'flex', md: 'flex', lg: 'flex' } }}>
                         <MenuItem onClick={props.onClickTheme}>
                             {theme.palette.mode === 'dark' ? <LightModeOutlinedIcon /> : <DarkModeOutlinedIcon />}
                         </MenuItem>
+                    </Box>
+                    <Box sx={{ display: { xs: 'none', sm: 'none', md: 'none', lg: 'flex' } }}>
                         <MenuItem>
-                            <Button variant="contained">Connect Wallet</Button>
+                            <CustomButton variant="contained">Connect Wallet</CustomButton>
                         </MenuItem>
+                    </Box>
+                    <Box sx={{ display: { xs: 'flex', sm: 'flex', md: 'flex', lg: 'flex' } }}>
                         <MenuItem>
-                            <Badge badgeContent={0} color="error">
+                            <Badge badgeContent={1} color="error">
                                 <ShoppingCartOutlinedIcon />
                             </Badge>
                         </MenuItem>
                     </Box>
-                    <Box sx={{ display: { sm: 'flex', md: 'none' } }}>
+                    <Box sx={{ display: { xs: 'flex', sm: 'flex', md: 'flex', lg: 'none' } }}>
                         <MenuItem
                             size="large"
                             aria-label="show more"
@@ -245,7 +209,6 @@ export default function Header(props) {
                 </Toolbar>
             </AppBar>
             {renderMobileMenu}
-            {renderMenu}
         </Box>
     );
 }

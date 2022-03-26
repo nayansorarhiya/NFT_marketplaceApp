@@ -27,24 +27,23 @@ body {
     text-transform: capitalize !important;
 }
 
-button {
+/* button {
     background-color: #485FE6 !important;
     color           : #FFFFFF !important;
-}
+    text-transform  : capitalize !important;
+    border-radius: 3px !important;
+} */
 
 .mainheading {
     font-weight: 700 !important;
     font-size  : 44px !important;
     line-height: 57px !important;
-
-    /* Black */
-
     /* color: #1E212E !important; */
 }
 
-.gradiant1 {
-    /* background-color: ; */
-    /* opacity  : 0.5; */
-    /* filter   : blur(200px); */
-    /* transform: rotate(30deg); */
+.content {
+    font-weight: 700 !important;
+    font-size  : 18px !important; 
+    line-height: 32px !important;
+    /* color      : #2B2F41 !important; */
 }
