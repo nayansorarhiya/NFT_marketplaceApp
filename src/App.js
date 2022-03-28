@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import Header from "./Header";
-import Body from "./Body";
-import Footer from "./Footer";
+import Header from "./components/pages/common/Header";
+import Body from "./components/pages/Body";
+import Footer from "./components/pages/common/Footer";
 import { Paper } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { alpha, useTheme } from '@mui/material/styles';
 
 
 function App() {
+  const theme = useTheme();
   let val = localStorage.getItem('themeMode');
   val = val == null ? `false` : val;
   const [darkMode, setDarkMode] = useState(val === 'true');
@@ -17,11 +19,11 @@ function App() {
       primary: {
         main: '#2B2F41',
         dark: '#485FE6',
-        search: '#1E212E',
         searchIcon: '#91939B',
         font: '#FFFFFF',
         buttonfont: '#FFFFFF',
         homeBg :'#1E212E',
+        tableHead: '#F8F8F8',
       },
     },
     typography: {
@@ -35,11 +37,11 @@ function App() {
       primary: {
         main: '#FFFFFF',
         dark: '#485FE6',
-        search: '#F8F8F8',
         searchIcon: '#91939B',
         font: '#1E212E',
         buttonfont: '#2B2F41',
         homeBg :'#F8F8F8',
+        tableHead: '#1E212E',
       },
     },
     typography: {
@@ -56,7 +58,9 @@ function App() {
         }}></Header>
         <Paper sx={{ background: darkMode ? '#1E212E' : '#F8F8F8' , mt: '60px' }}>
           <Body></Body>
-          <Footer></Footer>
+        </Paper>
+        <Paper sx={{background: alpha(theme.palette.primary.main, 1)}}>
+          <Footer ></Footer>
         </Paper>
       </Paper>
     </ThemeProvider>
