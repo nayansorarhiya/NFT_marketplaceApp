@@ -3,15 +3,16 @@ import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import CustomButton from './components/CustomButton';
+import CustomButton from '../../CustomButton';
 import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
+import MenuIcon from '@mui/icons-material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import SearchIcon from '@mui/icons-material/Search';
-import MoreIcon from '@mui/icons-material/MoreVert';
+// import MoreIcon from '@mui/icons-material/MoreVert';
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import { useTheme } from '@mui/material/styles';
@@ -23,9 +24,9 @@ import Divider from '@mui/material/Divider/Divider';
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.primary.search, 1),
+    backgroundColor: alpha(theme.palette.primary.homeBg, 1),
     '&:hover': {
-        backgroundColor: alpha(theme.palette.primary.search, 1),
+        backgroundColor: alpha(theme.palette.primary.homeBg, 1),
     },
     marginRight: theme.spacing(2),
     marginLeft: 0,
@@ -203,7 +204,7 @@ export default function Header(props) {
                             onClick={handleMobileMenuOpen}
                             color="inherit"
                         >
-                            <MoreIcon />
+                            <MenuIcon fontSize="large"/>
                         </MenuItem>
                     </Box>
                 </Toolbar>

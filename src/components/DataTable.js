@@ -1,6 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import { useTheme, alpha } from '@mui/material/styles';
+import CustomButton from './CustomButton';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -14,16 +15,18 @@ import Paper from '@mui/material/Paper';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import { visuallyHidden } from '@mui/utils';
+import vectorCorrect from '../assets/images/vectorCorrect.svg';
+import eth from '../assets/images/eth.png';
+import { height } from '@mui/system';
 
 
-
-
-function createData(id, name, volume, hour, color, price, owner, supply) {
+function createData(id, name, volume, hour, hour2, color, price, owner, supply) {
     return {
         id,
         name,
         volume,
         hour,
+        hour2,
         color,
         price,
         owner,
@@ -32,10 +35,10 @@ function createData(id, name, volume, hour, color, price, owner, supply) {
 }
 
 const rows = [
-    createData(1, 'Mutant Ape Yacht Club', '0,047.89', -92.25, 'green', '5,05.7', '4,7K', '23,5K'),
-    createData(2, 'Meetbits', '1,070.15', +770.15, 'blue', '2,14.3', '4,5K', '17,1K'),
-    createData(3, 'X Design', '0,047.89', -92.25, 'red', '5,05.7', '4,7K', '23,5K'),
-    createData(4, 'Some Crypto Name', '7,142.89', +124.25, 'red', '1,178.57', '2,5K', '11,2K'),
+    createData(1, 'Mutant Ape Yacht Club', '0,047.89', -1.74, -92.25, 'green', '5,05.7', '4,7K', '23,5K'),
+    createData(2, 'Meetbits', '1,070.15', +1.06, +770.15, 'blue', '2,14.3', '4,5K', '17,1K'),
+    createData(3, 'X Design', '0,047.89', -1.74, -92.25, 'red', '5,05.7', '4,7K', '23,5K'),
+    createData(4, 'Some Crypto Name', '7,142.89', +2.24, -52.25, 'red', '1,178.57', '2,5K', '11,2K'),
     // createData(5,'X Design', '0,047.89', '-92.25%', '5,05.7', '4,7K', '23,5K'),
     // createData(6,'Some Crypto Name', '0,047.89', '-92.25%', '5,05.7', '4,7K', '23,5K'),
     // createData(7,'Meetbits', '1,070.15', '+770.15%', '2,14.3', '4,5K', '17,1K'),
@@ -92,6 +95,18 @@ const headCells = [
         label: 'Collection',
     },
     {
+        id: 'price',
+        numeric: true,
+        disablePadding: false,
+        label: 'Floor Price',
+    },
+    {
+        id: 'hour2',
+        numeric: true,
+        disablePadding: false,
+        label: '24h',
+    },
+    {
         id: 'volume',
         numeric: true,
         disablePadding: false,
@@ -102,12 +117,6 @@ const headCells = [
         numeric: true,
         disablePadding: false,
         label: '24h',
-    },
-    {
-        id: 'price',
-        numeric: true,
-        disablePadding: false,
-        label: 'Floor Price',
     },
     {
         id: 'owner',
@@ -124,6 +133,7 @@ const headCells = [
 ];
 
 function EnhancedTableHead(props) {
+    const theme = useTheme();
     const { order, orderBy, onRequestSort } =
         props;
     const createSortHandler = (property) => (event) => {
@@ -139,6 +149,7 @@ function EnhancedTableHead(props) {
                         align={headCell.numeric ? 'right' : 'left'}
                         padding={headCell.disablePadding ? 'none' : 'normal'}
                         sortDirection={orderBy === headCell.id ? order : false}
+                        sx={{ fontWeight: '500', fontSize: '16px', lineHeight: '21px', color: alpha(theme.palette.primary.tableHead, 1) }}
                     >
                         <TableSortLabel
                             active={orderBy === headCell.id}
@@ -173,7 +184,7 @@ EnhancedTableHead.propTypes = {
 export default function DataTable() {
     const theme = useTheme();
     const [order, setOrder] = React.useState('asc');
-    const [orderBy, setOrderBy] = React.useState('volume');
+    const [orderBy, setOrderBy] = React.useState('id');
     const [selected, setSelected] = React.useState([]);
     const [page, setPage] = React.useState(0);
     const [dense, setDense] = React.useState(false);
@@ -234,9 +245,9 @@ export default function DataTable() {
         page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
     return (
-        <Box sx={{ width: '100%',mt: '40px', background: alpha(theme.palette.primary.homeBg, 1) }}>
-            <Paper sx={{ width: '100%', mb: 2 }}>
-                
+        <>
+            <Box sx={{ width: '100%', mt: '40px', background: alpha(theme.palette.primary.homeBg, 1), display: 'block', textAlign: 'center' }}>
+
                 <TableContainer sx={{ background: alpha(theme.palette.primary.homeBg, 1) }}>
                     <Table
                         sx={{ minWidth: 750 }}
@@ -271,20 +282,24 @@ export default function DataTable() {
                                             selected={isItemSelected}
                                         >
 
-                                            <TableCell align="left">{row.id}</TableCell>
+                                            <TableCell align="left" sx={{ fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: alpha(theme.palette.primary.tableHead, 1) }}>{row.id}</TableCell>
                                             <TableCell
                                                 component="th"
                                                 id={labelId}
                                                 scope="row"
                                                 padding="none"
+                                                sx={{ fontWeight: 700, fontSize: '20px', lineHeight: '22px', color: alpha(theme.palette.primary.tableHead, 1), whiteSpace: 'nowrap' }}
                                             >
-                                                {row.name}
+                                                {row.name} {row.name && <img src={vectorCorrect} alt="vectoricon" />}
                                             </TableCell>
-                                            <TableCell align="right">{row.volume}</TableCell>
-                                            <TableCell align="right" sx={{ color: (row.hour < 0 ? 'red' : 'green') }}>{row.hour}%</TableCell>
-                                            <TableCell align="right">{row.price}</TableCell>
-                                            <TableCell align="right">{row.owner}</TableCell>
-                                            <TableCell align="right">{row.supply}</TableCell>
+                                            <TableCell align="right" sx={{ display: 'flex', alignItems: 'center', fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: alpha(theme.palette.primary.tableHead, 1) }}>
+                                                {row.name && <Box sx={{ ml: 1, display: 'flex', justifyContent: 'center' }}><img src={eth} alt="vectoricon" /> </Box>}{row.price}
+                                            </TableCell>
+                                            <TableCell align="right" sx={{ fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: (row.hour < 0 ? '#EB5757' : '#27AE60') }}>{row.hour < 0 ? '' : '+'}{row.hour}%</TableCell>
+                                            <TableCell align="right" sx={{ fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: alpha(theme.palette.primary.tableHead, 1) }} >{row.volume}</TableCell>
+                                            <TableCell align="right" sx={{ fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: (row.hour2 < 0 ? '#EB5757' : '#27AE60') }}>{row.hour2 < 0 ? '' : '+'}{row.hour2}%</TableCell>
+                                            <TableCell align="right" sx={{ fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: alpha(theme.palette.primary.tableHead, 1) }} >{row.owner}</TableCell>
+                                            <TableCell align="right" sx={{ fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: alpha(theme.palette.primary.tableHead, 1) }} >{row.supply}</TableCell>
                                         </TableRow>
                                     );
                                 })}
@@ -299,22 +314,11 @@ export default function DataTable() {
                             )}
                         </TableBody>
                     </Table>
+
                 </TableContainer>
-                <TablePagination
-                    sx={{ background: alpha(theme.palette.primary.homeBg, 1) }}
-                    rowsPerPageOptions={[5, 10, 25]}
-                    component="div"
-                    count={rows.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                />
-            </Paper>
-            <FormControlLabel
-                control={<Switch checked={dense} onChange={handleChangeDense} />}
-                label="Dense padding"
-            />
-        </Box>
+                <CustomButton sx={{ mt: 5, mb : 8, padding : '11px 22px'}}>Call to Action</CustomButton>
+            </Box>
+
+        </>
     );
 }
