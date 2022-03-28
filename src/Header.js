@@ -25,7 +25,7 @@ const Search = styled('div')(({ theme }) => ({
     borderRadius: theme.shape.borderRadius,
     backgroundColor: alpha(theme.palette.primary.search, 1),
     '&:hover': {
-        backgroundColor: alpha(theme.palette.primary.search,1),
+        backgroundColor: alpha(theme.palette.primary.search, 1),
     },
     marginRight: theme.spacing(2),
     marginLeft: 0,
@@ -132,7 +132,7 @@ export default function Header(props) {
     return (
 
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static">
+            <AppBar position="fixed" sx={{ bgcolor: alpha(theme.palette.primary.main, 1) }}>
                 <Toolbar>
                     <Typography
                         variant="h6"

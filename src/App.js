@@ -16,11 +16,12 @@ function App() {
       mode: 'dark',
       primary: {
         main: '#2B2F41',
-        // dark: '#FFFFFF',
-        search : '#1E212E',
-        searchIcon : '#91939B',
-        font : '#FFFFFF',
-        buttonfont : '#FFFFFF'
+        dark: '#485FE6',
+        search: '#1E212E',
+        searchIcon: '#91939B',
+        font: '#FFFFFF',
+        buttonfont: '#FFFFFF',
+        homeBg :'#1E212E',
       },
     },
     typography: {
@@ -34,10 +35,11 @@ function App() {
       primary: {
         main: '#FFFFFF',
         dark: '#485FE6',
-        search : '#F8F8F8',
-        searchIcon : '#91939B',
-        font : '#1E212E',
-        buttonfont : '#2B2F41'
+        search: '#F8F8F8',
+        searchIcon: '#91939B',
+        font: '#1E212E',
+        buttonfont: '#2B2F41',
+        homeBg :'#F8F8F8',
       },
     },
     typography: {
@@ -52,8 +54,10 @@ function App() {
           localStorage.setItem('themeMode', !darkMode);
           setDarkMode(!darkMode);
         }}></Header>
-        <Body></Body>
-        <Footer></Footer>
+        <Paper sx={{ background: darkMode ? '#1E212E' : '#F8F8F8' , mt: '60px' }}>
+          <Body></Body>
+          <Footer></Footer>
+        </Paper>
       </Paper>
     </ThemeProvider>
   </>
