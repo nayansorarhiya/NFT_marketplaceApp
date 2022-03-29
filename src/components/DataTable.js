@@ -8,16 +8,23 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
+// import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
-import Paper from '@mui/material/Paper';
+// import Paper from '@mui/material/Paper';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
+// import Switch from '@mui/material/Switch';
 import { visuallyHidden } from '@mui/utils';
 import vectorCorrect from '../assets/images/vectorCorrect.svg';
 import eth from '../assets/images/eth.png';
-import { height } from '@mui/system';
+// import { height } from '@mui/system';
+import SearchIcon from '@mui/icons-material/Search';
+import { Search, SearchIconWrapper, StyledInputBase } from './pages/common/Header';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import { Grid } from '@mui/material';
 
 
 function createData(id, name, volume, hour, hour2, color, price, owner, supply) {
@@ -81,53 +88,61 @@ function stableSort(array, comparator) {
     return stabilizedThis.map((el) => el[0]);
 }
 
-const headCells = [
+const headCellsDesktop = [
     {
         id: 'id',
         numeric: true,
         disablePadding: true,
+        class: 'desktopCells',
         label: '',
     },
     {
         id: 'name',
         numeric: false,
         disablePadding: true,
+        class: 'desktopCells',
         label: 'Collection',
     },
     {
         id: 'price',
         numeric: true,
         disablePadding: false,
+        class: 'desktopCells',
         label: 'Floor Price',
     },
     {
-        id: 'hour2',
+        id: 'hour',
         numeric: true,
         disablePadding: false,
+        class: 'mobileCells',
         label: '24h',
     },
     {
         id: 'volume',
         numeric: true,
         disablePadding: false,
+        class: 'mobileCells',
         label: '24h Volume',
     },
     {
-        id: 'hour',
+        id: 'hour2',
         numeric: true,
         disablePadding: false,
+        class: 'mobileCells',
         label: '24h',
     },
     {
         id: 'owner',
         numeric: true,
         disablePadding: false,
+        class: 'mobileCells',
         label: 'Owners',
     },
     {
         id: 'supply',
         numeric: true,
         disablePadding: false,
+        class: 'mobileCells',
         label: 'Supply',
     },
 ];
@@ -143,13 +158,14 @@ function EnhancedTableHead(props) {
     return (
         <TableHead>
             <TableRow>
-                {headCells.map((headCell) => (
+                {headCellsDesktop.map((headCell) => (
                     <TableCell
                         key={headCell.id}
                         align={headCell.numeric ? 'right' : 'left'}
                         padding={headCell.disablePadding ? 'none' : 'normal'}
                         sortDirection={orderBy === headCell.id ? order : false}
                         sx={{ fontWeight: '500', fontSize: '16px', lineHeight: '21px', color: alpha(theme.palette.primary.tableHead, 1) }}
+                        className={headCell.class}
                     >
                         <TableSortLabel
                             active={orderBy === headCell.id}
@@ -244,13 +260,43 @@ export default function DataTable() {
     const emptyRows =
         page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
+
+    const [age, setAge] = React.useState('');
+
+    const handleChange = (event) => {
+        setAge(event.target.value);
+    };
     return (
         <>
             <Box sx={{ width: '100%', mt: '40px', background: alpha(theme.palette.primary.homeBg, 1), display: 'block', textAlign: 'center' }}>
-
+                <Grid sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <Search sx={{ display: 'flex', m: 2 }}>
+                        <SearchIconWrapper >
+                            <SearchIcon />
+                        </SearchIconWrapper>
+                        <StyledInputBase
+                            placeholder="Search items, collections and profiles "
+                            inputProps={{ 'aria-label': 'search' }}
+                            sx={{ width: { xs: '100%', sm: '400px', md: '500px', lg: '500px' } }}
+                        />
+                    </Search>
+                    <Box sx={{ minWidth: 100, display: { xs: 'none', sm: 'flex', md: 'flex', lg: 'flex' } }} >
+                        <FormControl>
+                            <Select
+                                value={age ? age : 1}
+                                onChange={handleChange}
+                            >
+                                <MenuItem value={1}>Last 24h</MenuItem>
+                                <MenuItem value={2}>Yesterday</MenuItem>
+                                <MenuItem value={3}>1 Week</MenuItem>
+                                <MenuItem value={4}>1 Month</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Box>
+                </Grid>
                 <TableContainer sx={{ background: alpha(theme.palette.primary.homeBg, 1) }}>
                     <Table
-                        sx={{ minWidth: 750 }}
+                        sx={{ minWidth: 250 }}
                         aria-labelledby="tableTitle"
                         size={dense ? 'small' : 'medium'}
                     >
@@ -293,13 +339,14 @@ export default function DataTable() {
                                                 {row.name} {row.name && <img src={vectorCorrect} alt="vectoricon" />}
                                             </TableCell>
                                             <TableCell align="right" sx={{ display: 'flex', alignItems: 'center', fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: alpha(theme.palette.primary.tableHead, 1) }}>
-                                                {row.name && <Box sx={{ ml: 1, display: 'flex', justifyContent: 'center' }}><img src={eth} alt="vectoricon" /> </Box>}{row.price}
+                                                {row.name && <Box sx={{ ml: 1, display: 'flex', justifyContent: 'center' }}><img src={eth} alt="ethicon" /> </Box>}
+                                                <Box sx={{ display: 'flex', justifyContent: 'end', flexDirection: 'column' }}><Box>{row.price}</Box><Box className="desktopHidden">{row.hour < 0 ? '' : '+'}{row.hour}% </Box></Box>
                                             </TableCell>
-                                            <TableCell align="right" sx={{ fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: (row.hour < 0 ? '#EB5757' : '#27AE60') }}>{row.hour < 0 ? '' : '+'}{row.hour}%</TableCell>
-                                            <TableCell align="right" sx={{ fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: alpha(theme.palette.primary.tableHead, 1) }} >{row.volume}</TableCell>
-                                            <TableCell align="right" sx={{ fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: (row.hour2 < 0 ? '#EB5757' : '#27AE60') }}>{row.hour2 < 0 ? '' : '+'}{row.hour2}%</TableCell>
-                                            <TableCell align="right" sx={{ fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: alpha(theme.palette.primary.tableHead, 1) }} >{row.owner}</TableCell>
-                                            <TableCell align="right" sx={{ fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: alpha(theme.palette.primary.tableHead, 1) }} >{row.supply}</TableCell>
+                                            <TableCell className="mobileCells" align="right" sx={{ fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: (row.hour < 0 ? '#EB5757' : '#27AE60') }}>{row.hour < 0 ? '' : '+'}{row.hour}%</TableCell>
+                                            <TableCell className="mobileCells" align="right" sx={{ fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: alpha(theme.palette.primary.tableHead, 1) }} >{row.volume}</TableCell>
+                                            <TableCell className="mobileCells" align="right" sx={{ fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: (row.hour2 < 0 ? '#EB5757' : '#27AE60') }}>{row.hour2 < 0 ? '' : '+'}{row.hour2}%</TableCell>
+                                            <TableCell className="mobileCells" align="right" sx={{ fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: alpha(theme.palette.primary.tableHead, 1) }} >{row.owner}</TableCell>
+                                            <TableCell className="mobileCells" align="right" sx={{ fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: alpha(theme.palette.primary.tableHead, 1) }} >{row.supply}</TableCell>
                                         </TableRow>
                                     );
                                 })}
@@ -316,7 +363,7 @@ export default function DataTable() {
                     </Table>
 
                 </TableContainer>
-                <CustomButton sx={{ mt: 5, mb : 8, padding : '11px 22px'}}>Call to Action</CustomButton>
+                <CustomButton sx={{ mt: 5, mb: 8, padding: '11px 22px' }}>Call to Action</CustomButton>
             </Box>
 
         </>

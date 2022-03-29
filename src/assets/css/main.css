@@ -15,7 +15,6 @@ body {
     font-weight   : 700 !important;
     font-size     : 32px !important;
     line-height   : 42px !important;
-    color         : #485FE6 !important;
     text-transform: capitalize !important;
 }
 
@@ -35,15 +34,30 @@ body {
 } */
 
 .mainheading {
-    font-weight: 700 !important;
-    font-size  : 44px !important;
-    line-height: 57px !important;
-    /* color: #1E212E !important; */
+    font-weight   : 700 !important;
+    /* font-size  : 44px !important; */
+    /* line-height: 57px !important; */
+    /* color      : #1E212E !important; */
 }
 
 .content {
-    font-weight: 700 !important;
-    font-size  : 18px !important; 
-    line-height: 32px !important;
+    font-weight   : 700 !important;
+    font-size     : 18px !important;
+    line-height   : 32px !important;
     /* color      : #2B2F41 !important; */
+}
+
+@media only screen and (max-width: 600px) {
+    .mobileCells {
+        display: none !important;
+    }
+    .desktopHidden{
+        display: grid !important;
+    }
+}
+
+@media only screen and (min-width: 600px) {
+    .desktopHidden {
+        display: none !important;
+    }
 }
