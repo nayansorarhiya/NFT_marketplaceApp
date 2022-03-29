@@ -1,74 +1,89 @@
 import * as React from 'react';
-import BottomNavigation from '@mui/material/BottomNavigation';
-import { styled, alpha } from '@mui/material/styles';
-import AppBar from '@mui/material/AppBar';
+import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
-// import MoreIcon from '@mui/icons-material/MoreVert';
 import { useTheme } from '@mui/material/styles';
+import Grid from '@mui/material/Grid/Grid';
+import { Paper } from '@mui/material';
+import Stack from '@mui/material/Stack';
+import Avatar from '@mui/material/Avatar';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import discord from '../../../assets/images/discord.svg'
 
 
 export default function Footer() {
     const theme = useTheme();
-    const [value, setValue] = React.useState('recents');
-
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    };
 
     return (
-        <BottomNavigation sx={{ width: '100%' }} value={value} onChange={handleChange} >
-            <Box sx={{ flexGrow: 1 }}>
-                <AppBar position="relative" sx={{ bgcolor: alpha(theme.palette.primary.main, 1) }}>
-                    <Container>
-                        <Toolbar>
-                            <Box sx={{ display: 'flex', color: alpha(theme.palette.primary.dark) }} className="menulist">
+        <>
+            <Paper sx={{ bgcolor: alpha(theme.palette.primary.main, 1), padding: 3 }}>
+                <Container >
+                    <Grid container columns={{ md: 12, lg: 12 }}
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'center', alignItems: 'center', position: 'relative',
+                        }}>
+                        <Grid item md={3} lg={3} >
+                            <Box sx={{ textAlign: 'start' }}>
+
                                 <Typography
                                     variant="h6"
                                     noWrap
                                     component="div"
                                     className="headerlogo"
+                                    sx={{color :alpha(theme.palette.primary.logo,1)}}
                                 >
                                     logo
                                 </Typography>
                             </Box>
-                            <Box sx={{ flexGrow: 1 }} />
-
-
-                            <Box sx={{ display: {xs : 'none',sm : 'none', md:'flex', lg:'flex'}, color: alpha(theme.palette.primary.dark) }} className="menulist">
-                                <Box sx={{ ml: 5 }}>
+                        </Grid>
+                        <Grid item md={5} lg={5} >
+                            <Box sx={{ display: 'flex', justifyContent: 'end', color: alpha(theme.palette.primary.dark) }} className="menulist">
+                                <Box>
                                     <MenuItem>
                                         discover
                                     </MenuItem>
                                 </Box>
-                                <Box sx={{ ml: 5 }}>
+                                <Box sx={{ ml: { sx: 0, sm: 0, md: 3, lg: 4 } }} >
                                     <MenuItem>
                                         states
                                     </MenuItem>
                                 </Box>
-                                <Box sx={{ ml: 5 }}>
+                                <Box sx={{ ml: { sx: 0, sm: 0, md: 3, lg: 4 } }}>
                                     <MenuItem>
                                         staking
                                     </MenuItem>
                                 </Box>
-                                <Box sx={{ ml: 5 }}>
+                                <Box sx={{ ml: { sx: 0, sm: 0, md: 3, lg: 4 } }}>
                                     <MenuItem>
                                         sell
                                     </MenuItem>
                                 </Box>
                             </Box>
-                            <Box sx={{ flexGrow: 1 }} />
+                        </Grid>
+                        <Grid item md={4} lg={4}>
 
-                        </Toolbar>
-                    </Container>
-                </AppBar>
+                            <Stack direction="row" spacing={3} sx={{ flex: 'end', justifyContent: 'end', }}>
+                                <Avatar variant="rounded" sx={{ width: 32, height: 32, bgcolor: alpha(theme.palette.primary.footerIcon, 1), }}>
+                                    <TwitterIcon sx={{ color: alpha(theme.palette.primary.main, 1) }} />
+                                </Avatar>
+                                <Avatar variant="rounded" sx={{ width: 32, height: 32, bgcolor: alpha(theme.palette.primary.footerIcon, 1) }}>
+                                    <InstagramIcon sx={{ color: alpha(theme.palette.primary.main, 1) }} />
+                                </Avatar>
+                                <Avatar variant="rounded" sx={{ width: 32, height: 32, bgcolor: alpha(theme.palette.primary.footerIcon, 1) }}>
+                                    <Avatar variant="rounded" src={discord} sx={{ width: 20, height: 20 }}>
 
-            </Box>
+                                    </Avatar>
+                                </Avatar>
+                            </Stack>
+                        </Grid>
 
-
-        </BottomNavigation>
+                    </Grid>
+                </Container>
+            </Paper>
+        </>
     );
 }

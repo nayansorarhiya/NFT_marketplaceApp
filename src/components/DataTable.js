@@ -8,16 +8,22 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
+// import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
-import Paper from '@mui/material/Paper';
+// import Paper from '@mui/material/Paper';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
+// import Switch from '@mui/material/Switch';
 import { visuallyHidden } from '@mui/utils';
 import vectorCorrect from '../assets/images/vectorCorrect.svg';
 import eth from '../assets/images/eth.png';
-import { height } from '@mui/system';
+// import { height } from '@mui/system';
+import SearchIcon from '@mui/icons-material/Search';
+import { Search, SearchIconWrapper, StyledInputBase } from './pages/common/Header';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 
 function createData(id, name, volume, hour, hour2, color, price, owner, supply) {
@@ -80,8 +86,7 @@ function stableSort(array, comparator) {
     });
     return stabilizedThis.map((el) => el[0]);
 }
-
-const headCells = [
+const headCellsMobile = [
     {
         id: 'id',
         numeric: true,
@@ -101,7 +106,33 @@ const headCells = [
         label: 'Floor Price',
     },
     {
-        id: 'hour2',
+        id: 'hour',
+        numeric: true,
+        disablePadding: false,
+        label: '24h',
+    },
+];
+const headCellsDesktop = [
+    {
+        id: 'id',
+        numeric: true,
+        disablePadding: true,
+        label: '',
+    },
+    {
+        id: 'name',
+        numeric: false,
+        disablePadding: true,
+        label: 'Collection',
+    },
+    {
+        id: 'price',
+        numeric: true,
+        disablePadding: false,
+        label: 'Floor Price',
+    },
+    {
+        id: 'hour',
         numeric: true,
         disablePadding: false,
         label: '24h',
@@ -113,7 +144,7 @@ const headCells = [
         label: '24h Volume',
     },
     {
-        id: 'hour',
+        id: 'hour2',
         numeric: true,
         disablePadding: false,
         label: '24h',
@@ -143,7 +174,7 @@ function EnhancedTableHead(props) {
     return (
         <TableHead>
             <TableRow>
-                {headCells.map((headCell) => (
+                {headCellsDesktop.map((headCell) => (
                     <TableCell
                         key={headCell.id}
                         align={headCell.numeric ? 'right' : 'left'}
@@ -244,10 +275,40 @@ export default function DataTable() {
     const emptyRows =
         page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
+
+    const [age, setAge] = React.useState('');
+
+    const handleChange = (event) => {
+        setAge(event.target.value);
+    };
     return (
         <>
             <Box sx={{ width: '100%', mt: '40px', background: alpha(theme.palette.primary.homeBg, 1), display: 'block', textAlign: 'center' }}>
-
+                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <Search sx={{ display: 'flex', m: 2 }}>
+                        <SearchIconWrapper >
+                            <SearchIcon />
+                        </SearchIconWrapper>
+                        <StyledInputBase
+                            placeholder="Search items, collections and profiles "
+                            inputProps={{ 'aria-label': 'search' }}
+                            sx={{ width: '100%' }}
+                        />
+                    </Search>
+                    <Box sx={{ minWidth: 100, display: { xs: 'none', sm: 'flex', md: 'flex', lg: 'flex' } }} >
+                        <FormControl>
+                            <Select
+                                value={age ? age : 1}
+                                onChange={handleChange}
+                            >
+                                <MenuItem value={1}>Last 24h</MenuItem>
+                                <MenuItem value={2}>Yesterday</MenuItem>
+                                <MenuItem value={3}>1 Week</MenuItem>
+                                <MenuItem value={4}>1 Month</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Box>
+                </Box>
                 <TableContainer sx={{ background: alpha(theme.palette.primary.homeBg, 1) }}>
                     <Table
                         sx={{ minWidth: 750 }}
@@ -316,7 +377,7 @@ export default function DataTable() {
                     </Table>
 
                 </TableContainer>
-                <CustomButton sx={{ mt: 5, mb : 8, padding : '11px 22px'}}>Call to Action</CustomButton>
+                <CustomButton sx={{ mt: 5, mb: 8, padding: '11px 22px' }}>Call to Action</CustomButton>
             </Box>
 
         </>

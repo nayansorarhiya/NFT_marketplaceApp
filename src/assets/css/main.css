@@ -15,7 +15,6 @@ body {
     font-weight   : 700 !important;
     font-size     : 32px !important;
     line-height   : 42px !important;
-    color         : #485FE6 !important;
     text-transform: capitalize !important;
 }
 
@@ -36,8 +35,8 @@ body {
 
 .mainheading {
     font-weight: 700 !important;
-    font-size  : 44px !important;
-    line-height: 57px !important;
+    /* font-size  : 44px !important; */
+    /* line-height: 57px !important; */
     /* color: #1E212E !important; */
 }
 
