@@ -134,14 +134,14 @@ export default function Header(props) {
     return (
 
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="fixed" sx={{ bgcolor: alpha(theme.palette.primary.main, 1) }}>
+            <AppBar position="fixed" sx={{ bgcolor: alpha(theme.palette.primary.main, 1),minHeight : '64px', justifyContent : 'center' }}>
                 <Toolbar>
                     <Box>
                         <Typography
                             variant="h6"
                             noWrap
                             component="div"
-                            sx={{ display: { xs: 'block', sm: 'block', md: 'block', lg: 'block' }, color: alpha(theme.palette.primary.logo, 1), marginLeft: theme.spacing(3) }}
+                            sx={{fontSize: { xs:'22px' , sm : '32px'}, display: 'block', color: alpha(theme.palette.primary.logo, 1), marginLeft: { xs : theme.spacing(0),sm: theme.spacing(3)} }}
                             className="headerlogo"
                         >
                             logo

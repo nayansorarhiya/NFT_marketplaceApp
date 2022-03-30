@@ -25,16 +25,16 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { Grid } from '@mui/material';
+import profile from '../assets/images/tableProfile.png'
 
 
-function createData(id, name, volume, hour, hour2, color, price, owner, supply) {
+function createData(id, name, volume, hour, hour2, price, owner, supply) {
     return {
         id,
         name,
         volume,
         hour,
         hour2,
-        color,
         price,
         owner,
         supply,
@@ -42,10 +42,10 @@ function createData(id, name, volume, hour, hour2, color, price, owner, supply) 
 }
 
 const rows = [
-    createData(1, 'Mutant Ape Yacht Club', '0,047.89', -1.74, -92.25, 'green', '5,05.7', '4,7K', '23,5K'),
-    createData(2, 'Meetbits', '1,070.15', +1.06, +770.15, 'blue', '2,14.3', '4,5K', '17,1K'),
-    createData(3, 'X Design', '0,047.89', -1.74, -92.25, 'red', '5,05.7', '4,7K', '23,5K'),
-    createData(4, 'Some Crypto Name', '7,142.89', +2.24, -52.25, 'red', '1,178.57', '2,5K', '11,2K'),
+    createData(1, 'Mutant Ape Yacht Club', '0,047.89', -1.74, -92.25, '5,05.7', '4,7K', '23,5K'),
+    createData(2, 'Meetbits', '1,070.15', +1.06, +770.15, '2,14.3', '4,5K', '17,1K'),
+    createData(3, 'X Design', '0,047.89', -1.74, -92.25, '5,05.7', '4,7K', '23,5K'),
+    createData(4, 'Some Crypto Name', '7,142.89', +2.24, -52.25, '1,178.57', '2,5K', '11,2K'),
     // createData(5,'X Design', '0,047.89', '-92.25%', '5,05.7', '4,7K', '23,5K'),
     // createData(6,'Some Crypto Name', '0,047.89', '-92.25%', '5,05.7', '4,7K', '23,5K'),
     // createData(7,'Meetbits', '1,070.15', '+770.15%', '2,14.3', '4,5K', '17,1K'),
@@ -296,7 +296,7 @@ export default function DataTable() {
                 </Grid>
                 <TableContainer sx={{ background: alpha(theme.palette.primary.homeBg, 1) }}>
                     <Table
-                        sx={{ minWidth: 250 }}
+                        sx={{ minWidth: 250, borderCollapse: 'unset' }}
                         aria-labelledby="tableTitle"
                         size={dense ? 'small' : 'medium'}
                     >
@@ -321,26 +321,30 @@ export default function DataTable() {
                                         <TableRow
                                             hover
                                             onClick={(event) => handleClick(event, row.name)}
-                                            role="checkbox"
-                                            aria-checked={isItemSelected}
                                             tabIndex={-1}
                                             key={row.name}
-                                            selected={isItemSelected}
                                         >
 
-                                            <TableCell align="left" sx={{ fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: alpha(theme.palette.primary.tableHead, 1) }}>{row.id}</TableCell>
+                                            <TableCell align="left" sx={{ fontWeight: 700, fontSize: { xs: '12px', sm: '18px', md: '18px', lg: '18px' }, lineHeight: { xs: '13px', sm: '32px', md: '32px', lg: '32px' }, color: alpha(theme.palette.primary.tableHead, 1) }}>{row.id}</TableCell>
                                             <TableCell
                                                 component="th"
                                                 id={labelId}
                                                 scope="row"
                                                 padding="none"
-                                                sx={{ fontWeight: 700, fontSize: '20px', lineHeight: '22px', color: alpha(theme.palette.primary.tableHead, 1), whiteSpace: 'nowrap' }}
+                                                sx={{ fontWeight: 700, fontSize: { xs: '12px', sm: '20px', md: '20px', lg: '20px' }, lineHeight: { xs: '13px', sm: '22px', md: '22px', lg: '22px' }, color: alpha(theme.palette.primary.tableHead, 1), whiteSpace: 'nowrap' }}
                                             >
-                                                {row.name} {row.name && <img src={vectorCorrect} alt="vectoricon" />}
+                                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                                    <Box>{row.name && <img src={profile} alt="profileicon" />}</Box>
+                                                    <Box sx={{ pl: 1, pr: 1 }}>{row.name}</Box>
+                                                    <Box> {row.name && <img src={vectorCorrect} alt="correcticon" />}</Box>
+                                                </Box>
                                             </TableCell>
-                                            <TableCell align="right" sx={{ display: 'flex', alignItems: 'center', fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: alpha(theme.palette.primary.tableHead, 1) }}>
+                                            <TableCell align="right" sx={{ display: 'flex', alignItems: 'center', fontWeight: 700, fontSize: { xs: '12px', sm: '18px', md: '18px', lg: '18px' }, lineHeight: { xs: '18px', sm: '32px', md: '32px', lg: '32px' }, color: alpha(theme.palette.primary.tableHead, 1) }}>
                                                 {row.name && <Box sx={{ ml: 1, display: 'flex', justifyContent: 'center' }}><img src={eth} alt="ethicon" /> </Box>}
-                                                <Box sx={{ display: 'flex', justifyContent: 'end', flexDirection: 'column' }}><Box>{row.price}</Box><Box className="desktopHidden">{row.hour < 0 ? '' : '+'}{row.hour}% </Box></Box>
+                                                <Box sx={{ display: 'flex', justifyContent: 'end', flexDirection: 'column' }}>
+                                                    <Box>{row.price}</Box>
+                                                    <Box className="desktopHidden" sx={{ color: (row.hour < 0 ? '#EB5757' : '#27AE60'), fontSize: { xs: '10px', sm: '18px', md: '18px', lg: '18px' } }}>{row.hour < 0 ? '' : '+'}{row.hour}% </Box>
+                                                </Box>
                                             </TableCell>
                                             <TableCell className="mobileCells" align="right" sx={{ fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: (row.hour < 0 ? '#EB5757' : '#27AE60') }}>{row.hour < 0 ? '' : '+'}{row.hour}%</TableCell>
                                             <TableCell className="mobileCells" align="right" sx={{ fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: alpha(theme.palette.primary.tableHead, 1) }} >{row.volume}</TableCell>

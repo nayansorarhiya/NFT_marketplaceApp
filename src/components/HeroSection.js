@@ -20,7 +20,7 @@ const useStyles = makeStyles({
         position: 'absolute',
         zIndex: 0,
         opacity: '1',
-        filter: 'blur(200px)',
+        filter: 'blur(150px)',
         left: '-200px',
         transform: 'rotate(30deg)',
         height: '25%',
@@ -33,7 +33,7 @@ function HeroSection() {
     return (<>
         <Box className={classes.bgGradiant} sx={{
             width: { xs: '100%', sm: '100%', md: '50%', lg: '50%' },
-            background: theme.palette.primary.main === '#FFFFFF' ? 'radial-gradient(72.4% 72.4% at 17.21% 12.93%, #9ED8F2 100%, #B6BBE5 100%)' : 'radial-gradient(72.4% 72.4% at 17.21% 12.93%, #FE00FF 75%, #0101FF 100%)', 
+            background: theme.palette.mode === 'light' ? 'radial-gradient(72.4% 72.4% at 17.21% 12.93%, #9ED8F2 100%, #B6BBE5 100%)' : 'radial-gradient(72.4% 72.4% at 17.21% 12.93%, #FE00FF 75%, #0101FF 100%)', 
         }}
         ></Box>
         <Grid container spacing={{ xs: 1, md: 2, lg: 3 }} columns={{ lg: 12 }}

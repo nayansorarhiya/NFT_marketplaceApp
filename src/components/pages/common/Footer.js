@@ -11,7 +11,8 @@ import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import InstagramIcon from '@mui/icons-material/Instagram';
-import discord from '../../../assets/images/discord.svg'
+import discord from '../../../assets/images/discord.svg';
+import discordDark from '../../../assets/images/discordDark.svg';
 
 
 export default function Footer() {
@@ -19,7 +20,7 @@ export default function Footer() {
 
     return (
         <>
-            <Paper sx={{ bgcolor: alpha(theme.palette.primary.main, 1), padding: 3 }}>
+            <Paper sx={{ bgcolor: alpha(theme.palette.primary.main, 1), padding: 2, borderRadius : 0}}>
                 <Container >
                     <Grid container columns={{ md: 12, lg: 12 }}
                         sx={{
@@ -34,7 +35,7 @@ export default function Footer() {
                                     noWrap
                                     component="div"
                                     className="headerlogo"
-                                    sx={{color :alpha(theme.palette.primary.logo,1)}}
+                                    sx={{fontSize: { xs:'22px' , sm : '32px'},color :alpha(theme.palette.primary.logo,1),}}
                                 >
                                     logo
                                 </Typography>
@@ -66,7 +67,7 @@ export default function Footer() {
                         </Grid>
                         <Grid item md={4} lg={4}>
 
-                            <Stack direction="row" spacing={3} sx={{ flex: 'end', justifyContent: 'end', }}>
+                            <Stack direction="row" spacing={3} sx={{ justifyContent: 'end', }}>
                                 <Avatar variant="rounded" sx={{ width: 32, height: 32, bgcolor: alpha(theme.palette.primary.footerIcon, 1), }}>
                                     <TwitterIcon sx={{ color: alpha(theme.palette.primary.main, 1) }} />
                                 </Avatar>
@@ -74,7 +75,7 @@ export default function Footer() {
                                     <InstagramIcon sx={{ color: alpha(theme.palette.primary.main, 1) }} />
                                 </Avatar>
                                 <Avatar variant="rounded" sx={{ width: 32, height: 32, bgcolor: alpha(theme.palette.primary.footerIcon, 1) }}>
-                                    <Avatar variant="rounded" src={discord} sx={{ width: 20, height: 20 }}>
+                                    <Avatar variant="rounded" src={theme.palette.mode === 'light' ? discord : discordDark} sx={{ width: 20, height: 20}}>
 
                                     </Avatar>
                                 </Avatar>

@@ -13,7 +13,7 @@ body {
 
 .headerlogo {
     font-weight   : 700 !important;
-    font-size     : 32px !important;
+    /* font-size     : 32px !important; */
     line-height   : 42px !important;
     text-transform: capitalize !important;
 }
