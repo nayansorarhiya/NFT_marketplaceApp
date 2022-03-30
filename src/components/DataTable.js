@@ -8,19 +8,13 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
-// import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
-// import Paper from '@mui/material/Paper';
-import FormControlLabel from '@mui/material/FormControlLabel';
-// import Switch from '@mui/material/Switch';
 import { visuallyHidden } from '@mui/utils';
 import vectorCorrect from '../assets/images/vectorCorrect.svg';
 import eth from '../assets/images/eth.png';
-// import { height } from '@mui/system';
 import SearchIcon from '@mui/icons-material/Search';
-import { Search, SearchIconWrapper, StyledInputBase } from './pages/common/Header';
-import InputLabel from '@mui/material/InputLabel';
+import { Search, SearchIconWrapper, StyledInputBase } from './CustomStyles';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
@@ -46,16 +40,6 @@ const rows = [
     createData(2, 'Meetbits', '1,070.15', +1.06, +770.15, '2,14.3', '4,5K', '17,1K'),
     createData(3, 'X Design', '0,047.89', -1.74, -92.25, '5,05.7', '4,7K', '23,5K'),
     createData(4, 'Some Crypto Name', '7,142.89', +2.24, -52.25, '1,178.57', '2,5K', '11,2K'),
-    // createData(5,'X Design', '0,047.89', '-92.25%', '5,05.7', '4,7K', '23,5K'),
-    // createData(6,'Some Crypto Name', '0,047.89', '-92.25%', '5,05.7', '4,7K', '23,5K'),
-    // createData(7,'Meetbits', '1,070.15', '+770.15%', '2,14.3', '4,5K', '17,1K'),
-    // createData(8,'X Design', '0,047.89', '-92.25%', '5,05.7', '4,7K', '23,5K'),
-    // createData(10,'Some Crypto Name', '7,142.89', '+124.25%', '1,178.57', '2,5K', '11,2K'),
-    // createData(11,'Meetbits', '1,070.15', '+770.15%', '2,14.3', '4,5K', '17,1K'),
-    // createData(12,'Some Crypto Name', '7,142.89', '+124.25%', '1,178.57', '2,5K', '11,2K'),
-    // createData(13,'Mutant Ape Yacht Club', '0,047.89', '-92.25%', '5,05.7', '4,7K', '23,5K'),
-    // createData(14,'Meetbits', '1,070.15', '+770.15%', '2,14.3', '4,5K', '17,1K'),
-
 ];
 
 function descendingComparator(a, b, orderBy) {
@@ -164,7 +148,7 @@ function EnhancedTableHead(props) {
                         align={headCell.numeric ? 'right' : 'left'}
                         padding={headCell.disablePadding ? 'none' : 'normal'}
                         sortDirection={orderBy === headCell.id ? order : false}
-                        sx={{ fontWeight: '500', fontSize: '16px', lineHeight: '21px', color: alpha(theme.palette.primary.tableHead, 1) }}
+                        sx={{ fontWeight: '500', fontSize: '16px', lineHeight: '21px', color: alpha(theme.palette.primary.tableHead, 1), whiteSpace: 'nowrap' }}
                         className={headCell.class}
                     >
                         <TableSortLabel
@@ -196,15 +180,11 @@ EnhancedTableHead.propTypes = {
 };
 
 
-
 export default function DataTable() {
     const theme = useTheme();
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('id');
     const [selected, setSelected] = React.useState([]);
-    const [page, setPage] = React.useState(0);
-    const [dense, setDense] = React.useState(false);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -241,25 +221,6 @@ export default function DataTable() {
         setSelected(newSelected);
     };
 
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
-
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
-    };
-
-    const handleChangeDense = (event) => {
-        setDense(event.target.checked);
-    };
-
-    const isSelected = (name) => selected.indexOf(name) !== -1;
-
-    // Avoid a layout jump when reaching the last page with empty rows.
-    const emptyRows =
-        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-
 
     const [age, setAge] = React.useState('');
 
@@ -275,7 +236,7 @@ export default function DataTable() {
                             <SearchIcon />
                         </SearchIconWrapper>
                         <StyledInputBase
-                            placeholder="Search items, collections and profiles "
+                            placeholder="Search collections by name or address "
                             inputProps={{ 'aria-label': 'search' }}
                             sx={{ width: { xs: '100%', sm: '400px', md: '500px', lg: '500px' } }}
                         />
@@ -298,7 +259,7 @@ export default function DataTable() {
                     <Table
                         sx={{ minWidth: 250, borderCollapse: 'unset' }}
                         aria-labelledby="tableTitle"
-                        size={dense ? 'small' : 'medium'}
+                        size='medium'   // small | medium
                     >
                         <EnhancedTableHead
                             numSelected={selected.length}
@@ -309,12 +270,9 @@ export default function DataTable() {
                             rowCount={rows.length}
                         />
                         <TableBody>
-                            {/* if you don't need to support IE11, you can replace the `stableSort` call with:
-                 rows.slice().sort(getComparator(order, orderBy)) */}
+
                             {stableSort(rows, getComparator(order, orderBy))
-                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((row, index) => {
-                                    const isItemSelected = isSelected(row.name);
                                     const labelId = `enhanced-table-checkbox-${index}`;
 
                                     return (
@@ -339,11 +297,13 @@ export default function DataTable() {
                                                     <Box> {row.name && <img src={vectorCorrect} alt="correcticon" />}</Box>
                                                 </Box>
                                             </TableCell>
-                                            <TableCell align="right" sx={{ display: 'flex', alignItems: 'center', fontWeight: 700, fontSize: { xs: '12px', sm: '18px', md: '18px', lg: '18px' }, lineHeight: { xs: '18px', sm: '32px', md: '32px', lg: '32px' }, color: alpha(theme.palette.primary.tableHead, 1) }}>
-                                                {row.name && <Box sx={{ ml: 1, display: 'flex', justifyContent: 'center' }}><img src={eth} alt="ethicon" /> </Box>}
-                                                <Box sx={{ display: 'flex', justifyContent: 'end', flexDirection: 'column' }}>
-                                                    <Box>{row.price}</Box>
-                                                    <Box className="desktopHidden" sx={{ color: (row.hour < 0 ? '#EB5757' : '#27AE60'), fontSize: { xs: '10px', sm: '18px', md: '18px', lg: '18px' } }}>{row.hour < 0 ? '' : '+'}{row.hour}% </Box>
+                                            <TableCell sx={{fontWeight: 700, fontSize: { xs: '12px', sm: '18px', md: '18px', lg: '18px' }, lineHeight: { xs: '18px', sm: '32px', md: '32px', lg: '32px' }, color: alpha(theme.palette.primary.tableHead, 1) }}>
+                                                <Box sx={{ display: 'flex', alignItems: 'center',justifyContent : 'end'}}>
+                                                    <Box sx={{ display: 'flex',  flexDirection: 'column' }}>
+                                                        <Box>{row.price}</Box>
+                                                        <Box className="desktopHidden" sx={{ color: (row.hour < 0 ? '#EB5757' : '#27AE60'), fontSize: { xs: '10px', sm: '18px', md: '18px', lg: '18px' } }}>{row.hour < 0 ? '' : '+'}{row.hour}% </Box>
+                                                    </Box>
+                                                    {row.name && <Box sx={{ ml: 1, display: 'flex', justifyContent: 'center' }}><img src={eth} alt="ethicon" /> </Box>}
                                                 </Box>
                                             </TableCell>
                                             <TableCell className="mobileCells" align="right" sx={{ fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: (row.hour < 0 ? '#EB5757' : '#27AE60') }}>{row.hour < 0 ? '' : '+'}{row.hour}%</TableCell>
@@ -354,15 +314,7 @@ export default function DataTable() {
                                         </TableRow>
                                     );
                                 })}
-                            {emptyRows > 0 && (
-                                <TableRow
-                                    style={{
-                                        height: (dense ? 33 : 53) * emptyRows,
-                                    }}
-                                >
-                                    <TableCell colSpan={6} />
-                                </TableRow>
-                            )}
+
                         </TableBody>
                     </Table>
 
