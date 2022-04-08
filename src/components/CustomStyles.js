@@ -1,6 +1,7 @@
 import InputBase from '@mui/material/InputBase';
 import { styled, alpha, useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
+import logo from '../assets/images/logo.svg'
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -49,7 +50,7 @@ const LogoTypography = () => {
                 sx={{ fontSize: { xs: '22px', sm: '32px' }, display: 'block', color: alpha(theme.palette.primary.logo, 1), marginLeft: { xs: theme.spacing(0), sm: theme.spacing(3) } }}
                 className="headerlogo"
             >
-                logo
+                <img src={logo} alt='header logo' className='logo' />
             </Typography>
         </>);
 }

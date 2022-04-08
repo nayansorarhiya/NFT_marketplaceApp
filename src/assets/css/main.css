@@ -17,6 +17,11 @@ body {
     line-height   : 42px !important;
     text-transform: capitalize !important;
 }
+.logo{
+    height: 46px;
+    width: auto;
+    margin-top: 10px;
+}
 
 .menulist {
     font-weight   : 500 !important;
@@ -53,6 +58,12 @@ body {
     }
     .desktopHidden{
         display: grid !important;
+    }
+}
+
+@media only screen and (max-width: 1199px) {
+    .tabletView{
+        display: none;
     }
 }
 
