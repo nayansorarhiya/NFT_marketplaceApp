@@ -98,35 +98,35 @@ const headCellsDesktop = [
         id: 'hour',
         numeric: true,
         disablePadding: false,
-        class: 'mobileCells',
+        class: 'mobileCells h24-1Hidden',
         label: '24h',
     },
     {
         id: 'volume',
         numeric: true,
         disablePadding: false,
-        class: 'mobileCells',
+        class: 'mobileCells h24-Hidden',
         label: '24h Volume',
     },
     {
         id: 'hour2',
         numeric: true,
         disablePadding: false,
-        class: 'mobileCells',
+        class: 'mobileCells h24-2Hidden',
         label: '24h',
     },
     {
         id: 'owner',
         numeric: true,
         disablePadding: false,
-        class: 'mobileCells',
+        class: 'mobileCells ownerHidden',
         label: 'Owners',
     },
     {
         id: 'supply',
         numeric: true,
         disablePadding: false,
-        class: 'mobileCells',
+        class: 'mobileCells supplyHidden',
         label: 'Supply',
     },
 ];
@@ -149,14 +149,17 @@ function EnhancedTableHead(props) {
                         padding={headCell.disablePadding ? 'none' : 'normal'}
                         sortDirection={orderBy === headCell.id ? order : false}
                         sx={{ fontWeight: '500', fontSize: '16px', lineHeight: '21px', color: alpha(theme.palette.primary.tableHead, 1), whiteSpace: 'nowrap' }}
-                        className={headCell.class}
+                        className={`${headCell.class} pe-0`}
                     >
                         <TableSortLabel
                             active={orderBy === headCell.id}
                             direction={orderBy === headCell.id ? order : 'asc'}
                             onClick={createSortHandler(headCell.id)}
                         >
+                            {/* <Box  className="table-padding">
+                                </Box> */}
                             {headCell.label}
+
                             {orderBy === headCell.id ? (
                                 <Box component="span" sx={visuallyHidden}>
                                     {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
@@ -178,7 +181,6 @@ EnhancedTableHead.propTypes = {
     orderBy: PropTypes.string.isRequired,
     rowCount: PropTypes.number.isRequired,
 };
-
 
 export default function DataTable() {
     const theme = useTheme();
@@ -255,8 +257,9 @@ export default function DataTable() {
                         </FormControl>
                     </Box>
                 </Grid>
-                <TableContainer sx={{ background: alpha(theme.palette.primary.homeBg, 1) }}>
+                <TableContainer fluid sx={{ background: alpha(theme.palette.primary.homeBg, 1) }}>
                     <Table
+                        className="table-padding pe-0"
                         sx={{ minWidth: 250, borderCollapse: 'unset' }}
                         aria-labelledby="tableTitle"
                         size='medium'   // small | medium
@@ -277,40 +280,70 @@ export default function DataTable() {
 
                                     return (
                                         <TableRow
+                                            style={{ width: "100vw" }}
                                             hover
                                             onClick={(event) => handleClick(event, row.name)}
                                             tabIndex={-1}
                                             key={row.name}
-                                        >
 
-                                            <TableCell align="left" sx={{ fontWeight: 700, fontSize: { xs: '12px', sm: '18px', md: '18px', lg: '18px' }, lineHeight: { xs: '13px', sm: '32px', md: '32px', lg: '32px' }, color: alpha(theme.palette.primary.tableHead, 1) }}>{row.id}</TableCell>
+                                        >
+                                            <TableCell className='padding-0' align="left" sx={{ fontWeight: 700, fontSize: { xs: '12px', sm: '18px', md: '18px', lg: '18px' }, lineHeight: { xs: '13px', sm: '32px', md: '32px', lg: '32px' }, color: alpha(theme.palette.primary.tableHead, 1) }}>{row.id}</TableCell>
                                             <TableCell
+                                                className='padding-0'
                                                 component="th"
                                                 id={labelId}
                                                 scope="row"
                                                 padding="none"
-                                                sx={{ fontWeight: 700, fontSize: { xs: '12px', sm: '20px', md: '20px', lg: '20px' }, lineHeight: { xs: '13px', sm: '22px', md: '22px', lg: '22px' }, color: alpha(theme.palette.primary.tableHead, 1), whiteSpace: 'nowrap' }}
+                                                sx={{ fontWeight: 700, fontSize: { xs: '12px', sm: '20px', md: '20px', lg: '20px' }, lineHeight: { xs: '13px', sm: '22px', md: '22px', lg: '22px' }, color: alpha(theme.palette.primary.tableHead, 1) }}
                                             >
                                                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                                     <Box>{row.name && <img src={profile} alt="profileicon" />}</Box>
-                                                    <Box sx={{ pl: 1, pr: 1 }}>{row.name}</Box>
+                                                    <Box className="font-16" sx={{
+                                                        maxWidth: '60px',
+                                                        overflow: 'hidden',
+                                                        whiteSpace: 'nowrap',
+                                                        lineHeight: '15px',
+                                                        textOverflow: 'ellipsis', pl: 1, pr: 1
+                                                    }}>{row.name}</Box>
                                                     <Box> {row.name && <img src={vectorCorrect} alt="correcticon" />}</Box>
                                                 </Box>
                                             </TableCell>
-                                            <TableCell sx={{fontWeight: 700, fontSize: { xs: '12px', sm: '18px', md: '18px', lg: '18px' }, lineHeight: { xs: '18px', sm: '32px', md: '32px', lg: '32px' }, color: alpha(theme.palette.primary.tableHead, 1) }}>
-                                                <Box sx={{ display: 'flex', alignItems: 'center',justifyContent : 'end'}}>
-                                                    <Box sx={{ display: 'flex',  flexDirection: 'column' }}>
+                                            <TableCell className="" sx={{ fontWeight: 700, p: 0, fontSize: { xs: '14px', sm: '18px', md: '18px', lg: '18px' }, lineHeight: { xs: '18px', sm: '32px', md: '32px', lg: '32px' }, color: alpha(theme.palette.primary.tableHead, 1) }}>
+                                                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'end' }}>
+                                                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                                                         <Box>{row.price}</Box>
-                                                        <Box className="desktopHidden" sx={{ color: (row.hour < 0 ? '#EB5757' : '#27AE60'), fontSize: { xs: '10px', sm: '18px', md: '18px', lg: '18px' } }}>{row.hour < 0 ? '' : '+'}{row.hour}% </Box>
+                                                        <Box className="desktopHidden" sx={{ color: (row.hour < 0 ? '#EB5757' : '#27AE60'), fontSize: { xs: '12px', sm: '18px', md: '18px', lg: '18px' } }}>{row.hour < 0 ? '' : '+'}{row.hour}% </Box>
                                                     </Box>
                                                     {row.name && <Box sx={{ ml: 1, display: 'flex', justifyContent: 'center' }}><img src={eth} alt="ethicon" /> </Box>}
+
                                                 </Box>
                                             </TableCell>
-                                            <TableCell className="mobileCells" align="right" sx={{ fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: (row.hour < 0 ? '#EB5757' : '#27AE60') }}>{row.hour < 0 ? '' : '+'}{row.hour}%</TableCell>
-                                            <TableCell className="mobileCells" align="right" sx={{ fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: alpha(theme.palette.primary.tableHead, 1) }} >{row.volume}</TableCell>
-                                            <TableCell className="mobileCells" align="right" sx={{ fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: (row.hour2 < 0 ? '#EB5757' : '#27AE60') }}>{row.hour2 < 0 ? '' : '+'}{row.hour2}%</TableCell>
-                                            <TableCell className="mobileCells" align="right" sx={{ fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: alpha(theme.palette.primary.tableHead, 1) }} >{row.owner}</TableCell>
-                                            <TableCell className="mobileCells" align="right" sx={{ fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: alpha(theme.palette.primary.tableHead, 1) }} >{row.supply}</TableCell>
+                                            <TableCell className="mobileCells " align="right" sx={{ p: 0, fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: (row.hour < 0 ? '#EB5757' : '#27AE60') }}>
+                                                <Box className="h24-1Hidden" sx={{ p: 2 }} >
+                                                    {row.hour < 0 ? '' : '+'}{row.hour}%
+                                                </Box>
+                                            </TableCell>
+                                            <TableCell className="mobileCells " align="right" sx={{ p: 0, fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: alpha(theme.palette.primary.tableHead, 1) }} >
+                                                <Box className="h24-Hidden" sx={{ p: 2 }} >
+                                                    {row.volume}
+                                                </Box>
+                                            </TableCell>
+                                            <TableCell className="mobileCells " align="right" sx={{ p: 0, fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: (row.hour2 < 0 ? '#EB5757' : '#27AE60') }}>
+                                                <Box className="h24-2Hidden" sx={{ p: 2 }} >
+                                                    {row.hour2 < 0 ? '' : '+'}{row.hour2}%
+                                                </Box>
+                                            </TableCell>
+                                            <TableCell className="mobileCells " align="right" sx={{ p: 0, fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: alpha(theme.palette.primary.tableHead, 1) }}>
+                                                <Box className="ownerHidden" sx={{ p: 2 }} >
+                                                    {row.owner}
+                                                </Box>
+                                            </TableCell>
+                                            <TableCell className="mobileCells " align="right" sx={{ p: 0, fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: alpha(theme.palette.primary.tableHead, 1) }}>
+                                                <Box className="supplyHidden" sx={{ p: 2 }} >
+                                                    {row.supply}
+                                                </Box>
+                                            </TableCell>
+                                            {/* </Box> */}
                                         </TableRow>
                                     );
                                 })}
