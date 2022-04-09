@@ -299,7 +299,7 @@ export default function DataTable() {
                                                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                                     <Box>{row.name && <img src={profile} alt="profileicon" />}</Box>
                                                     <Box className="font-16" sx={{
-                                                        maxWidth: '60px',
+                                                        maxWidth: '21vw',
                                                         overflow: 'hidden',
                                                         whiteSpace: 'nowrap',
                                                         lineHeight: '15px',
@@ -308,7 +308,7 @@ export default function DataTable() {
                                                     <Box> {row.name && <img src={vectorCorrect} alt="correcticon" />}</Box>
                                                 </Box>
                                             </TableCell>
-                                            <TableCell className="" sx={{ fontWeight: 700, p: 0, fontSize: { xs: '14px', sm: '18px', md: '18px', lg: '18px' }, lineHeight: { xs: '18px', sm: '32px', md: '32px', lg: '32px' }, color: alpha(theme.palette.primary.tableHead, 1) }}>
+                                            <TableCell className="" sx={{ fontWeight: 700, fontSize: { xs: '14px', sm: '18px', md: '18px', lg: '18px' }, lineHeight: { xs: '18px', sm: '32px', md: '32px', lg: '32px' }, color: alpha(theme.palette.primary.tableHead, 1) }}>
                                                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'end' }}>
                                                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                                                         <Box>{row.price}</Box>
