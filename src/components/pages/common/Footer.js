@@ -2,7 +2,6 @@ import * as React from 'react';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
 import { useTheme } from '@mui/material/styles';
 import Grid from '@mui/material/Grid/Grid';
@@ -11,7 +10,9 @@ import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import InstagramIcon from '@mui/icons-material/Instagram';
-import discord from '../../../assets/images/discord.svg'
+import discord from '../../../assets/images/discord.svg';
+import discordDark from '../../../assets/images/discordDark.svg';
+import { LogoTypography } from '../../CustomStyles';
 
 
 export default function Footer() {
@@ -19,7 +20,7 @@ export default function Footer() {
 
     return (
         <>
-            <Paper sx={{ bgcolor: alpha(theme.palette.primary.main, 1), padding: 3 }}>
+            <Paper sx={{ bgcolor: alpha(theme.palette.primary.main, 1), padding: 2, borderRadius: 0 }}>
                 <Container >
                     <Grid container columns={{ md: 12, lg: 12 }}
                         sx={{
@@ -28,19 +29,10 @@ export default function Footer() {
                         }}>
                         <Grid item md={3} lg={3} >
                             <Box sx={{ textAlign: 'start' }}>
-
-                                <Typography
-                                    variant="h6"
-                                    noWrap
-                                    component="div"
-                                    className="headerlogo"
-                                    sx={{color :alpha(theme.palette.primary.logo,1)}}
-                                >
-                                    logo
-                                </Typography>
+                                <LogoTypography />
                             </Box>
                         </Grid>
-                        <Grid item md={5} lg={5} >
+                        <Grid item md={5} lg={5} sx={{ paddingBottom: { xs: 1, sm : 0 } }}>
                             <Box sx={{ display: 'flex', justifyContent: 'end', color: alpha(theme.palette.primary.dark) }} className="menulist">
                                 <Box>
                                     <MenuItem>
@@ -66,7 +58,7 @@ export default function Footer() {
                         </Grid>
                         <Grid item md={4} lg={4}>
 
-                            <Stack direction="row" spacing={3} sx={{ flex: 'end', justifyContent: 'end', }}>
+                            <Stack direction="row" spacing={3} sx={{ justifyContent: 'end', }}>
                                 <Avatar variant="rounded" sx={{ width: 32, height: 32, bgcolor: alpha(theme.palette.primary.footerIcon, 1), }}>
                                     <TwitterIcon sx={{ color: alpha(theme.palette.primary.main, 1) }} />
                                 </Avatar>
@@ -74,7 +66,7 @@ export default function Footer() {
                                     <InstagramIcon sx={{ color: alpha(theme.palette.primary.main, 1) }} />
                                 </Avatar>
                                 <Avatar variant="rounded" sx={{ width: 32, height: 32, bgcolor: alpha(theme.palette.primary.footerIcon, 1) }}>
-                                    <Avatar variant="rounded" src={discord} sx={{ width: 20, height: 20 }}>
+                                    <Avatar variant="rounded" src={theme.palette.mode === 'light' ? discord : discordDark} alt="Discord icon" sx={{ width: 20, height: 20 }}>
 
                                     </Avatar>
                                 </Avatar>
