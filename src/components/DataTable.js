@@ -257,7 +257,7 @@ export default function DataTable() {
                         </FormControl>
                     </Box>
                 </Grid>
-                <TableContainer fluid sx={{ background: alpha(theme.palette.primary.homeBg, 1) }}>
+                <TableContainer fluid="true" sx={{ background: alpha(theme.palette.primary.homeBg, 1) }}>
                     <Table
                         className="table-padding pe-0"
                         sx={{ minWidth: 250, borderCollapse: 'unset' }}

@@ -47,7 +47,7 @@ const LogoTypography = () => {
                 variant="h6"
                 noWrap
                 component="div"
-                sx={{ fontSize: { xs: '22px', sm: '32px' }, display: 'block', color: alpha(theme.palette.primary.logo, 1), marginLeft: { xs: theme.spacing(0), sm: theme.spacing(3) } }}
+                sx={{ fontSize: { xs: '22px', sm: '32px' }, display: 'flex', color: alpha(theme.palette.primary.logo, 1), marginLeft: { xs: theme.spacing(0), sm: theme.spacing(0) } }}
                 className="headerlogo"
             >
                 <img src={logo} alt='header logo' className='logo' />

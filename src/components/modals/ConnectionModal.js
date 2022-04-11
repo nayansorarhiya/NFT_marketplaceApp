@@ -51,8 +51,8 @@ export default function ConnectionModal(props) {
             >
                 <Box sx={style}>
                     <Box sx={{ float: 'right' }}>
-                        <IconButton aria-label="close" size="medium">
-                            <CloseIcon fontSize="large" onClick={props.onClose} />
+                        <IconButton aria-label="close" size="medium" onClick={props.onClose}>
+                            <CloseIcon fontSize="large" />
                         </IconButton>
                     </Box>
                     <Typography id="modal-modal-title" variant="h4" component="h1" sx={heading}>

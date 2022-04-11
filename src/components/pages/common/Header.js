@@ -73,7 +73,7 @@ export default function Header(props) {
             </MenuItem>
             <Divider />
             <MenuItem>
-                <CustomButton variant="contained">Connect Wallet</CustomButton>
+                <CustomButton variant="contained" onClick={ConnectModal}>Connect Wallet</CustomButton>
             </MenuItem>
         </Menu>
     );

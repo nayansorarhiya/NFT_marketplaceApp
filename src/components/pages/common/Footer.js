@@ -25,14 +25,14 @@ export default function Footer() {
                     <Grid container columns={{ md: 12, lg: 12 }}
                         sx={{
                             display: 'flex',
-                            justifyContent: 'center', alignItems: 'center', position: 'relative',
+                            justifyContent: 'center', alignItems: 'center', position: 'relative', flexDirection : { xs : 'column',sm : 'column',md : 'row', lg: 'row'}
                         }}>
                         <Grid item md={3} lg={3} >
                             <Box sx={{ textAlign: 'start' }}>
                                 <LogoTypography />
                             </Box>
                         </Grid>
-                        <Grid item md={5} lg={5} sx={{ paddingBottom: { xs: 1, sm : 0 } }}>
+                        <Grid item md={5} lg={5} sx={{ pb: { xs: 1, sm : 1 },pt: { xs: 1, sm : 1 } }}>
                             <Box sx={{ display: 'flex', justifyContent: 'end', color: alpha(theme.palette.primary.dark) }} className="menulist">
                                 <Box>
                                     <MenuItem>
@@ -56,7 +56,7 @@ export default function Footer() {
                                 </Box>
                             </Box>
                         </Grid>
-                        <Grid item md={4} lg={4}>
+                        <Grid item md={4} lg={4} sx={{ pb: { xs: 1, sm : 1 },pt: { xs: 1, sm : 1 } }}>
 
                             <Stack direction="row" spacing={3} sx={{ justifyContent: 'end', }}>
                                 <Avatar variant="rounded" sx={{ width: 32, height: 32, bgcolor: alpha(theme.palette.primary.footerIcon, 1), }}>
