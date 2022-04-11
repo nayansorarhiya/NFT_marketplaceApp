@@ -60,7 +60,7 @@ function App() {
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
       <Paper>
         <Header onClickTheme={modeChange}></Header>
-        <Paper sx={{ background: darkMode ? '#1E212E' : '#F8F8F8', mt: '60px' }}>
+        <Paper sx={{ background: darkMode ? '#1E212E' : '#F8F8F8', pt: '60px' }}>
           <Body></Body>
         </Paper>
         <Footer></Footer>
