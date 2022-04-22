@@ -20,6 +20,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { Grid } from '@mui/material';
 import profile from '../assets/images/tableProfile.png'
+import placeholderImage from '../assets/images/placeholderImage.jpg'
 
 
 function createData(id, name, volume, hour, hour2, price, owner, supply) {
@@ -35,12 +36,15 @@ function createData(id, name, volume, hour, hour2, price, owner, supply) {
     };
 }
 
-const rows = [
-    createData(1, 'Mutant Ape Yacht Club', '0,047.89', -1.74, -92.25, '5,05.7', '4,7K', '23,5K'),
-    createData(2, 'Meetbits', '1,070.15', +1.06, +770.15, '2,14.3', '4,5K', '17,1K'),
-    createData(3, 'X Design', '0,047.89', -1.74, -92.25, '5,05.7', '4,7K', '23,5K'),
-    createData(4, 'Some Crypto Name', '7,142.89', +2.24, -52.25, '1,178.57', '2,5K', '11,2K'),
-];
+// const rows = [
+//     createData(1, 'Mutant Ape Yacht Club', '0,047.89', -1.74, -92.25, '5,05.7', '4,7K', '23,5K'),
+//     createData(2, 'Meetbits', '1,070.15', +1.06, +770.15, '2,14.3', '4,5K', '17,1K'),
+//     createData(3, 'X Design', '0,047.89', -1.74, -92.25, '5,05.7', '4,7K', '23,5K'),
+//     createData(4, 'Some Crypto Name', '7,142.89', +2.24, -52.25, '1,178.57', '2,5K', '11,2K'),
+// ];
+
+
+
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -187,6 +191,62 @@ export default function DataTable() {
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('id');
     const [selected, setSelected] = React.useState([]);
+    const [rows, setRowData] = React.useState([]);
+
+    async function apiCallforData() {
+        const resp = await fetch(`https://nft-aggregator-api.herokuapp.com/collections`,
+            {
+                method: "post",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    "sort": { "oneDayVolume": "desc" },
+                    "limit": 100,
+                    "fields": {
+                        "name": 1,
+                        "symbol": 1,
+                        "standard": 1,
+                        "description": 1,
+                        "address": 1,
+                        "createdDate": 1,
+                        "externalUrl": 1,
+                        "imageUrl": 1,
+                        "totalSupply": 1,
+                        "sevenDayVolume": 1,
+                        "oneDayVolume": 1,
+                        "stats": 1,
+                        "indexingStatus": 1,
+                        "discordUrl": 1,
+                        "instagramUsername": 1,
+                        "isVerified": 1,
+                        "lastNumberOfUpdates": 1,
+                        "lastOpenSeaCancelledId": 1,
+                        "lastOpenSeaSaleCreatedId": 1,
+                        "slug": 1,
+                        "lastOpenSeaTransferId": 1,
+                        "lastRaribleAssetUpdateId": 1,
+                        "mediumUsername": 1,
+                        "telegramUrl": 1,
+                        "twitterUsername": 1,
+                        "updatedAt": 1,
+                        "wikiUrl": 1
+                    }
+                })
+            }
+        );
+        const rows = await resp.json();
+        setRowData(rows.data);
+    }
+
+    React.useEffect(() => {
+        apiCallforData();
+    }, [])
+
+    React.useEffect(() => {
+        console.log(rows);
+    }, [rows])
+
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -229,6 +289,7 @@ export default function DataTable() {
     const handleChange = (event) => {
         setAge(event.target.value);
     };
+
     return (
         <>
             <Box sx={{ width: '100%', mt: '40px', background: alpha(theme.palette.primary.homeBg, 1), display: 'block', textAlign: 'center' }}>
@@ -260,9 +321,9 @@ export default function DataTable() {
                 <TableContainer fluid="true" sx={{ background: alpha(theme.palette.primary.homeBg, 1) }}>
                     <Table
                         className="table-padding pe-0"
-                        sx={{ minWidth: 250, borderCollapse: 'unset' }}
+                        sx={{ minWidth: 300, borderCollapse: 'unset', p: 0 }}
                         aria-labelledby="tableTitle"
-                        size='medium'   // small | medium
+                        size='small'   // small | medium
                     >
                         <EnhancedTableHead
                             numSelected={selected.length}
@@ -274,20 +335,21 @@ export default function DataTable() {
                         />
                         <TableBody>
 
-                            {stableSort(rows, getComparator(order, orderBy))
+                            {rows.length != 0 ? (stableSort(rows, getComparator(order, orderBy))
                                 .map((row, index) => {
                                     const labelId = `enhanced-table-checkbox-${index}`;
-
+                                    {/* console.log(row.stats.one_day_change); */ }
                                     return (
+
                                         <TableRow
                                             style={{ width: "100vw" }}
                                             hover
                                             onClick={(event) => handleClick(event, row.name)}
                                             tabIndex={-1}
-                                            key={row.name}
+                                            key={index + 1}
 
                                         >
-                                            <TableCell className='padding-0' align="left" sx={{ fontWeight: 700, fontSize: { xs: '12px', sm: '18px', md: '18px', lg: '18px' }, lineHeight: { xs: '13px', sm: '32px', md: '32px', lg: '32px' }, color: alpha(theme.palette.primary.tableHead, 1) }}>{row.id}</TableCell>
+                                            <TableCell className='padding-0' align="left" sx={{ fontWeight: 700, fontSize: { xs: '12px', sm: '18px', md: '18px', lg: '18px' }, lineHeight: { xs: '13px', sm: '32px', md: '32px', lg: '32px' }, color: alpha(theme.palette.primary.tableHead, 1) }}>{index + 1}</TableCell>
                                             <TableCell
                                                 className='padding-0'
                                                 component="th"
@@ -297,56 +359,58 @@ export default function DataTable() {
                                                 sx={{ fontWeight: 700, fontSize: { xs: '12px', sm: '20px', md: '20px', lg: '20px' }, lineHeight: { xs: '13px', sm: '22px', md: '22px', lg: '22px' }, color: alpha(theme.palette.primary.tableHead, 1) }}
                                             >
                                                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                                    <Box>{row.name && <img src={profile} alt="profileicon" />}</Box>
-                                                    <Box className="font-16" sx={{
+                                                    <Box sx={{ display: 'flex', alignItems: 'center' }}><img src={row.imageUrl ? row.imageUrl : placeholderImage} width="46px" height="46px" /></Box>
+                                                    <Box sx={{
+                                                        fontSize: { xs: '12px', sm: '18px', md: '18px', lg: '18px' },
                                                         maxWidth: '21vw',
                                                         overflow: 'hidden',
                                                         whiteSpace: 'nowrap',
                                                         lineHeight: '15px',
                                                         textOverflow: 'ellipsis', pl: 1, pr: 1
                                                     }}>{row.name}</Box>
-                                                    <Box> {row.name && <img src={vectorCorrect} alt="correcticon" />}</Box>
+                                                    {row.isVerified && <Box>  <img src={vectorCorrect} alt="correcticon" /></Box>}
                                                 </Box>
                                             </TableCell>
-                                            <TableCell className="" sx={{ fontWeight: 700, fontSize: { xs: '14px', sm: '18px', md: '18px', lg: '18px' }, lineHeight: { xs: '18px', sm: '32px', md: '32px', lg: '32px' }, color: alpha(theme.palette.primary.tableHead, 1) }}>
+                                            <TableCell className="" sx={{ pl: 0, pr: 0, fontWeight: 700, fontSize: { xs: '14px', sm: '18px', md: '18px', lg: '18px' }, lineHeight: { xs: '18px', sm: '32px', md: '32px', lg: '32px' }, color: alpha(theme.palette.primary.tableHead, 1) }}>
                                                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'end' }}>
                                                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                                                        <Box>{row.price}</Box>
-                                                        <Box className="desktopHidden" sx={{ color: (row.hour < 0 ? '#EB5757' : '#27AE60'), fontSize: { xs: '12px', sm: '18px', md: '18px', lg: '18px' } }}>{row.hour < 0 ? '' : '+'}{row.hour}% </Box>
+                                                        <Box>{row.stats.floor_price.toFixed(3)}</Box>
+                                                        <Box className="desktopHidden" sx={{ color: (row.stats.one_day_change < 0 ? '#EB5757' : '#27AE60'), fontSize: { xs: '12px', sm: '18px', md: '18px', lg: '18px' } }}>{row.stats.one_day_change < 0 ? '' : '+'}{parseFloat(row.stats.one_day_change * 100).toFixed(2)}% </Box>
                                                     </Box>
                                                     {row.name && <Box sx={{ ml: 1, display: 'flex', justifyContent: 'center' }}><img src={eth} alt="ethicon" /> </Box>}
 
                                                 </Box>
                                             </TableCell>
-                                            <TableCell className="mobileCells " align="right" sx={{ p: 0, fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: (row.hour < 0 ? '#EB5757' : '#27AE60') }}>
+                                            <TableCell className="mobileCells " align="right" sx={{ p: 0, fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: (row.stats.one_day_change < 0 ? '#EB5757' : '#27AE60') }}>
                                                 <Box className="h24-1Hidden" sx={{ p: 2 }} >
-                                                    {row.hour < 0 ? '' : '+'}{row.hour}%
+                                                    {row.stats.one_day_change < 0 ? '' : '+'}{parseFloat(row.stats.one_day_change * 100).toFixed(2)}%
                                                 </Box>
                                             </TableCell>
                                             <TableCell className="mobileCells " align="right" sx={{ p: 0, fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: alpha(theme.palette.primary.tableHead, 1) }} >
                                                 <Box className="h24-Hidden" sx={{ p: 2 }} >
-                                                    {row.volume}
+                                                    {row.oneDayVolume.toFixed(2)}
                                                 </Box>
                                             </TableCell>
-                                            <TableCell className="mobileCells " align="right" sx={{ p: 0, fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: (row.hour2 < 0 ? '#EB5757' : '#27AE60') }}>
+                                            <TableCell className="mobileCells " align="right" sx={{ p: 0, fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: (row.stats.one_day_change < 0 ? '#EB5757' : '#27AE60') }}>
                                                 <Box className="h24-2Hidden" sx={{ p: 2 }} >
-                                                    {row.hour2 < 0 ? '' : '+'}{row.hour2}%
+                                                    {row.stats.one_day_change < 0 ? '' : '+'}{parseFloat(row.stats.one_day_change * 100).toFixed(2)}%
                                                 </Box>
                                             </TableCell>
                                             <TableCell className="mobileCells " align="right" sx={{ p: 0, fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: alpha(theme.palette.primary.tableHead, 1) }}>
                                                 <Box className="ownerHidden" sx={{ p: 2 }} >
-                                                    {row.owner}
+                                                    {row.stats.num_owners < 1000 ? row.stats.num_owners : (row.stats.num_owners / 1000).toFixed(1) + "K"}
                                                 </Box>
                                             </TableCell>
                                             <TableCell className="mobileCells " align="right" sx={{ p: 0, fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: alpha(theme.palette.primary.tableHead, 1) }}>
                                                 <Box className="supplyHidden" sx={{ p: 2 }} >
-                                                    {row.supply}
+                                                    {row.totalSupply < 1000 ? row.totalSupply : (row.totalSupply / 1000).toFixed(1) + "K"}
                                                 </Box>
                                             </TableCell>
                                             {/* </Box> */}
                                         </TableRow>
+
                                     );
-                                })}
+                                })) : <TableRow><TableCell colSpan={8}><Box sx={{ display: 'flex', justifyContent: 'center' }}> No Data Available</Box></TableCell></TableRow>}
 
                         </TableBody>
                     </Table>
