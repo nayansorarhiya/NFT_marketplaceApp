@@ -57,7 +57,7 @@ function FeaturedCard() {
                     </Typography>
                     <Typography sx={{ fontSize: 20, fontWeight: '700', lineHeight: '22px', pb: '15px' }}>
                         Mutanat  Ape <br />
-                        Yacht Club <img src={vector} alt="vectoricon" />
+                        Yacht Club <img src={vector} width ="16px" alt="vectoricon" />
                     </Typography>
                 </CardContent>
                 <CardActions sx={{ justifyContent: 'center', mb: '10px' }}>
