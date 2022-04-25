@@ -76,44 +76,44 @@ function EnhancedTableHead(props) {
             label: 'Collection',
         },
         {
-            id: 'floor_price',
+            id: 'floorprice',
             numeric: true,
             disablePadding: true,
             class: 'desktopCells',
             label: 'Floor Price',
         },
         {
-            id: 'dayvalue',
+            id: 'onedayvalue1',
             numeric: true,
             disablePadding: true,
             class: 'mobileCells h24-1Hidden',
             label: props.label,
         },
         {
-            id: 'volumevalue',
+            id: 'onedayvolumevalue',
             numeric: true,
             disablePadding: true,
             class: 'mobileCells h24-Hidden',
             label: props.label + ' Volume',
         },
         {
-            id: 'dayvalue',
+            id: 'onedayvalue2',
             numeric: true,
             disablePadding: true,
-            class: 'mobileCells h24-2Hidden',
+            class: 'mobileCells h24-1Hidden',
             label: props.label,
         },
         {
-            id: 'stats.num_owners',
+            id: 'owners',
             numeric: true,
             disablePadding: true,
             class: 'mobileCells ownerHidden',
             label: 'Owners',
         },
         {
-            id: 'totalSupply',
+            id: 'totalsupply',
             numeric: true,
-            disablePadding: true,
+            disablePadding: false,
             class: 'mobileCells supplyHidden',
             label: 'Supply',
         },
@@ -125,31 +125,33 @@ function EnhancedTableHead(props) {
                 <TableCell>
 
                 </TableCell>
-                {headCellsDesktop.map((headCell) => (
+                {headCellsDesktop.map((headCell) => {
 
-                    <TableCell
-                        key={headCell.id}
-                        align={headCell.numeric ? 'right' : 'left'}
-                        padding={headCell.disablePadding ? 'none' : 'normal'}
-                        sortDirection={orderBy === headCell.id ? order : false}
-                        sx={{ fontWeight: '500', fontSize: '16px', lineHeight: '21px', color: alpha(theme.palette.primary.tableHead, 1), whiteSpace: 'nowrap' }}
-                        className={`${headCell.class} pe-0`}
-                    >
-                        <TableSortLabel
-                            active={orderBy === headCell.id}
-                            direction={orderBy === headCell.id ? order : 'asc'}
-                            onClick={createSortHandler(headCell.id)}
+                    return (
+                        <TableCell
+                            key={headCell.id}
+                            align={headCell.numeric ? 'right' : 'left'}
+                            padding={headCell.disablePadding ? 'none' : 'normal'}
+                            sortDirection={orderBy === headCell.id ? order : false}
+                            sx={{ fontWeight: '500', fontSize: '16px', lineHeight: '21px', color: alpha(theme.palette.primary.tableHead, 1), whiteSpace: 'nowrap' }}
+                            className={`${headCell.class} pe-0`}
                         >
-                            {headCell.label}
+                            <TableSortLabel
+                                active={orderBy === headCell.id}
+                                direction={orderBy === headCell.id ? order : 'asc'}
+                                onClick={createSortHandler(headCell.id)}
+                            >
+                                {headCell.label}
 
-                            {orderBy === headCell.id ? (
-                                <Box component="span" sx={visuallyHidden}>
-                                    {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                                </Box>
-                            ) : null}
-                        </TableSortLabel>
-                    </TableCell>
-                ))}
+                                {orderBy === headCell.id ? (
+                                    <Box component="span" sx={visuallyHidden}>
+                                        {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                                    </Box>
+                                ) : null}
+                            </TableSortLabel>
+                        </TableCell>)
+
+                })}
             </TableRow>
         </TableHead>
     );
@@ -212,8 +214,41 @@ export default function DataTable() {
             }
         );
         const rows = await resp.json();
-        setRowData(rows.data);
-        setSearchRow(rows.data);
+        const localrows = (rows.data).map(v => ({
+            imgurl: v.imageUrl,
+            name: v.name,
+            isVerified: v.isVerified,
+            floorprice: v.stats.floor_price ? v.stats.floor_price : -1,
+
+            onedayvalue1: [v.stats.one_day_change ? v.stats.one_day_change : 0, v.stats.seven_day_change ? v.stats.seven_day_change : 0, v.stats.thirty_day_change ? v.stats.thirty_day_change : 0, v.stats.total_volume ? v.stats.total_volume : 0],
+
+            onedayvolumevalue: [v.stats.one_day_volume ? v.stats.one_day_volume : 0, v.stats.seven_day_volume ? v.stats.seven_day_volume : 0, v.stats.thirty_day_volume ? v.stats.thirty_day_volume : 0, v.stats.total_volume ? v.stats.total_volume : 0],
+
+            onedayvalue2: [v.stats.one_day_change ? v.stats.one_day_change : 0, v.stats.seven_day_change ? v.stats.seven_day_change : 0, v.stats.thirty_day_change ? v.stats.thirty_day_change : 0, v.stats.total_volume ? v.stats.total_volume : 0],
+
+            owners: v.stats.num_owners ? v.stats.num_owners : -1,
+            totalsupply: v.totalSupply ? v.totalSupply : -1
+        }));
+        localrows.push({
+            imgurl: 0,
+            name: 0,
+            isVerified: 0,
+            floorprice: 0,
+
+            onedayvalue1: [0, 0, 0, 0],
+
+            onedayvolumevalue: [0, 0, 0, 0],
+
+            onedayvalue2: [0, 0, 0, 0],
+
+            owners: 0,
+            totalsupply: 0
+        });
+        // setRowData(rows.data);
+        // setSearchRow(rows.data);
+        setRowData(localrows);
+        setSearchRow(localrows);
+
     }
 
     const requestSearch = (event) => {
@@ -236,11 +271,9 @@ export default function DataTable() {
         setOrderBy(property);
     };
 
-    const [dropdown, setDropdown] = React.useState(1);
+    const [dropdown, setDropdown] = React.useState(0);
     const [rowfilter, setRowFilter] = React.useState({
-        label: '24h',
-        dayvalue: 'row.stats.one_day_change',
-        volumevalue: 'row.stats.one_day_volume'
+        label: '24h', option: 0
     });
 
 
@@ -248,36 +281,32 @@ export default function DataTable() {
     const handleChange = (event) => {
         setDropdown(event.target.value);
         switch (event.target.value) {
-            case 2:
+            case 1:
                 setRowFilter({
                     ...rowfilter,
                     label: '7d',
-                    dayvalue: 'row.stats.seven_day_change',
-                    volumevalue: 'row.stats.seven_day_volume'
+                    option: event.target.value
+                });
+                break;
+            case 2:
+                setRowFilter({
+                    ...rowfilter,
+                    label: '30d',
+                    option: event.target.value
                 });
                 break;
             case 3:
                 setRowFilter({
                     ...rowfilter,
-                    label: '30d',
-                    dayvalue: 'row.stats.thirty_day_change',
-                    volumevalue: 'row.stats.thirty_day_volume'
-                });
-                break;
-            case 4:
-                setRowFilter({
-                    ...rowfilter,
                     label: 'All Time',
-                    dayvalue: 'row.stats.total_volume',
-                    volumevalue: 'row.stats.total_volume'
+                    option: event.target.value
                 });
                 break;
             default:
                 setRowFilter({
                     ...rowfilter,
                     label: '24h',
-                    dayvalue: 'row.stats.one_day_change',
-                    volumevalue: 'row.stats.one_day_volume'
+                    option: event.target.value
                 });
                 break;
         }
@@ -305,10 +334,10 @@ export default function DataTable() {
                                 value={dropdown}
                                 onChange={handleChange}
                             >
-                                <MenuItem value={1}>Last 24h</MenuItem>
-                                <MenuItem value={2}>Last 7 days</MenuItem>
-                                <MenuItem value={3}>Last 30 days</MenuItem>
-                                <MenuItem value={4}>All Time</MenuItem>
+                                <MenuItem value={0}>Last 24h</MenuItem>
+                                <MenuItem value={1}>Last 7 days</MenuItem>
+                                <MenuItem value={2}>Last 30 days</MenuItem>
+                                <MenuItem value={3}>All Time</MenuItem>
                             </Select>
                         </FormControl>
                     </Box>
@@ -326,6 +355,7 @@ export default function DataTable() {
                             onRequestSort={handleRequestSort}
                             // rowCount={rows.length}
                             label={rowfilter.label}
+                            option={rowfilter.option}
                         />
                         <TableBody>
 
@@ -339,7 +369,6 @@ export default function DataTable() {
                                             hover
                                             tabIndex={-1}
                                             key={row.name}
-
                                         >
                                             <TableCell className='padding-0' align="left" sx={{ fontWeight: 700, fontSize: { xs: '12px', sm: '18px', md: '18px', lg: '18px' }, lineHeight: { xs: '13px', sm: '32px', md: '32px', lg: '32px' }, textAlign: 'center', color: alpha(theme.palette.primary.tableHead, 1) }}>{index + 1}</TableCell>
                                             <TableCell
@@ -353,59 +382,59 @@ export default function DataTable() {
                                                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                                         <Avatar variant="rounded">
-                                                            <img src={row.imageUrl ? row.imageUrl : placeholderImage} width="46px" height="46px" />
+                                                            <img src={row.imgurl ? row.imgurl : placeholderImage} width="46px" height="46px" />
                                                         </Avatar>
                                                     </Box>
-                                                    <Box sx={{
+                                                    {row.name !== undefined && <Box sx={{
                                                         fontSize: { xs: '12px', sm: '18px', md: '18px', lg: '18px' },
                                                         maxWidth: '21vw',
                                                         overflow: 'hidden',
                                                         whiteSpace: 'nowrap',
                                                         textOverflow: 'ellipsis',
                                                         pl: 1, pr: 1
-                                                    }}>{row.name}</Box>
-                                                    {row.isVerified && <Box><Avatar alt="verified" sx={{ width: { xs: '16px', sm: '24px ', md: '24px', lg: '24px' }, height: { xs: '16px', sm: '24px ', md: '24px', lg: '24px' } }} src={vectorCorrect} /></Box>}
+                                                    }}>{row.name}</Box>}
+                                                    {row.isVerified !== undefined && <Box><Avatar alt="verified" sx={{ width: { xs: '16px', sm: '24px ', md: '24px', lg: '24px' }, height: { xs: '16px', sm: '24px ', md: '24px', lg: '24px' } }} src={vectorCorrect} /></Box>}
                                                 </Box>
                                             </TableCell>
                                             <TableCell className="" sx={{ pl: 0, pr: 0, fontWeight: 700, fontSize: { xs: '14px', sm: '18px', md: '18px', lg: '18px' }, lineHeight: { xs: '18px', sm: '32px', md: '32px', lg: '32px' }, color: alpha(theme.palette.primary.tableHead, 1) }}>
-                                                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'end', pt: '10px', pb: '10px' }}>
+                                                {row.floorprice !== -1 && <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'end', pt: '10px', pb: '10px' }}>
                                                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                                                        <Box sx={{ textAlign: 'end' }}>{(row.stats.floor_price).toFixed(3)}</Box>
-                                                        <Box className="desktopHidden" sx={{ color: (eval(rowfilter.dayvalue) < 0 ? '#EB5757' : '#27AE60'), fontSize: { xs: '12px', sm: '18px', md: '18px', lg: '18px' } }}>{eval(rowfilter.dayvalue) < 0 ? '' : '+'}{parseFloat(eval(rowfilter.dayvalue) * 100).toFixed(2)}% </Box>
+                                                        <Box sx={{ textAlign: 'end' }}>{(row.floorprice).toFixed(3)}</Box>
+                                                        <Box className="desktopHidden" sx={{ color: (row.onedayvalue1[rowfilter.option] < 0 ? '#EB5757' : '#27AE60'), fontSize: { xs: '12px', sm: '18px', md: '18px', lg: '18px' } }}>{row.onedayvalue1[rowfilter.option] < 0 ? '' : '+'}{parseFloat(row.onedayvalue1[rowfilter.option] * 100).toFixed(2)}% </Box>
                                                     </Box>
-                                                    {row.name && <Box sx={{ ml: 1, display: 'flex', justifyContent: 'center' }}><img src={eth} alt="ethicon" /> </Box>}
+                                                    <Box sx={{ ml: 1, display: 'flex', justifyContent: 'center' }}><img src={eth} alt="ethicon" /> </Box>
 
-                                                </Box>
+                                                </Box>}
                                             </TableCell>
-                                            <TableCell className="mobileCells " align="right" sx={{ p: 0, fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: (eval(rowfilter.dayvalue) < 0 ? '#EB5757' : '#27AE60') }}>
-                                                {eval(rowfilter.dayvalue) !== undefined && eval(rowfilter.dayvalue) !== 0 && <Box className="h24-1Hidden" sx={{ pl: 2 }} >
-                                                    {eval(rowfilter.dayvalue) < 0 ? '' : '+'}{parseFloat(eval(rowfilter.dayvalue) * 100).toFixed(2)}%
+                                            <TableCell className="mobileCells " align="right" sx={{ p: 0, fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: (row.onedayvalue1[rowfilter.option] < 0 ? '#EB5757' : '#27AE60') }}>
+                                                {row.onedayvalue1[rowfilter.option] !== undefined && <Box className="h24-1Hidden" sx={{ pl: 2 }} >
+                                                    {row.onedayvalue1[rowfilter.option] < 0 ? '' : '+'}{parseFloat(row.onedayvalue1[rowfilter.option] * 100).toFixed(2)}%
                                                 </Box>}
                                             </TableCell>
                                             <TableCell className="mobileCells " align="right" sx={{ p: 0, fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: alpha(theme.palette.primary.tableHead, 1) }} >
-                                                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'end', pt: '10px', pb: '10px' }}>
+                                                {row.onedayvolumevalue[rowfilter.option] !== undefined && <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'end', pt: '10px', pb: '10px' }}>
                                                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                                                        {eval(rowfilter.volumevalue) !== undefined && eval(rowfilter.volumevalue) !== 0 && <Box className="h24-Hidden">{parseFloat(eval(rowfilter.volumevalue)).toFixed(2)}
-                                                        </Box>}
+                                                        <Box className="h24-Hidden">{parseFloat(row.onedayvolumevalue[rowfilter.option]).toFixed(2)}
+                                                        </Box>
                                                     </Box>
-                                                    {row.name && <Box className="h24-Hidden" sx={{ ml: 1, display: 'flex', justifyContent: 'center' }}><img src={eth} alt="ethicon" /> </Box>}
-                                                </Box>
+                                                    <Box className="h24-Hidden" sx={{ ml: 1, display: 'flex', justifyContent: 'center' }}><img src={eth} alt="ethicon" /> </Box>
+                                                </Box>}
 
                                             </TableCell>
-                                            <TableCell className="mobileCells " align="right" sx={{ p: 0, fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: (eval(rowfilter.dayvalue) < 0 ? '#EB5757' : '#27AE60') }}>
-                                                {eval(rowfilter.dayvalue) !== undefined && eval(rowfilter.dayvalue) !== 0 && <Box className="h24-2Hidden" sx={{ pl: 2 }} >
-                                                    {eval(rowfilter.dayvalue) < 0 ? '' : '+'}{parseFloat(eval(rowfilter.dayvalue) * 100).toFixed(2)}%
+                                            <TableCell className="mobileCells " align="right" sx={{ p: 0, fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: (row.onedayvalue2[rowfilter.option] < 0 ? '#EB5757' : '#27AE60') }}>
+                                                {row.onedayvalue2[rowfilter.option] !== undefined && <Box className="h24-2Hidden" sx={{ pl: 2 }} >
+                                                    {row.onedayvalue2[rowfilter.option] < 0 ? '' : '+'}{parseFloat(row.onedayvalue2[rowfilter.option] * 100).toFixed(2)}%
                                                 </Box>}
                                             </TableCell>
                                             <TableCell className="mobileCells " align="right" sx={{ p: 0, fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: alpha(theme.palette.primary.tableHead, 1) }}>
-                                                {row.stats.num_owners !== undefined && <Box className="ownerHidden" sx={{ p: 2 }} >
-                                                    {row.stats.num_owners < 1000 ? row.stats.num_owners : (row.stats.num_owners / 1000).toFixed(1) + "K"}
+                                                {row.owners !== -1 && <Box className="ownerHidden" sx={{ p: 2 }} >
+                                                    {row.owners < 1000 ? row.owners : (row.owners / 1000).toFixed(1) + "K"}
                                                 </Box>}
                                             </TableCell>
                                             <TableCell className="mobileCells " align="right" sx={{ p: 0, fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: alpha(theme.palette.primary.tableHead, 1) }}>
-                                                <Box className="supplyHidden" sx={{ p: 2 }} >
-                                                    {row.totalSupply < 1000 ? row.totalSupply : (row.totalSupply / 1000).toFixed(1) + "K"}
-                                                </Box>
+                                                {row.totalsupply !== -1 && <Box className="supplyHidden" sx={{ p: 2 }} >
+                                                    {row.totalsupply < 1000 ? row.totalsupply : (row.totalsupply / 1000).toFixed(1) + "K"}
+                                                </Box>}
                                             </TableCell>
                                             {/* </Box> */}
                                         </TableRow>
