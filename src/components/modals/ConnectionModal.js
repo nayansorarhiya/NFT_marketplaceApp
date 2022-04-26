@@ -6,8 +6,29 @@ import metamask from '../../assets/images/metamask.svg';
 import walletconnectlogo from '../../assets/images/walletconnectlogo.svg';
 import coinbasewallet from '../../assets/images/coinbasewallet.svg';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+// import { WalletLinkConnector } from "@web3-react/walletlink-connector";
+import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
+import { InjectedConnector } from "@web3-react/injected-connector";
+import { useWeb3React } from '@web3-react/core'
+
+// const CoinbaseWallet = new WalletLinkConnector({
+//     url: `https://data-seed-prebsc-1-s1.binance.org:8545`,
+//     appName: "Web3-react Demo",
+//     supportedChainIds: [1, 3, 4, 5, 42, 97],
+// });
+
+const walletConnect = new WalletConnectConnector({
+    rpcUrl: `https://data-seed-prebsc-1-s1.binance.org:8545`,
+    bridge: "https://bridge.walletconnect.org",
+    qrcode: true,
+});
+
+const Injected = new InjectedConnector({
+    supportedChainIds: [1, 3, 4, 5, 42, 97]
+});
 
 export default function ConnectionModal(props) {
+    const { activate, deactivate } = useWeb3React();
     const theme = useTheme();
     const style = {
         position: 'absolute',
@@ -70,7 +91,7 @@ export default function ConnectionModal(props) {
                     </Typography>
                     <List sx={{ pt: 6 }}>
                         <Divider />
-                        <ListItem button sx={{ py: 3 }}>
+                        <ListItem button sx={{ py: 3 }} onClick={() => { activate(Injected); }}>
                             <img src={metamask} alt='metamask' />
                             <Typography sx={WalletConnect}>Metamask
 
@@ -80,7 +101,7 @@ export default function ConnectionModal(props) {
                             </IconButton>
                         </ListItem>
                         <Divider />
-                        <ListItem button divider sx={{ py: 3 }}>
+                        <ListItem button divider sx={{ py: 3 }} onClick={() => { activate(walletConnect, err => console.log(err)); }}>
                             <img src={walletconnectlogo} alt='wallect connect' width={32} height={30} />
                             <Typography sx={WalletConnect}>WalletConnect</Typography>
                         </ListItem>

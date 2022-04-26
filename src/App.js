@@ -4,7 +4,7 @@ import Body from "./components/pages/Body";
 import Footer from "./components/pages/common/Footer";
 import { Paper } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-
+window.Buffer = window.Buffer || require("buffer").Buffer;
 
 function App() {
   let val = localStorage.getItem('themeMode');

@@ -17,8 +17,10 @@ import Divider from '@mui/material/Divider/Divider';
 import CustomButton from '../../CustomButton';
 import { Search, SearchIconWrapper, StyledInputBase, LogoTypography } from '../../CustomStyles';
 import ConnectionModal from '../../modals/ConnectionModal';
+import { useWeb3React } from '@web3-react/core';
 
 export default function Header(props) {
+    const { active, account, deactivate } = useWeb3React();
     const theme = useTheme();
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -34,6 +36,13 @@ export default function Header(props) {
 
     const ConnectModal = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    React.useEffect(()=>{
+        if(active) {
+            setOpen(false);
+        }
+        console.log(open, active)
+    },[active])
+
 
     const mobileMenuId = 'primary-search-account-menu-mobile';
     const renderMobileMenu = (
@@ -73,7 +82,7 @@ export default function Header(props) {
             </MenuItem>
             <Divider />
             <MenuItem>
-                <CustomButton variant="contained" onClick={ConnectModal}>Connect Wallet</CustomButton>
+                <CustomButton variant="contained" onClick={() => active ? deactivate() : ConnectModal()}>{active ? account.substring(0, 4) + "..." + account.substring(account.length - 4) : "Connect Wallet"}</CustomButton>
             </MenuItem>
         </Menu>
     );
@@ -141,7 +150,7 @@ export default function Header(props) {
 
                         <Box sx={{ display: { lg: 'flex', xs: 'none' } }}>
                             <MenuItem>
-                                <CustomButton variant="contained" onClick={ConnectModal}>Connect Wallet</CustomButton>
+                                <CustomButton variant="contained" onClick={() => active ? deactivate() : ConnectModal()}>{active ? account.substring(0, 4) + "..." + account.substring(account.length - 4) : "Connect Wallet"} </CustomButton>
                             </MenuItem>
                         </Box>
                         <Box sx={{ display: 'flex' }}>
@@ -168,7 +177,7 @@ export default function Header(props) {
                 {renderMobileMenu}
             </Box>
 
-            <ConnectionModal open={open} onClose={handleClose}></ConnectionModal>
+            <ConnectionModal open={open && !active} onClose={handleClose}></ConnectionModal>
         </>
     );
 }

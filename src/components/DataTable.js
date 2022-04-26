@@ -22,6 +22,7 @@ import { Avatar, Grid, Skeleton } from '@mui/material';
 import placeholderImage from '../assets/images/placeholderImage.jpg'
 import { TableSkeleton } from './Skeleton';
 
+
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
         return -1;
