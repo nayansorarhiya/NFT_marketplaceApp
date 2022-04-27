@@ -9,7 +9,6 @@ function Body() {
         <Container sx={{minHeight : '100vh'}} >
             <HeroSection />
             <DataTable></DataTable>
-            
         </Container>
 
     </>);

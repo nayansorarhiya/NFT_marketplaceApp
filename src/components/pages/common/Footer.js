@@ -20,7 +20,7 @@ export default function Footer() {
 
     return (
         <>
-            <Paper sx={{ bgcolor: alpha(theme.palette.primary.main, 1), padding: 2, borderRadius: 0 }}>
+            <Paper sx={{ background: alpha(theme.palette.primary.main, 1), padding: 2, borderRadius: 0 }}>
                 <Container >
                     <Grid container columns={{ md: 12, lg: 12 }}
                         sx={{

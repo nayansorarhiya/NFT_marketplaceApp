@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import Header from "./components/pages/common/Header";
 import Body from "./components/pages/Body";
+import CollectionPage from "./components/pages/CollectionPage";
 import Footer from "./components/pages/common/Footer";
 import { Paper } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 window.Buffer = window.Buffer || require("buffer").Buffer;
 
 function App() {
@@ -58,14 +60,18 @@ function App() {
 
   return (<>
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
-      <Paper>
-        <Header onClickTheme={modeChange}></Header>
         <Paper sx={{ background: darkMode ? '#1E212E' : '#F8F8F8', pt: '60px' }}>
-          <Body></Body>
-        </Paper>
-        <Footer></Footer>
+          <Header onClickTheme={modeChange}></Header>
+          <BrowserRouter>
+            <Routes>
+              <Route path='/' element={<Body />} />
+              <Route path='/:contractAddress' element={<CollectionPage />} />
+            </Routes>
+          </BrowserRouter>
+          <Footer />
       </Paper>
     </ThemeProvider>
+
   </>
   );
 }

@@ -21,6 +21,7 @@ import Select from '@mui/material/Select';
 import { Avatar, Grid, Skeleton } from '@mui/material';
 import placeholderImage from '../assets/images/placeholderImage.jpg'
 import { TableSkeleton } from './Skeleton';
+import { useNavigate } from 'react-router-dom';
 
 
 function descendingComparator(a, b, orderBy) {
@@ -172,6 +173,14 @@ export default function DataTable() {
     const [rows, setRowData] = React.useState([]);
     const [searchrows, setSearchRow] = React.useState([]);
 
+    const navigate = useNavigate();
+
+    const collectionNavigation = () => {
+
+        navigate(`/collection`);
+
+    }
+
     async function apiCallforData() {
         const resp = await fetch(`https://nft-aggregator-api.herokuapp.com/collections`,
             {
@@ -262,9 +271,9 @@ export default function DataTable() {
         apiCallforData();
     }, [])
 
-    React.useEffect(() => {
-        console.log(rows);
-    }, [rows])
+    // React.useEffect(() => {
+    //     console.log(rows);
+    // }, [rows])
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -349,6 +358,7 @@ export default function DataTable() {
                         sx={{ minWidth: 200, borderCollapse: 'unset', p: 0 }}
                         aria-labelledby="tableTitle"
                         size='medium'   // small | medium
+                        onClick={collectionNavigation}
                     >
                         <EnhancedTableHead
                             order={order}

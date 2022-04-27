@@ -90,7 +90,7 @@ export default function Header(props) {
     return (
         <>
             <Box sx={{ flexGrow: 1 }}>
-                <AppBar position="fixed" sx={{ bgcolor: alpha(theme.palette.primary.main, 1), minHeight: '64px', justifyContent: 'center' }}>
+                <AppBar position="fixed" sx={{ background: alpha(theme.palette.primary.main, 1), minHeight: '64px', justifyContent: 'center' }}>
                     <Toolbar>
                         <Box>
                             <LogoTypography />
