@@ -31,6 +31,7 @@ function App() {
         homeBg: '#1E212E',
         tableHead: '#F8F8F8',
         footerIcon: '#F8F8F8',
+        borderDrawer: '#343742',
       },
     },
     typography: {
@@ -51,6 +52,7 @@ function App() {
         homeBg: '#F8F8F8',
         tableHead: '#1E212E',
         footerIcon: '#2B2F41',
+        borderDrawer: '#D9DADC',
       },
     },
     typography: {

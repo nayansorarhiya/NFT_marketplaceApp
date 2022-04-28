@@ -1,14 +1,11 @@
 import * as React from 'react';
-import { styled,alpha, useTheme } from '@mui/material/styles';
+import { styled, alpha, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
-import MuiAppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -17,8 +14,13 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
-import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
+import DoubleArrowOutlinedIcon from '@mui/icons-material/DoubleArrowOutlined';
+import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 import Icon from '@mui/material/Icon';
+import { ToggleButton } from '../CustomStyles';
+import { Button, FormControl, Grid, InputBase, MenuItem, Select } from '@mui/material';
+import eth from '../../assets/images/eth.png';
+
 const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -40,6 +42,19 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
     }),
 );
 
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+    color: 'inherit',
+    '& .MuiInputBase-input': {
+        padding: theme.spacing(1, 1, 1, 0),
+        paddingLeft: `8px`,
+        transition: theme.transitions.create('width'),
+        width: '100%',
+        borderRadius: '3px',
+        border: '1px solid rgba(145, 147, 155, 0.3)',
+        fontSize: '14px',
+        lineHeigth: '18px'
+    },
+}));
 
 
 const DrawerHeader = styled('div')(({ theme }) => ({
@@ -50,10 +65,21 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     ...theme.mixins.toolbar,
     justifyContent: 'flex-end',
 }));
+const DropSelect = styled(Select)(({ theme }) => ({
+    padding: '0'
+}));
+
+
 
 export default function CollectionPage() {
     const theme = useTheme();
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = React.useState(true);
+    const [dropdown, setDropdown] = React.useState(0);
+
+    const handleChange = (event) => {
+        setDropdown(event.target.value);
+    }
+
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -64,17 +90,17 @@ export default function CollectionPage() {
     };
 
     return (
-        <Box sx={{ display: 'flex'}} >
+        <Box sx={{ display: 'flex' }} >
             <CssBaseline />
-            <Box sx={{ display: 'block', justifyContent: 'center' }}>
-                <IconButton
+            <Box sx={{ display: 'block', justifyContent: 'center', border: `1px solid ${theme.palette.primary.borderDrawer}`, background: alpha(theme.palette.primary.main, 1) }}>
+                <DoubleArrowOutlinedIcon
                     color="inherit"
                     aria-label="open drawer"
                     onClick={handleDrawerOpen}
-                    sx={{ m: 1, ...(open && { display: 'none' }) }}
+                    sx={{ m: 2, ...(open && { display: 'none' }) }}
                 >
                     <MenuIcon />
-                </IconButton>
+                </DoubleArrowOutlinedIcon>
             </Box>
             <Drawer
                 sx={{
@@ -84,29 +110,89 @@ export default function CollectionPage() {
                         width: drawerWidth,
                         boxSizing: 'border-box',
                         mt: '65px',
-                        bgcolor: alpha(theme.palette.primary.main, 1),
+                        background: alpha(theme.palette.primary.main, 1),
                     },
                 }}
                 variant="persistent"
                 anchor="left"
                 open={open}
-                
+
             >
                 <DrawerHeader>
-                    <IconButton onClick={handleDrawerClose}>
+                    <ArrowBackOutlinedIcon onClick={handleDrawerClose} sx={{ width: '30px', height: '30px' }}>
                         {theme.direction === 'ltr' ? <Icon><ChevronLeftIcon /></Icon> : <ChevronRightIcon />}
-                    </IconButton>
+                    </ArrowBackOutlinedIcon>
                 </DrawerHeader>
-                <Divider />
+                <Box sx={{ padding: '0 20px 20px 20px' }}>
+                    <Box sx={{ fontWeight: 600, fontSize: '22px' }}>
+                        Filter
+                    </Box>
+                    <ToggleButton label="Buy Now"></ToggleButton>
+                    <ToggleButton label="Rarity Ranking"></ToggleButton>
+                    <Box sx={{ display: 'flex', alignItems: 'center', color: '#91939B', fontWeight: 500, fontSize: '16px', lineHeight: '21px', minHeight: '38px' }}>
+                        Rarity Ranking Range
+                    </Box>
+
+                    <Grid container spacing={1} sx={{ display: 'flex' }}>
+                        <Grid item xs={6}>
+                            <StyledInputBase placeholder='Min'></StyledInputBase>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <StyledInputBase placeholder='Max'></StyledInputBase>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Button variant='outlined' sx={{
+                                width: '100%', color: 'inherit', border: '1px solid #485FE6',
+                                fontWeight: '500',
+                                fontSize: '16px', textTransform: 'capitalize',
+                                '&:hover,&:focus': {
+                                    border: '1px solid #485FE6',
+                                },
+                            }}>Apply</Button>
+                        </Grid>
+                    </Grid>
+                    <Box sx={{ display: 'flex', alignItems: 'center', color: '#91939B', fontWeight: 500, fontSize: '16px', lineHeight: '21px', minHeight: '38px', mt: 3 }}>
+                        Price Range
+                    </Box>
+
+                    <Grid container spacing={1} sx={{ display: 'flex' }}>
+                        <Grid item xs={4}>
+                            <StyledInputBase placeholder='Min'></StyledInputBase>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <StyledInputBase placeholder='Max'></StyledInputBase>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <FormControl sx={{ maxWidth: 65, }} size="small">
+                                <DropSelect
+                                    sx={{
+                                        border: '1px solid rgba(145, 147, 155, 0.3)',
+                                        '&:hover,&:outfocus': {
+                                            border: '1px solid #485FE6',
+                                        },
+                                    }}
+                                    value={dropdown}
+                                    onChange={handleChange}
+                                >
+                                    <MenuItem value={0}><img src={eth} alt="ethicon" /></MenuItem>
+                                    <MenuItem value={1}>2</MenuItem>
+                                </DropSelect>
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Button variant='outlined' sx={{
+                                width: '100%', color: 'inherit', border: '1px solid #485FE6',
+                                fontWeight: '500',
+                                fontSize: '16px', textTransform: 'capitalize',
+                                '&:hover,&:focus': {
+                                    border: '1px solid #485FE6',
+                                },
+                            }}>Apply</Button>
+                        </Grid>
+                    </Grid>
+                </Box>
                 <List>
-                    {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon>
-                                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                            </ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItem>
-                    ))}
+
                 </List>
                 <Divider />
                 <List>

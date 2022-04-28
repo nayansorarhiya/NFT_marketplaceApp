@@ -1,7 +1,10 @@
+import { Box } from '@mui/material';
 import InputBase from '@mui/material/InputBase';
 import { styled, alpha, useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import logo from '../assets/images/logo.svg'
+import logo from '../assets/images/logo.svg';
+import { Switch } from '@mui/material';
+
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -34,8 +37,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
         width: '100%',
         borderRadius: '3px',
         border: '1px solid rgba(145, 147, 155, 0.3)',
-        fontSize : '14px',
-        lineHeigth : '18px'
+        fontSize: '14px',
+        lineHeigth: '18px'
     },
 }));
 
@@ -55,4 +58,48 @@ const LogoTypography = () => {
         </>);
 }
 
-export { Search, SearchIconWrapper, StyledInputBase ,LogoTypography};
+const CustomeSwitch = styled(Switch)(({ theme }) => ({
+    padding: 6,
+    '& .MuiSwitch-track': {
+        borderRadius: '15px',
+        // background: '#91939B',
+        background: theme.palette.mode === 'dark' ? '#91939B' : '#485FE6',
+        '&:before, &:after': {
+            content: '""',
+            position: 'absolute',
+            transform: 'translateY(-50%)',
+            width: 16,
+            height: 16,
+        },
+    },
+    '& .MuiSwitch-thumb': {
+        boxShadow: 'none',
+        width: 20,
+        height: 20,
+        margin: 0,
+        backgroundColor: 'rgba(255,255,255,1)',
+    },
+    '& .MuiSwitch-switchBase': {
+        '&.Mui-checked': {
+            '& + .MuiSwitch-track': {
+                opacity: 1,
+                backgroundColor: theme.palette.primary.dark,
+            },
+        },
+    },
+
+
+}));
+
+const ToggleButton = (props) => {
+    return (
+        <>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#91939B', fontWeight: 500, fontSize: '16px', lineHeight: '21px' }}>
+                <Box>{props.label}</Box>
+                <CustomeSwitch></CustomeSwitch>
+            </Box>
+        </>
+    );
+}
+
+export { Search, SearchIconWrapper, StyledInputBase, LogoTypography, ToggleButton };

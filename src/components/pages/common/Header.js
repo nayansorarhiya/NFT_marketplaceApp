@@ -40,7 +40,7 @@ export default function Header(props) {
         if(active) {
             setOpen(false);
         }
-        console.log(open, active)
+        // console.log(open, active)
     },[active])
 
 

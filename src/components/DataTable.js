@@ -18,7 +18,7 @@ import { Search, SearchIconWrapper, StyledInputBase } from './CustomStyles';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { Avatar, Grid, Skeleton } from '@mui/material';
+import { Avatar, Grid } from '@mui/material';
 import placeholderImage from '../assets/images/placeholderImage.jpg'
 import { TableSkeleton } from './Skeleton';
 import { useNavigate } from 'react-router-dom';
@@ -343,6 +343,9 @@ export default function DataTable() {
                             <Select
                                 value={dropdown}
                                 onChange={handleChange}
+                                sx={{'&:hover,&:focus': {
+                                    border: '1px solid #485FE6',
+                                },}}
                             >
                                 <MenuItem value={0}>Last 24h</MenuItem>
                                 <MenuItem value={1}>Last 7 days</MenuItem>
