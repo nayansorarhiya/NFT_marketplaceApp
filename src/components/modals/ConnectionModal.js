@@ -5,8 +5,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import metamask from '../../assets/images/metamask.svg';
 import walletconnectlogo from '../../assets/images/walletconnectlogo.svg';
 import coinbasewallet from '../../assets/images/coinbasewallet.svg';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-// import { WalletLinkConnector } from "@web3-react/walletlink-connector";
 import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
 import { InjectedConnector } from "@web3-react/injected-connector";
 import { useWeb3React } from '@web3-react/core'
@@ -28,7 +26,7 @@ const Injected = new InjectedConnector({
 });
 
 export default function ConnectionModal(props) {
-    const { activate, deactivate } = useWeb3React();
+    const { activate } = useWeb3React();
     const theme = useTheme();
     const style = {
         position: 'absolute',
@@ -93,11 +91,11 @@ export default function ConnectionModal(props) {
                         <Divider />
                         <ListItem button sx={{ py: 3 }} onClick={() => { activate(Injected); }}>
                             <img src={metamask} alt='metamask' />
-                            <Typography sx={WalletConnect}>Metamask
-
+                            <Typography sx={WalletConnect}>
+                                Metamask
                             </Typography>
                             <IconButton size="small">
-                                <KeyboardArrowRightIcon />
+                                {/* <KeyboardArrowRightIcon /> */}
                             </IconButton>
                         </ListItem>
                         <Divider />

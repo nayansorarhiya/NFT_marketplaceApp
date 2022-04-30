@@ -3,6 +3,7 @@ import InputBase from '@mui/material/InputBase';
 import { styled, alpha, useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import logo from '../assets/images/logo.svg';
+import logo_name from '../assets/images/logo_name.svg';
 import { Switch } from '@mui/material';
 
 
@@ -53,7 +54,10 @@ const LogoTypography = () => {
                 sx={{ fontSize: { xs: '22px', sm: '32px' }, display: 'flex', color: alpha(theme.palette.primary.logo, 1), marginLeft: { xs: theme.spacing(0), sm: theme.spacing(0) } }}
                 className="headerlogo"
             >
-                <img src={logo} alt='header logo' className='logo' />
+                <Box>
+                    <img src={logo} alt='header logo' className='logo' />
+                    <img src={logo_name} alt='logo name' className='logo_name' />
+                </Box>
             </Typography>
         </>);
 }

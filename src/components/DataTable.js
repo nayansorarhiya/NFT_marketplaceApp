@@ -182,7 +182,7 @@ export default function DataTable() {
     }
 
     async function apiCallforData() {
-        const resp = await fetch(`https://nft-aggregator-api.herokuapp.com/collections`,
+        const resp = await fetch(`https://gem-api-6.herokuapp.com/collections`,
             {
                 method: "post",
                 headers: {
@@ -343,9 +343,11 @@ export default function DataTable() {
                             <Select
                                 value={dropdown}
                                 onChange={handleChange}
-                                sx={{'&:hover,&:focus': {
-                                    border: '1px solid #485FE6',
-                                },}}
+                                sx={{
+                                    '&:hover,&:focus': {
+                                        border: '1px solid #485FE6',
+                                    },
+                                }}
                             >
                                 <MenuItem value={0}>Last 24h</MenuItem>
                                 <MenuItem value={1}>Last 7 days</MenuItem>
@@ -407,7 +409,7 @@ export default function DataTable() {
                                                         textOverflow: 'ellipsis',
                                                         pl: 1, pr: 1
                                                     }}>{row.name}</Box>}
-                                                    {row.isVerified !== undefined && <Box><Avatar alt="verified" sx={{ width: { xs: '16px', sm: '24px ', md: '24px', lg: '24px' }, height: { xs: '16px', sm: '24px ', md: '24px', lg: '24px' } }} src={vectorCorrect} /></Box>}
+                                                    {row.isVerified !== undefined && row.isVerified !== false && <Box><Avatar alt="verified" sx={{ width: { xs: '16px', sm: '24px ', md: '24px', lg: '24px' }, height: { xs: '16px', sm: '24px ', md: '24px', lg: '24px' } }} src={vectorCorrect} /></Box>}
                                                 </Box>
                                             </TableCell>
                                             <TableCell className="" sx={{ pl: 0, pr: 0, fontWeight: 700, fontSize: { xs: '14px', sm: '18px', md: '18px', lg: '18px' }, lineHeight: { xs: '18px', sm: '32px', md: '32px', lg: '32px' }, color: alpha(theme.palette.primary.tableHead, 1) }}>
