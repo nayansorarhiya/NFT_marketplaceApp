@@ -37,8 +37,7 @@ export default function NFTCollection() {
             <Box>
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                     <Grid item xs={3} md={3} sm={5} lg={2} xl={2}  >
-                        <Card sx={{
-                            minWidth: 240, maxHeight: '295px', mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1)
+                        <Card sx={{ minWidth: 240, maxHeight: '295px', mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1)
                         }}>
                             <CardMedia
                                 component="img"
