@@ -4,7 +4,6 @@ import vectorCorrect from '../assets/images/vectorCorrect.svg'
 import PriceRange from './CollectionPageComponents/PriceRange'
 import { Search, SearchIconWrapper, StyledInputBase } from './CustomStyles'
 import SearchIcon from '@mui/icons-material/Search';
-import NFTCollection from './CollectionPageComponents/NFTCollection'
 
 const CollectionName = styled(Box)`
     font-family: 'WorkSans';
@@ -15,7 +14,7 @@ const CollectionName = styled(Box)`
     text-transform: capitalize;
 `
 
-export default function CollectionData() {
+export default function CollectionData(props) {
     const [dropdown, setDropdown] = React.useState(0);
 
     const [rowfilter, setRowFilter] = React.useState({
@@ -65,16 +64,24 @@ export default function CollectionData() {
                 }}>
                 <CollectionName>
                     Mutant Ape Yacht club
+                    <img src={vectorCorrect} alt='verified' style={{ marginLeft: '10px' }} />
                 </CollectionName>
-                <img src={vectorCorrect} alt='verified' />
             </Box>
 
             <PriceRange></PriceRange>
-            <Box sx={{ display: {md: 'none', lg: 'none' } }}>
-                <Button>Filter</Button>
+            <Box sx={{ display: { md: 'none', lg: 'none' } }}>
+                <Button variant='outlined' sx={{
+                    width: '100%', color: 'inherit', border: '1px solid #485FE6',
+                    fontWeight: '500',
+                    fontSize: '16px', textTransform: 'capitalize',
+                    '&:hover,&:focus': {
+                        border: '1px solid #485FE6',
+                    },
+                    mt: 3,
+                }} onClick={props.drawerCall}>Filter</Button>
             </Box>
 
-            <Box sx={{ display: 'flex', mt: 4, justifyContent: 'space-between' }}>
+            <Box sx={{ display: 'flex', mt: 3, justifyContent: 'space-between' }}>
                 <Search sx={{ display: 'flex' }}>
                     <SearchIconWrapper >
                         <SearchIcon />
@@ -82,7 +89,7 @@ export default function CollectionData() {
                     <StyledInputBase
                         placeholder="Search collections by name or address "
                         inputProps={{ 'aria-label': 'search' }}
-                        sx={{ width: { xs: '100%', sm: '400px', md: '500px', lg: '500px' } }}
+                        sx={{ width: { xs: '100%', sm: '100%', md: '400px', lg: '500px' } }}
                     // onChange={requestSearch}
                     />
                 </Search>
@@ -107,8 +114,6 @@ export default function CollectionData() {
                 </Box>
             </Box>
             {/* <Divider /> */}
-            <NFTCollection></NFTCollection>
-
         </>
     )
 }

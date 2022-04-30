@@ -54,9 +54,11 @@ const LogoTypography = () => {
                 sx={{ fontSize: { xs: '22px', sm: '32px' }, display: 'flex', color: alpha(theme.palette.primary.logo, 1), marginLeft: { xs: theme.spacing(0), sm: theme.spacing(0) } }}
                 className="headerlogo"
             >
-                <Box>
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <img src={logo} alt='header logo' className='logo' />
-                    <img src={logo_name} alt='logo name' className='logo_name' />
+                    <Box sx={{ display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex' } }}>
+                        <img src={logo_name} alt='logo name' className='logo_name' />
+                    </Box>
                 </Box>
             </Typography>
         </>);

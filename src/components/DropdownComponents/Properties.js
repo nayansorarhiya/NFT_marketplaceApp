@@ -54,7 +54,7 @@ export default function Properties() {
 
 
     return (
-        <div>
+        <Box>
 
             <StyleAccordion>
                 <AccordionSummary
@@ -65,46 +65,44 @@ export default function Properties() {
                     <Typography>Background</Typography>
                 </AccordionSummary>
                 <AccordionDetails sx={{ mt: 0 }}>
-                    <Typography >
-                        <Box>
-                            <StyledInputBase placeholder='Search'></StyledInputBase>
-
+                    <Box>
+                        <StyledInputBase placeholder='Search'></StyledInputBase>
+                    </Box>
+                    <FormGroup>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <FormControlLabel control={<CheckboxComponents
+                                sx={{
+                                    color: blue[800],
+                                    '&.Mui-checked': {
+                                        color: blue[600],
+                                    },
+                                }}
+                            />} label="Purple" />
+                            <Box sx={{ display: 'flex', gap: '2px' }}>
+                                <TotalItems>1290</TotalItems>
+                                <TotalItems>(12.90%)</TotalItems>
+                            </Box>
                         </Box>
-                        <FormGroup>
-                            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <FormControlLabel control={<CheckboxComponents
-                                    sx={{
-                                        color: blue[800],
-                                        '&.Mui-checked': {
-                                            color: blue[600],
-                                        },
-                                    }}
-                                />} label="Purple" />
-                                <Box sx={{ display: 'flex', gap: '2px' }}>
-                                    <TotalItems>1290</TotalItems>
-                                    <TotalItems>(12.90%)</TotalItems>
-                                </Box>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <FormControlLabel control={<CheckboxComponents
+                                sx={{
+                                    color: blue[800],
+                                    '&.Mui-checked': {
+                                        color: blue[600],
+                                    },
+                                }}
+                            />} label="Yellow" />
+                            <Box sx={{ display: 'flex', gap: '2px' }}>
+                                <TotalItems>1283</TotalItems>
+                                <TotalItems>(12.83%)</TotalItems>
                             </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <FormControlLabel control={<CheckboxComponents
-                                    sx={{
-                                        color: blue[800],
-                                        '&.Mui-checked': {
-                                            color: blue[600],
-                                        },
-                                    }}
-                                />} label="Yellow" />
-                                <Box sx={{ display: 'flex', gap: '2px' }}>
-                                    <TotalItems>1283</TotalItems>
-                                    <TotalItems>(12.83%)</TotalItems>
-                                </Box>
-                            </Box>
-                        </FormGroup>
-                    </Typography>
+                        </Box>
+                    </FormGroup>
+
                 </AccordionDetails>
             </StyleAccordion>
 
-        </div>
+        </Box>
 
 
     );

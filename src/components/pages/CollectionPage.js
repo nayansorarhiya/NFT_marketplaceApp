@@ -17,33 +17,15 @@ import DoubleArrowOutlinedIcon from '@mui/icons-material/DoubleArrowOutlined';
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 import Icon from '@mui/material/Icon';
 import { ToggleButton } from '../CustomStyles';
-import { Button, FormControl, Grid, InputBase, MenuItem, Select } from '@mui/material';
+import { Button, FormControl, Grid, InputBase, MenuItem, Select, useMediaQuery } from '@mui/material';
 import eth from '../../assets/images/eth.svg';
 import MarketPlace from '../DropdownComponents/MarketPlace';
 import CollectionData from '../CollectionData';
 import Properties from '../DropdownComponents/Properties';
 import Footer from './common/Footer';
+import NFTCollection from '../CollectionPageComponents/NFTCollection';
 
-const drawerWidth = 280;
 
-const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
-    ({ theme, open }) => ({
-        flexGrow: 1,
-        padding: theme.spacing(3),
-        transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-        marginLeft: `-${drawerWidth}px`,
-        ...(open && {
-            transition: theme.transitions.create('margin', {
-                easing: theme.transitions.easing.easeOut,
-                duration: theme.transitions.duration.enteringScreen,
-            }),
-            marginLeft: '10px',
-        }),
-    }),
-);
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: 'inherit',
@@ -75,14 +57,18 @@ const DropSelect = styled(Select)(({ theme }) => ({
 
 
 export default function CollectionPage() {
+
+
     const theme = useTheme();
     const [open, setOpen] = React.useState(true);
     const [dropdown, setDropdown] = React.useState(0);
+    const [variant, setVariant] = React.useState({
+        v: '', w: ''
+    });
 
     const handleChange = (event) => {
         setDropdown(event.target.value);
     }
-
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -92,11 +78,38 @@ export default function CollectionPage() {
         setOpen(false);
     };
 
+
+    const isMobile = useMediaQuery(theme.breakpoints.between('xs', 'md'));
+    React.useEffect(() => {
+        setVariant({ v: isMobile ? 'temporary' : 'persistent', w: isMobile ? 0 : 280 })
+    }, [isMobile])
+
+    const drawerWidth = variant.w;
+
+    const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
+        ({ theme, open }) => ({
+            flexGrow: 1,
+            padding: theme.spacing(3),
+            transition: theme.transitions.create('margin', {
+                easing: theme.transitions.easing.sharp,
+                duration: theme.transitions.duration.leavingScreen,
+            }),
+            marginLeft: `-${drawerWidth}px`,
+            ...(open && {
+                transition: theme.transitions.create('margin', {
+                    easing: theme.transitions.easing.easeOut,
+                    duration: theme.transitions.duration.enteringScreen,
+                }),
+                marginLeft: '10px',
+            }),
+        }),
+    );
+
     return (
         <>
             <Box sx={{ display: 'flex', position: 'relative' }} >
                 <CssBaseline />
-                <Box sx={{ display: 'block', justifyContent: 'center', border: `1px solid ${theme.palette.primary.borderDrawer}`, background: alpha(theme.palette.primary.main, 1) }}>
+                <Box sx={{ border: `1px solid ${theme.palette.primary.borderDrawer}`, background: alpha(theme.palette.primary.main, 1) }}>
                     <DoubleArrowOutlinedIcon
                         color="inherit"
                         aria-label="open drawer"
@@ -108,17 +121,16 @@ export default function CollectionPage() {
                 </Box>
                 <Drawer
                     sx={{
-                        width: drawerWidth,
+                        width: 280,
                         flexShrink: 0,
-                        display: { sm: 'none', xs: 'none' },
                         '& .MuiDrawer-paper': {
-                            width: drawerWidth,
+                            width: 280,
                             boxSizing: 'border-box',
                             mt: '64px',
                             background: alpha(theme.palette.primary.main, 1),
                         },
                     }}
-                    variant="persistent"
+                    variant={variant.v}
                     anchor="left"
                     open={open}
 
@@ -229,7 +241,8 @@ export default function CollectionPage() {
                     {/* <DrawerHeader /> */}
 
                     <Box sx={{ mt: 4 }}>
-                        <CollectionData></CollectionData>
+                        <CollectionData drawerCall={handleDrawerOpen}></CollectionData>
+                        <NFTCollection></NFTCollection>
                     </Box>
 
                 </Main>

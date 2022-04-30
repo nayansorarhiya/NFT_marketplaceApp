@@ -34,35 +34,35 @@ export default function NFTCollection() {
     const theme = useTheme();
     return (
         <>
-            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                <Grid item xs={3} md={5} sm={5} lg={2} xl={2}  >
-                    <Card sx={{
-                        minWidth: 240, maxHeight: '295px', mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1)
-                    }}>
-                        <CardMedia
-                            component="img"
-                            image={card_img1}
-                            alt="NFT image"
-                        />
-                        <CardContent sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                            <Box>
-                                34.91
-                            </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '7px' }}>
-                                <Box sx={{ color: 'rgba(145, 147, 155, 1)' }}>
-                                    38.51
+            <Box>
+                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                    <Grid item xs={3} md={3} sm={5} lg={2} xl={2}  >
+                        <Card sx={{
+                            minWidth: 240, maxHeight: '295px', mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1)
+                        }}>
+                            <CardMedia
+                                component="img"
+                                image={card_img1}
+                                alt="NFT image"
+                            />
+                            <CardContent sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                                <Box>
+                                    34.91
                                 </Box>
-                                <img src={eth} alt="eth" height={'21px'} />
-                            </Box>
-                        </CardContent>
-                        <CountButton># 7258</CountButton>
-                        <BadgeImage src={opensea}></BadgeImage>
+                                <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '7px' }}>
+                                    <Box sx={{ color: 'rgba(145, 147, 155, 1)' }}>
+                                        38.51
+                                    </Box>
+                                    <img src={eth} alt="eth" height={'21px'} />
+                                </Box>
+                            </CardContent>
+                            <CountButton># 7258</CountButton>
+                            <BadgeImage src={opensea}></BadgeImage>
 
-                    </Card>
+                        </Card>
+                    </Grid>
                 </Grid>
-
-
-            </Grid>
+            </Box>
         </>
     )
 }
