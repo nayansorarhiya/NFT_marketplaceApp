@@ -8,55 +8,21 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
-// import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
-// import Paper from '@mui/material/Paper';
-import FormControlLabel from '@mui/material/FormControlLabel';
-// import Switch from '@mui/material/Switch';
 import { visuallyHidden } from '@mui/utils';
 import vectorCorrect from '../assets/images/vectorCorrect.svg';
 import eth from '../assets/images/eth.png';
-// import { height } from '@mui/system';
 import SearchIcon from '@mui/icons-material/Search';
-import { Search, SearchIconWrapper, StyledInputBase } from './pages/common/Header';
-import InputLabel from '@mui/material/InputLabel';
+import { Search, SearchIconWrapper, StyledInputBase } from './CustomStyles';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { Grid } from '@mui/material';
+import { Avatar, Grid } from '@mui/material';
+import placeholderImage from '../assets/images/placeholderImage.jpg'
+import { TableSkeleton } from './Skeleton';
+import { useNavigate } from 'react-router-dom';
 
-
-function createData(id, name, volume, hour, hour2, color, price, owner, supply) {
-    return {
-        id,
-        name,
-        volume,
-        hour,
-        hour2,
-        color,
-        price,
-        owner,
-        supply,
-    };
-}
-
-const rows = [
-    createData(1, 'Mutant Ape Yacht Club', '0,047.89', -1.74, -92.25, 'green', '5,05.7', '4,7K', '23,5K'),
-    createData(2, 'Meetbits', '1,070.15', +1.06, +770.15, 'blue', '2,14.3', '4,5K', '17,1K'),
-    createData(3, 'X Design', '0,047.89', -1.74, -92.25, 'red', '5,05.7', '4,7K', '23,5K'),
-    createData(4, 'Some Crypto Name', '7,142.89', +2.24, -52.25, 'red', '1,178.57', '2,5K', '11,2K'),
-    // createData(5,'X Design', '0,047.89', '-92.25%', '5,05.7', '4,7K', '23,5K'),
-    // createData(6,'Some Crypto Name', '0,047.89', '-92.25%', '5,05.7', '4,7K', '23,5K'),
-    // createData(7,'Meetbits', '1,070.15', '+770.15%', '2,14.3', '4,5K', '17,1K'),
-    // createData(8,'X Design', '0,047.89', '-92.25%', '5,05.7', '4,7K', '23,5K'),
-    // createData(10,'Some Crypto Name', '7,142.89', '+124.25%', '1,178.57', '2,5K', '11,2K'),
-    // createData(11,'Meetbits', '1,070.15', '+770.15%', '2,14.3', '4,5K', '17,1K'),
-    // createData(12,'Some Crypto Name', '7,142.89', '+124.25%', '1,178.57', '2,5K', '11,2K'),
-    // createData(13,'Mutant Ape Yacht Club', '0,047.89', '-92.25%', '5,05.7', '4,7K', '23,5K'),
-    // createData(14,'Meetbits', '1,070.15', '+770.15%', '2,14.3', '4,5K', '17,1K'),
-
-];
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -88,123 +54,226 @@ function stableSort(array, comparator) {
     return stabilizedThis.map((el) => el[0]);
 }
 
-const headCellsDesktop = [
-    {
-        id: 'id',
-        numeric: true,
-        disablePadding: true,
-        class: 'desktopCells',
-        label: '',
-    },
-    {
-        id: 'name',
-        numeric: false,
-        disablePadding: true,
-        class: 'desktopCells',
-        label: 'Collection',
-    },
-    {
-        id: 'price',
-        numeric: true,
-        disablePadding: false,
-        class: 'desktopCells',
-        label: 'Floor Price',
-    },
-    {
-        id: 'hour',
-        numeric: true,
-        disablePadding: false,
-        class: 'mobileCells',
-        label: '24h',
-    },
-    {
-        id: 'volume',
-        numeric: true,
-        disablePadding: false,
-        class: 'mobileCells',
-        label: '24h Volume',
-    },
-    {
-        id: 'hour2',
-        numeric: true,
-        disablePadding: false,
-        class: 'mobileCells',
-        label: '24h',
-    },
-    {
-        id: 'owner',
-        numeric: true,
-        disablePadding: false,
-        class: 'mobileCells',
-        label: 'Owners',
-    },
-    {
-        id: 'supply',
-        numeric: true,
-        disablePadding: false,
-        class: 'mobileCells',
-        label: 'Supply',
-    },
-];
+
 
 function EnhancedTableHead(props) {
     const theme = useTheme();
-    const { order, orderBy, onRequestSort } =
-        props;
+    const { order, orderBy, onRequestSort } = props;
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property);
     };
+    const headCellsDesktop = [
+        // {
+        //     id: 'id',
+        //     numeric: false,
+        //     disablePadding: true,
+        //     class: 'desktopCells',
+        //     label: '',
+        // },
+        {
+            id: 'name',
+            numeric: false,
+            disablePadding: false,
+            class: 'desktopCells',
+            label: 'Collection',
+        },
+        {
+            id: 'floorprice',
+            numeric: true,
+            disablePadding: true,
+            class: 'desktopCells',
+            label: 'Floor Price',
+        },
+        {
+            id: 'onedayvalue1',
+            numeric: true,
+            disablePadding: true,
+            class: 'mobileCells h24-1Hidden',
+            label: props.label,
+        },
+        {
+            id: 'onedayvolumevalue',
+            numeric: true,
+            disablePadding: true,
+            class: 'mobileCells h24-Hidden',
+            label: props.label + ' Volume',
+        },
+        {
+            id: 'onedayvalue2',
+            numeric: true,
+            disablePadding: true,
+            class: 'mobileCells h24-1Hidden',
+            label: props.label,
+        },
+        {
+            id: 'owners',
+            numeric: true,
+            disablePadding: true,
+            class: 'mobileCells ownerHidden',
+            label: 'Owners',
+        },
+        {
+            id: 'totalsupply',
+            numeric: true,
+            disablePadding: false,
+            class: 'mobileCells supplyHidden',
+            label: 'Supply',
+        },
+    ];
 
     return (
         <TableHead>
             <TableRow>
-                {headCellsDesktop.map((headCell) => (
-                    <TableCell
-                        key={headCell.id}
-                        align={headCell.numeric ? 'right' : 'left'}
-                        padding={headCell.disablePadding ? 'none' : 'normal'}
-                        sortDirection={orderBy === headCell.id ? order : false}
-                        sx={{ fontWeight: '500', fontSize: '16px', lineHeight: '21px', color: alpha(theme.palette.primary.tableHead, 1) }}
-                        className={headCell.class}
-                    >
-                        <TableSortLabel
-                            active={orderBy === headCell.id}
-                            direction={orderBy === headCell.id ? order : 'asc'}
-                            onClick={createSortHandler(headCell.id)}
+                <TableCell>
+
+                </TableCell>
+                {headCellsDesktop.map((headCell) => {
+
+                    return (
+                        <TableCell
+                            key={headCell.id}
+                            align={headCell.numeric ? 'right' : 'left'}
+                            padding={headCell.disablePadding ? 'none' : 'normal'}
+                            sortDirection={orderBy === headCell.id ? order : false}
+                            sx={{ fontWeight: '500', fontSize: '16px', lineHeight: '21px', color: alpha(theme.palette.primary.tableHead, 1), whiteSpace: 'nowrap' }}
+                            className={`${headCell.class} pe-0`}
                         >
-                            {headCell.label}
-                            {orderBy === headCell.id ? (
-                                <Box component="span" sx={visuallyHidden}>
-                                    {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                                </Box>
-                            ) : null}
-                        </TableSortLabel>
-                    </TableCell>
-                ))}
+                            <TableSortLabel
+                                active={orderBy === headCell.id}
+                                direction={orderBy === headCell.id ? order : 'asc'}
+                                onClick={createSortHandler(headCell.id)}
+                            >
+                                {headCell.label}
+
+                                {orderBy === headCell.id ? (
+                                    <Box component="span" sx={visuallyHidden}>
+                                        {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                                    </Box>
+                                ) : null}
+                            </TableSortLabel>
+                        </TableCell>)
+
+                })}
             </TableRow>
         </TableHead>
     );
 }
 
 EnhancedTableHead.propTypes = {
-    numSelected: PropTypes.number.isRequired,
     onRequestSort: PropTypes.func.isRequired,
-    onSelectAllClick: PropTypes.func.isRequired,
     order: PropTypes.oneOf(['asc', 'desc']).isRequired,
     orderBy: PropTypes.string.isRequired,
-    rowCount: PropTypes.number.isRequired,
+    // rowCount: PropTypes.number.isRequired,
 };
-
-
 
 export default function DataTable() {
     const theme = useTheme();
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('id');
-    const [selected, setSelected] = React.useState([]);
-    const [page, setPage] = React.useState(0);
-    const [dense, setDense] = React.useState(false);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [rows, setRowData] = React.useState([]);
+    const [searchrows, setSearchRow] = React.useState([]);
+
+    const navigate = useNavigate();
+
+    const collectionNavigation = () => {
+
+        navigate(`/collection`);
+
+    }
+
+    async function apiCallforData() {
+        const resp = await fetch(`https://gem-api-6.herokuapp.com/collections`,
+            {
+                method: "post",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    "sort": { "oneDayVolume": "desc" },
+                    "limit": 100,
+                    "fields": {
+                        "name": 1,
+                        "symbol": 1,
+                        "standard": 1,
+                        "description": 1,
+                        "address": 1,
+                        "createdDate": 1,
+                        "externalUrl": 1,
+                        "imageUrl": 1,
+                        "totalSupply": 1,
+                        "sevenDayVolume": 1,
+                        "oneDayVolume": 1,
+                        "stats": 1,
+                        "indexingStatus": 1,
+                        "discordUrl": 1,
+                        "instagramUsername": 1,
+                        "isVerified": 1,
+                        "lastNumberOfUpdates": 1,
+                        "lastOpenSeaCancelledId": 1,
+                        "lastOpenSeaSaleCreatedId": 1,
+                        "slug": 1,
+                        "lastOpenSeaTransferId": 1,
+                        "lastRaribleAssetUpdateId": 1,
+                        "mediumUsername": 1,
+                        "telegramUrl": 1,
+                        "twitterUsername": 1,
+                        "updatedAt": 1,
+                        "wikiUrl": 1
+                    }
+                })
+            }
+        );
+        const rows = await resp.json();
+        const localrows = (rows.data).map(v => ({
+            imgurl: v.imageUrl,
+            name: v.name,
+            isVerified: v.isVerified,
+            floorprice: v.stats.floor_price ? v.stats.floor_price : -1,
+
+            onedayvalue1: [v.stats.one_day_change ? v.stats.one_day_change : 0, v.stats.seven_day_change ? v.stats.seven_day_change : 0, v.stats.thirty_day_change ? v.stats.thirty_day_change : 0, v.stats.total_volume ? v.stats.total_volume : 0],
+
+            onedayvolumevalue: [v.stats.one_day_volume ? v.stats.one_day_volume : 0, v.stats.seven_day_volume ? v.stats.seven_day_volume : 0, v.stats.thirty_day_volume ? v.stats.thirty_day_volume : 0, v.stats.total_volume ? v.stats.total_volume : 0],
+
+            onedayvalue2: [v.stats.one_day_change ? v.stats.one_day_change : 0, v.stats.seven_day_change ? v.stats.seven_day_change : 0, v.stats.thirty_day_change ? v.stats.thirty_day_change : 0, v.stats.total_volume ? v.stats.total_volume : 0],
+
+            owners: v.stats.num_owners ? v.stats.num_owners : -1,
+            totalsupply: v.totalSupply ? v.totalSupply : -1
+        }));
+        localrows.push({
+            imgurl: 0,
+            name: 0,
+            isVerified: 0,
+            floorprice: 0,
+
+            onedayvalue1: [0, 0, 0, 0],
+
+            onedayvolumevalue: [0, 0, 0, 0],
+
+            onedayvalue2: [0, 0, 0, 0],
+
+            owners: 0,
+            totalsupply: 0
+        });
+        // setRowData(rows.data);
+        // setSearchRow(rows.data);
+        setRowData(localrows);
+        setSearchRow(localrows);
+
+    }
+
+    const requestSearch = (event) => {
+        const filteredRows = rows.filter((row) => {
+            return (row.name).toLowerCase().includes((event.target.value).toLowerCase());
+        });
+        setSearchRow(filteredRows);
+    };
+    React.useEffect(() => {
+        apiCallforData();
+    }, [])
+
+    // React.useEffect(() => {
+    //     console.log(rows);
+    // }, [rows])
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -212,153 +281,184 @@ export default function DataTable() {
         setOrderBy(property);
     };
 
-    const handleSelectAllClick = (event) => {
-        if (event.target.checked) {
-            const newSelecteds = rows.map((n) => n.name);
-            setSelected(newSelecteds);
-            return;
-        }
-        setSelected([]);
-    };
-
-    const handleClick = (event, name) => {
-        const selectedIndex = selected.indexOf(name);
-        let newSelected = [];
-
-        if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, name);
-        } else if (selectedIndex === 0) {
-            newSelected = newSelected.concat(selected.slice(1));
-        } else if (selectedIndex === selected.length - 1) {
-            newSelected = newSelected.concat(selected.slice(0, -1));
-        } else if (selectedIndex > 0) {
-            newSelected = newSelected.concat(
-                selected.slice(0, selectedIndex),
-                selected.slice(selectedIndex + 1),
-            );
-        }
-
-        setSelected(newSelected);
-    };
-
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
-
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
-    };
-
-    const handleChangeDense = (event) => {
-        setDense(event.target.checked);
-    };
-
-    const isSelected = (name) => selected.indexOf(name) !== -1;
-
-    // Avoid a layout jump when reaching the last page with empty rows.
-    const emptyRows =
-        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    const [dropdown, setDropdown] = React.useState(0);
+    const [rowfilter, setRowFilter] = React.useState({
+        label: '24h', option: 0
+    });
 
 
-    const [age, setAge] = React.useState('');
 
     const handleChange = (event) => {
-        setAge(event.target.value);
+        setDropdown(event.target.value);
+        switch (event.target.value) {
+            case 1:
+                setRowFilter({
+                    ...rowfilter,
+                    label: '7d',
+                    option: event.target.value
+                });
+                break;
+            case 2:
+                setRowFilter({
+                    ...rowfilter,
+                    label: '30d',
+                    option: event.target.value
+                });
+                break;
+            case 3:
+                setRowFilter({
+                    ...rowfilter,
+                    label: 'All Time',
+                    option: event.target.value
+                });
+                break;
+            default:
+                setRowFilter({
+                    ...rowfilter,
+                    label: '24h',
+                    option: event.target.value
+                });
+                break;
+        }
     };
+
+
     return (
         <>
-            <Box sx={{ width: '100%', mt: '40px', background: alpha(theme.palette.primary.homeBg, 1), display: 'block', textAlign: 'center' }}>
+            <Box sx={{ width: '100%', mt: 5, background: alpha(theme.palette.primary.homeBg, 1), display: 'block', textAlign: 'center' }}>
                 <Grid sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     <Search sx={{ display: 'flex', m: 2 }}>
                         <SearchIconWrapper >
                             <SearchIcon />
                         </SearchIconWrapper>
                         <StyledInputBase
-                            placeholder="Search items, collections and profiles "
+                            placeholder="Search collections by name or address "
                             inputProps={{ 'aria-label': 'search' }}
                             sx={{ width: { xs: '100%', sm: '400px', md: '500px', lg: '500px' } }}
+                            onChange={requestSearch}
                         />
                     </Search>
                     <Box sx={{ minWidth: 100, display: { xs: 'none', sm: 'flex', md: 'flex', lg: 'flex' } }} >
                         <FormControl>
                             <Select
-                                value={age ? age : 1}
+                                value={dropdown}
                                 onChange={handleChange}
+                                sx={{
+                                    '&:hover,&:focus': {
+                                        border: '1px solid #485FE6',
+                                    },
+                                }}
                             >
-                                <MenuItem value={1}>Last 24h</MenuItem>
-                                <MenuItem value={2}>Yesterday</MenuItem>
-                                <MenuItem value={3}>1 Week</MenuItem>
-                                <MenuItem value={4}>1 Month</MenuItem>
+                                <MenuItem value={0}>Last 24h</MenuItem>
+                                <MenuItem value={1}>Last 7 days</MenuItem>
+                                <MenuItem value={2}>Last 30 days</MenuItem>
+                                <MenuItem value={3}>All Time</MenuItem>
                             </Select>
                         </FormControl>
                     </Box>
                 </Grid>
-                <TableContainer sx={{ background: alpha(theme.palette.primary.homeBg, 1) }}>
+                <TableContainer fluid="true" sx={{ background: alpha(theme.palette.primary.homeBg, 1) }}>
                     <Table
-                        sx={{ minWidth: 250 }}
+                        className="table-padding pe-0"
+                        sx={{ minWidth: 200, borderCollapse: 'unset', p: 0 }}
                         aria-labelledby="tableTitle"
-                        size={dense ? 'small' : 'medium'}
+                        size='medium'   // small | medium
+                        onClick={collectionNavigation}
                     >
                         <EnhancedTableHead
-                            numSelected={selected.length}
                             order={order}
                             orderBy={orderBy}
-                            onSelectAllClick={handleSelectAllClick}
                             onRequestSort={handleRequestSort}
-                            rowCount={rows.length}
+                            // rowCount={rows.length}
+                            label={rowfilter.label}
+                            option={rowfilter.option}
                         />
                         <TableBody>
-                            {/* if you don't need to support IE11, you can replace the `stableSort` call with:
-                 rows.slice().sort(getComparator(order, orderBy)) */}
-                            {stableSort(rows, getComparator(order, orderBy))
-                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                .map((row, index) => {
-                                    const isItemSelected = isSelected(row.name);
-                                    const labelId = `enhanced-table-checkbox-${index}`;
 
+                            {searchrows.length !== 0 ? (stableSort(searchrows, getComparator(order, orderBy))
+                                .map((row, index) => {
+                                    const labelId = `enhanced-table-checkbox-${index}`;
                                     return (
+
                                         <TableRow
+                                            style={{ width: "100vw" }}
                                             hover
-                                            onClick={(event) => handleClick(event, row.name)}
-                                            role="checkbox"
-                                            aria-checked={isItemSelected}
                                             tabIndex={-1}
                                             key={row.name}
-                                            selected={isItemSelected}
                                         >
-
-                                            <TableCell align="left" sx={{ fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: alpha(theme.palette.primary.tableHead, 1) }}>{row.id}</TableCell>
+                                            <TableCell className='padding-0' align="left" sx={{ fontWeight: 700, fontSize: { xs: '12px', sm: '18px', md: '18px', lg: '18px' }, lineHeight: { xs: '13px', sm: '32px', md: '32px', lg: '32px' }, textAlign: 'center', color: alpha(theme.palette.primary.tableHead, 1) }}>{index + 1}</TableCell>
                                             <TableCell
+                                                className='padding-0'
                                                 component="th"
                                                 id={labelId}
                                                 scope="row"
                                                 padding="none"
-                                                sx={{ fontWeight: 700, fontSize: '20px', lineHeight: '22px', color: alpha(theme.palette.primary.tableHead, 1), whiteSpace: 'nowrap' }}
+                                                sx={{ fontWeight: 700, fontSize: { xs: '12px', sm: '20px', md: '20px', lg: '20px' }, lineHeight: { xs: '13px', sm: '22px', md: '22px', lg: '22px' }, color: alpha(theme.palette.primary.tableHead, 1) }}
                                             >
-                                                {row.name} {row.name && <img src={vectorCorrect} alt="vectoricon" />}
+                                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                                        <Avatar variant="rounded">
+                                                            <img src={row.imgurl ? row.imgurl : placeholderImage} width="46px" height="46px" />
+                                                        </Avatar>
+                                                    </Box>
+                                                    {row.name !== undefined && <Box sx={{
+                                                        fontSize: { xs: '12px', sm: '18px', md: '18px', lg: '18px' },
+                                                        maxWidth: '21vw',
+                                                        overflow: 'hidden',
+                                                        whiteSpace: 'nowrap',
+                                                        textOverflow: 'ellipsis',
+                                                        pl: 1, pr: 1
+                                                    }}>{row.name}</Box>}
+                                                    {row.isVerified !== undefined && row.isVerified !== false && <Box><Avatar alt="verified" sx={{ width: { xs: '16px', sm: '24px ', md: '24px', lg: '24px' }, height: { xs: '16px', sm: '24px ', md: '24px', lg: '24px' } }} src={vectorCorrect} /></Box>}
+                                                </Box>
                                             </TableCell>
-                                            <TableCell align="right" sx={{ display: 'flex', alignItems: 'center', fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: alpha(theme.palette.primary.tableHead, 1) }}>
-                                                {row.name && <Box sx={{ ml: 1, display: 'flex', justifyContent: 'center' }}><img src={eth} alt="ethicon" /> </Box>}
-                                                <Box sx={{ display: 'flex', justifyContent: 'end', flexDirection: 'column' }}><Box>{row.price}</Box><Box className="desktopHidden">{row.hour < 0 ? '' : '+'}{row.hour}% </Box></Box>
+                                            <TableCell className="" sx={{ pl: 0, pr: 0, fontWeight: 700, fontSize: { xs: '14px', sm: '18px', md: '18px', lg: '18px' }, lineHeight: { xs: '18px', sm: '32px', md: '32px', lg: '32px' }, color: alpha(theme.palette.primary.tableHead, 1) }}>
+                                                {row.floorprice !== -1 && <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'end', pt: '10px', pb: '10px' }}>
+                                                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                                                        <Box sx={{ textAlign: 'end' }}>{(row.floorprice).toFixed(3)}</Box>
+                                                        <Box className="desktopHidden" sx={{ color: (row.onedayvalue1[rowfilter.option] < 0 ? '#EB5757' : '#27AE60'), fontSize: { xs: '12px', sm: '18px', md: '18px', lg: '18px' } }}>{row.onedayvalue1[rowfilter.option] < 0 ? '' : '+'}{parseFloat(row.onedayvalue1[rowfilter.option] * 100).toFixed(2)}% </Box>
+                                                    </Box>
+                                                    <Box sx={{ ml: 1, display: 'flex', justifyContent: 'center' }}><img src={eth} alt="ethicon" /> </Box>
+
+                                                </Box>}
                                             </TableCell>
-                                            <TableCell className="mobileCells" align="right" sx={{ fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: (row.hour < 0 ? '#EB5757' : '#27AE60') }}>{row.hour < 0 ? '' : '+'}{row.hour}%</TableCell>
-                                            <TableCell className="mobileCells" align="right" sx={{ fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: alpha(theme.palette.primary.tableHead, 1) }} >{row.volume}</TableCell>
-                                            <TableCell className="mobileCells" align="right" sx={{ fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: (row.hour2 < 0 ? '#EB5757' : '#27AE60') }}>{row.hour2 < 0 ? '' : '+'}{row.hour2}%</TableCell>
-                                            <TableCell className="mobileCells" align="right" sx={{ fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: alpha(theme.palette.primary.tableHead, 1) }} >{row.owner}</TableCell>
-                                            <TableCell className="mobileCells" align="right" sx={{ fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: alpha(theme.palette.primary.tableHead, 1) }} >{row.supply}</TableCell>
+                                            <TableCell className="mobileCells " align="right" sx={{ p: 0, fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: (row.onedayvalue1[rowfilter.option] < 0 ? '#EB5757' : '#27AE60') }}>
+                                                {row.onedayvalue1[rowfilter.option] !== undefined && <Box className="h24-1Hidden" sx={{ pl: 2 }} >
+                                                    {row.onedayvalue1[rowfilter.option] < 0 ? '' : '+'}{parseFloat(row.onedayvalue1[rowfilter.option] * 100).toFixed(2)}%
+                                                </Box>}
+                                            </TableCell>
+                                            <TableCell className="mobileCells " align="right" sx={{ p: 0, fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: alpha(theme.palette.primary.tableHead, 1) }} >
+                                                {row.onedayvolumevalue[rowfilter.option] !== undefined && <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'end', pt: '10px', pb: '10px' }}>
+                                                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                                                        <Box className="h24-Hidden">{parseFloat(row.onedayvolumevalue[rowfilter.option]).toFixed(2)}
+                                                        </Box>
+                                                    </Box>
+                                                    <Box className="h24-Hidden" sx={{ ml: 1, display: 'flex', justifyContent: 'center' }}><img src={eth} alt="ethicon" /> </Box>
+                                                </Box>}
+
+                                            </TableCell>
+                                            <TableCell className="mobileCells " align="right" sx={{ p: 0, fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: (row.onedayvalue2[rowfilter.option] < 0 ? '#EB5757' : '#27AE60') }}>
+                                                {row.onedayvalue2[rowfilter.option] !== undefined && <Box className="h24-2Hidden" sx={{ pl: 2 }} >
+                                                    {row.onedayvalue2[rowfilter.option] < 0 ? '' : '+'}{parseFloat(row.onedayvalue2[rowfilter.option] * 100).toFixed(2)}%
+                                                </Box>}
+                                            </TableCell>
+                                            <TableCell className="mobileCells " align="right" sx={{ p: 0, fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: alpha(theme.palette.primary.tableHead, 1) }}>
+                                                {row.owners !== -1 && <Box className="ownerHidden" sx={{ p: 2 }} >
+                                                    {row.owners < 1000 ? row.owners : (row.owners / 1000).toFixed(1) + "K"}
+                                                </Box>}
+                                            </TableCell>
+                                            <TableCell className="mobileCells " align="right" sx={{ p: 0, fontWeight: 700, fontSize: '18px', lineHeight: '32px', color: alpha(theme.palette.primary.tableHead, 1) }}>
+                                                {row.totalsupply !== -1 && <Box className="supplyHidden" sx={{ p: 2 }} >
+                                                    {row.totalsupply < 1000 ? row.totalsupply : (row.totalsupply / 1000).toFixed(1) + "K"}
+                                                </Box>}
+                                            </TableCell>
+                                            {/* </Box> */}
                                         </TableRow>
+
                                     );
-                                })}
-                            {emptyRows > 0 && (
-                                <TableRow
-                                    style={{
-                                        height: (dense ? 33 : 53) * emptyRows,
-                                    }}
-                                >
-                                    <TableCell colSpan={6} />
-                                </TableRow>
-                            )}
+                                })) : rows.length === 0 ? (<><TableSkeleton /><TableSkeleton /><TableSkeleton /><TableSkeleton /><TableSkeleton /><TableSkeleton /></>) :
+                                <TableRow><TableCell colSpan={8}><Box sx={{ display: 'flex', justifyContent: 'center' }}> No Data Available</Box></TableCell></TableRow>}
+
                         </TableBody>
                     </Table>
 
