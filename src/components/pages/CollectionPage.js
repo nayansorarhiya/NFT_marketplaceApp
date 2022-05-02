@@ -110,7 +110,7 @@ export default function CollectionPage() {
 
     return (
         <>
-            <Box sx={{ display: 'flex', position: 'relative', maxHeight: '80vh' }} >
+            <Box sx={{ display: 'flex', position: 'relative' }} >
                 <CssBaseline />
                 <Box sx={{ border: `1px solid ${theme.palette.primary.borderDrawer}`, background: alpha(theme.palette.primary.main, 1), display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex' } }}>
                     <DoubleArrowOutlinedIcon
