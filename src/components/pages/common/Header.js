@@ -36,12 +36,12 @@ export default function Header(props) {
 
     const ConnectModal = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    React.useEffect(()=>{
-        if(active) {
+    React.useEffect(() => {
+        if (active) {
             setOpen(false);
         }
         // console.log(open, active)
-    },[active])
+    }, [active])
 
 
     const mobileMenuId = 'primary-search-account-menu-mobile';
@@ -90,7 +90,7 @@ export default function Header(props) {
     return (
         <>
             <Box sx={{ flexGrow: 1 }}>
-                <AppBar position="fixed" sx={{ background: alpha(theme.palette.primary.main, 1), minHeight: '64px', justifyContent: 'center' }}>
+                <AppBar position="fixed" sx={{ boxShadow: theme.palette.mode === 'dark' ? '0px 1px 0px #343742' : '0px 1px 0px rgba(0, 0, 0, 0.1)', background: alpha(theme.palette.primary.main, 1), minHeight: '64px', justifyContent: 'center' }}>
                     <Toolbar>
                         <Box>
                             <LogoTypography />
@@ -121,17 +121,17 @@ export default function Header(props) {
                                                 discover
                                             </MenuItem>
                                         </Box>
-                                        <Box sx={{ ml: 5 }}>
+                                        <Box sx={{ ml: 4 }}>
                                             <MenuItem>
                                                 states
                                             </MenuItem>
                                         </Box>
-                                        <Box sx={{ ml: 5 }}>
+                                        <Box sx={{ ml: 4 }}>
                                             <MenuItem>
                                                 staking
                                             </MenuItem>
                                         </Box>
-                                        <Box sx={{ ml: 5 }}>
+                                        <Box sx={{ ml: 4 }}>
                                             <MenuItem>
                                                 sell
                                             </MenuItem>
@@ -142,14 +142,14 @@ export default function Header(props) {
                         </Container>
                         <Box sx={{ flexGrow: 1 }} />
                         <Box sx={{ display: { xs: 'none', md: 'flex', lg: 'flex' } }}>
-                            <MenuItem onClick={props.onClickTheme}>
+                            <MenuItem onClick={props.onClickTheme} sx={{ pl: 0, }}>
                                 {theme.palette.mode === 'dark' ? <LightModeOutlinedIcon sx={{ fontSize: 32 }} /> : <DarkModeOutlinedIcon sx={{ fontSize: 32 }} />}
                             </MenuItem>
                         </Box>
                         <Box sx={{ flexGrow: 1 }} />
 
                         <Box sx={{ display: { lg: 'flex', xs: 'none' } }}>
-                            <MenuItem>
+                            <MenuItem sx={{ pl: 0 }}>
                                 <CustomButton variant="contained" onClick={() => active ? deactivate() : ConnectModal()}>{active ? account.substring(0, 4) + "..." + account.substring(account.length - 4) : "Connect Wallet"} </CustomButton>
                             </MenuItem>
                         </Box>

@@ -89,7 +89,7 @@ export default function CollectionData(props) {
                     <StyledInputBase
                         placeholder="Search collections by name or address "
                         inputProps={{ 'aria-label': 'search' }}
-                        sx={{ width: { xs: '100%', sm: '100%', md: '400px', lg: '500px' } }}
+                        sx={{ width: { xs: '100%', sm: '400px', md: '400px', lg: '500px' } }}
                     // onChange={requestSearch}
                     />
                 </Search>

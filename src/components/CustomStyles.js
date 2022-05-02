@@ -3,7 +3,8 @@ import InputBase from '@mui/material/InputBase';
 import { styled, alpha, useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import logo from '../assets/images/logo.svg';
-import logo_name from '../assets/images/logo_name.svg';
+// import logo_name from '../assets/images/logo_name.svg';
+// import blacklogo_name from '../assets/images/blacklogo_name.svg';
 import { Switch } from '@mui/material';
 
 
@@ -51,13 +52,14 @@ const LogoTypography = () => {
                 variant="h6"
                 noWrap
                 component="div"
-                sx={{ fontSize: { xs: '22px', sm: '32px' }, display: 'flex', color: alpha(theme.palette.primary.logo, 1), marginLeft: { xs: theme.spacing(0), sm: theme.spacing(0) } }}
+                sx={{ fontSize: '20px', display: 'flex', color: alpha(theme.palette.primary.footerIcon, 1), marginLeft: { xs: theme.spacing(0), sm: theme.spacing(0) } }}
                 className="headerlogo"
             >
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <img src={logo} alt='header logo' className='logo' />
-                    <Box sx={{ display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex' } }}>
-                        <img src={logo_name} alt='logo name' className='logo_name' />
+                    <Box sx={{ display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex' }, ml: '15px' }}>
+                        {/* <img src={theme.palette.mode == "dark" ? logo_name : blacklogo_name} alt='logo name' className='logo_name' /> */}
+                        DiamondHands
                     </Box>
                 </Box>
             </Typography>
@@ -100,7 +102,7 @@ const CustomeSwitch = styled(Switch)(({ theme }) => ({
 const ToggleButton = (props) => {
     return (
         <>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#91939B', fontWeight: 500, fontSize: '16px', lineHeight: '21px' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#91939B', fontWeight: 500, fontSize: '16px', lineHeight: '21px', mt: 1, mb: 1 }}>
                 <Box>{props.label}</Box>
                 <CustomeSwitch></CustomeSwitch>
             </Box>

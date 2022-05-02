@@ -22,6 +22,7 @@ import { Avatar, Grid } from '@mui/material';
 import placeholderImage from '../assets/images/placeholderImage.jpg'
 import { TableSkeleton } from './Skeleton';
 import { useNavigate } from 'react-router-dom';
+import apiDataTable from './allJsons/dataTable.json'
 
 
 function descendingComparator(a, b, orderBy) {
@@ -182,49 +183,49 @@ export default function DataTable() {
     }
 
     async function apiCallforData() {
-        const resp = await fetch(`https://gem-api-6.herokuapp.com/collections`,
-            {
-                method: "post",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    "sort": { "oneDayVolume": "desc" },
-                    "limit": 100,
-                    "fields": {
-                        "name": 1,
-                        "symbol": 1,
-                        "standard": 1,
-                        "description": 1,
-                        "address": 1,
-                        "createdDate": 1,
-                        "externalUrl": 1,
-                        "imageUrl": 1,
-                        "totalSupply": 1,
-                        "sevenDayVolume": 1,
-                        "oneDayVolume": 1,
-                        "stats": 1,
-                        "indexingStatus": 1,
-                        "discordUrl": 1,
-                        "instagramUsername": 1,
-                        "isVerified": 1,
-                        "lastNumberOfUpdates": 1,
-                        "lastOpenSeaCancelledId": 1,
-                        "lastOpenSeaSaleCreatedId": 1,
-                        "slug": 1,
-                        "lastOpenSeaTransferId": 1,
-                        "lastRaribleAssetUpdateId": 1,
-                        "mediumUsername": 1,
-                        "telegramUrl": 1,
-                        "twitterUsername": 1,
-                        "updatedAt": 1,
-                        "wikiUrl": 1
-                    }
-                })
-            }
-        );
-        const rows = await resp.json();
-        const localrows = (rows.data).map(v => ({
+        // const resp = await fetch(`https://gem-api-4.herokuapp.com/collections`,
+        //     {
+        //         method: "post",
+        //         headers: {
+        //             'Content-Type': 'application/json'
+        //         },
+        //         body: JSON.stringify({
+        //             "sort": { "oneDayVolume": "desc" },
+        //             "limit": 100,
+        //             "fields": {
+        //                 "name": 1,
+        //                 "symbol": 1,
+        //                 "standard": 1,
+        //                 "description": 1,
+        //                 "address": 1,
+        //                 "createdDate": 1,
+        //                 "externalUrl": 1,
+        //                 "imageUrl": 1,
+        //                 "totalSupply": 1,
+        //                 "sevenDayVolume": 1,
+        //                 "oneDayVolume": 1,
+        //                 "stats": 1,
+        //                 "indexingStatus": 1,
+        //                 "discordUrl": 1,
+        //                 "instagramUsername": 1,
+        //                 "isVerified": 1,
+        //                 "lastNumberOfUpdates": 1,
+        //                 "lastOpenSeaCancelledId": 1,
+        //                 "lastOpenSeaSaleCreatedId": 1,
+        //                 "slug": 1,
+        //                 "lastOpenSeaTransferId": 1,
+        //                 "lastRaribleAssetUpdateId": 1,
+        //                 "mediumUsername": 1,
+        //                 "telegramUrl": 1,
+        //                 "twitterUsername": 1,
+        //                 "updatedAt": 1,
+        //                 "wikiUrl": 1
+        //             }
+        //         })
+        //     }
+        // );
+        // const rows = await resp.json();
+        const localrows = (apiDataTable.data).map(v => ({
             imgurl: v.imageUrl,
             name: v.name,
             isVerified: v.isVerified,
@@ -239,23 +240,21 @@ export default function DataTable() {
             owners: v.stats.num_owners ? v.stats.num_owners : -1,
             totalsupply: v.totalSupply ? v.totalSupply : -1
         }));
-        localrows.push({
-            imgurl: 0,
-            name: 0,
-            isVerified: 0,
-            floorprice: 0,
+        // localrows.push({
+        //     imgurl: 0,
+        //     name: 0,
+        //     isVerified: 0,
+        //     floorprice: 0,
 
-            onedayvalue1: [0, 0, 0, 0],
+        //     onedayvalue1: [0, 0, 0, 0],
 
-            onedayvolumevalue: [0, 0, 0, 0],
+        //     onedayvolumevalue: [0, 0, 0, 0],
 
-            onedayvalue2: [0, 0, 0, 0],
+        //     onedayvalue2: [0, 0, 0, 0],
 
-            owners: 0,
-            totalsupply: 0
-        });
-        // setRowData(rows.data);
-        // setSearchRow(rows.data);
+        //     owners: 0,
+        //     totalsupply: 0
+        // });
         setRowData(localrows);
         setSearchRow(localrows);
 
