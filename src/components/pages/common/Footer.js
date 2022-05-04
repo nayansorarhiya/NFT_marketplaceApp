@@ -20,61 +20,63 @@ export default function Footer() {
 
     return (
         <>
-            <Paper sx={{ background: alpha(theme.palette.primary.main, 1), padding: 2, borderRadius: 0 }}>
-                <Container >
-                    <Grid container columns={{ md: 12, lg: 12 }}
-                        sx={{
-                            display: 'flex',
-                            justifyContent: 'center', alignItems: 'center', position: 'relative', flexDirection : { xs : 'column',sm : 'column',md : 'row', lg: 'row'}
-                        }}>
-                        <Grid item md={3} lg={3} >
-                            <Box sx={{ textAlign: 'start' }}>
-                                <LogoTypography />
-                            </Box>
-                        </Grid>
-                        <Grid item md={5} lg={5} sx={{ pb: { xs: 1, sm : 1 },pt: { xs: 1, sm : 1 } }}>
-                            <Box sx={{ display: 'flex', justifyContent: 'end', color: alpha(theme.palette.primary.dark) }} className="menulist">
-                                <Box>
-                                    <MenuItem>
-                                        discover
-                                    </MenuItem>
+            <Paper sx={{ background: alpha(theme.palette.primary.main, 1), borderRadius: 0 }}>
+                <Box sx={{ boxShadow: `0px 0px 0px 1px  ${theme.palette.primary.borderDrawer}`,padding: 2,mt : '2px'}}>
+                    <Container >
+                        <Grid container columns={{ md: 12, lg: 12 }}
+                            sx={{
+                                display: 'flex',
+                                justifyContent: 'center', alignItems: 'center', position: 'relative', flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row' }
+                            }}>
+                            <Grid item md={3} lg={3} >
+                                <Box sx={{ textAlign: 'start' }}>
+                                    <LogoTypography />
                                 </Box>
-                                <Box sx={{ ml: { sx: 0, sm: 0, md: 3, lg: 4 } }} >
-                                    <MenuItem>
-                                        states
-                                    </MenuItem>
+                            </Grid>
+                            <Grid item md={5} lg={5} sx={{ pb: { xs: 1, sm: 1 }, pt: { xs: 1, sm: 1 } }}>
+                                <Box sx={{ display: 'flex', justifyContent: 'end', color: alpha(theme.palette.primary.dark) }} className="menulist">
+                                    <Box>
+                                        <MenuItem>
+                                            discover
+                                        </MenuItem>
+                                    </Box>
+                                    <Box sx={{ ml: { sx: 0, sm: 0, md: 3, lg: 4 } }} >
+                                        <MenuItem>
+                                            states
+                                        </MenuItem>
+                                    </Box>
+                                    <Box sx={{ ml: { sx: 0, sm: 0, md: 3, lg: 4 } }}>
+                                        <MenuItem>
+                                            staking
+                                        </MenuItem>
+                                    </Box>
+                                    <Box sx={{ ml: { sx: 0, sm: 0, md: 3, lg: 4 } }}>
+                                        <MenuItem>
+                                            sell
+                                        </MenuItem>
+                                    </Box>
                                 </Box>
-                                <Box sx={{ ml: { sx: 0, sm: 0, md: 3, lg: 4 } }}>
-                                    <MenuItem>
-                                        staking
-                                    </MenuItem>
-                                </Box>
-                                <Box sx={{ ml: { sx: 0, sm: 0, md: 3, lg: 4 } }}>
-                                    <MenuItem>
-                                        sell
-                                    </MenuItem>
-                                </Box>
-                            </Box>
-                        </Grid>
-                        <Grid item md={4} lg={4} sx={{ pb: { xs: 1, sm : 1 },pt: { xs: 1, sm : 1 } }}>
+                            </Grid>
+                            <Grid item md={4} lg={4} sx={{ pb: { xs: 1, sm: 1 }, pt: { xs: 1, sm: 1 } }}>
 
-                            <Stack direction="row" spacing={3} sx={{ justifyContent: 'end', }}>
-                                <Avatar variant="rounded" sx={{ width: 32, height: 32, bgcolor: alpha(theme.palette.primary.footerIcon, 1), }}>
-                                    <TwitterIcon sx={{ color: alpha(theme.palette.primary.main, 1) }} />
-                                </Avatar>
-                                <Avatar variant="rounded" sx={{ width: 32, height: 32, bgcolor: alpha(theme.palette.primary.footerIcon, 1) }}>
-                                    <InstagramIcon sx={{ color: alpha(theme.palette.primary.main, 1) }} />
-                                </Avatar>
-                                <Avatar variant="rounded" sx={{ width: 32, height: 32, bgcolor: alpha(theme.palette.primary.footerIcon, 1) }}>
-                                    <Avatar variant="rounded" src={theme.palette.mode === 'light' ? discord : discordDark} alt="Discord icon" sx={{ width: 20, height: 20 }}>
-
+                                <Stack direction="row" spacing={3} sx={{ justifyContent: 'end', }}>
+                                    <Avatar variant="rounded" sx={{ width: 32, height: 32, bgcolor: alpha(theme.palette.primary.footerIcon, 1), }}>
+                                        <TwitterIcon sx={{ color: alpha(theme.palette.primary.main, 1) }} />
                                     </Avatar>
-                                </Avatar>
-                            </Stack>
-                        </Grid>
+                                    <Avatar variant="rounded" sx={{ width: 32, height: 32, bgcolor: alpha(theme.palette.primary.footerIcon, 1) }}>
+                                        <InstagramIcon sx={{ color: alpha(theme.palette.primary.main, 1) }} />
+                                    </Avatar>
+                                    <Avatar variant="rounded" sx={{ width: 32, height: 32, bgcolor: alpha(theme.palette.primary.footerIcon, 1) }}>
+                                        <Avatar variant="rounded" src={theme.palette.mode === 'light' ? discord : discordDark} alt="Discord icon" sx={{ width: 20, height: 20 }}>
 
-                    </Grid>
-                </Container>
+                                        </Avatar>
+                                    </Avatar>
+                                </Stack>
+                            </Grid>
+
+                        </Grid>
+                    </Container>
+                </Box>
             </Paper>
         </>
     );

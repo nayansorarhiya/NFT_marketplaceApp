@@ -3,29 +3,16 @@ import { styled, alpha, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
-import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import DoubleArrowOutlinedIcon from '@mui/icons-material/DoubleArrowOutlined';
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
-import Icon from '@mui/material/Icon';
 import { ToggleButton } from '../CustomStyles';
 import { Button, FormControl, Grid, InputBase, MenuItem, Select, useMediaQuery } from '@mui/material';
 import eth from '../../assets/images/eth.svg';
 import MarketPlace from '../DropdownComponents/MarketPlace';
 import CollectionData from '../CollectionData';
-import Properties from '../DropdownComponents/Properties';
-import Footer from './common/Footer';
 import NFTCollection from '../CollectionPageComponents/NFTCollection';
-
-
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: 'inherit',
@@ -55,10 +42,7 @@ const DropSelect = styled(Select)(({ theme }) => ({
     padding: '0'
 }));
 
-
-
 export default function CollectionPage() {
-
 
     const theme = useTheme();
     const [open, setOpen] = React.useState(true);
@@ -79,7 +63,6 @@ export default function CollectionPage() {
     const handleDrawerClose = () => {
         setOpen(false);
     };
-
 
     const isMobile = useMediaQuery(theme.breakpoints.between('xs', 'md'));
     React.useEffect(() => {
@@ -103,16 +86,16 @@ export default function CollectionPage() {
                     easing: theme.transitions.easing.easeOut,
                     duration: theme.transitions.duration.enteringScreen,
                 }),
-                marginLeft: '10px',
+                marginLeft: '0px',
             }),
         }),
     );
 
     return (
         <>
-            <Box sx={{ display: 'flex', position: 'relative' }} >
+            <Box sx={{ display: 'flex', }} >
                 <CssBaseline />
-                <Box sx={{ border: `1px solid ${theme.palette.primary.borderDrawer}`, background: alpha(theme.palette.primary.main, 1), display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex' } }}>
+                <Box sx={{ boxShadow: `1px 0px 0px  ${theme.palette.primary.borderDrawer}`, background: alpha(theme.palette.primary.main, 1), display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex' } }}>
                     <DoubleArrowOutlinedIcon
                         color="inherit"
                         aria-label="open drawer"
@@ -124,20 +107,22 @@ export default function CollectionPage() {
                 </Box>
                 <Drawer
                     sx={{
-                        width: { xs: 0, sm: 0, md: topdrawerwidth, lg: topdrawerwidth },
+                        width: { xs: '0', sm: '0', md: topdrawerwidth, lg: topdrawerwidth },
                         flexShrink: 0,
                         '& .MuiDrawer-paper': {
                             width: topdrawerwidth,
                             boxSizing: 'border-box',
-                            mt: '65px',
+                            mt: { xs: 8.1, sm: 8.1, md: '0px', lg: '0px' },
+                            pb: { xs: 8.1, sm: 8.1, md: '0px', lg: '0px' },
                             background: alpha(theme.palette.primary.main, 1),
+                            position: { xs: 'fixed', sm: 'fixed', md: 'relative', lg: 'relative' },
+                            maxHeight: '100vh',
+                            zIndex: 1,
                         },
                     }}
                     variant={variant.view}
                     anchor={variant.direction}
-                    open={open}
-
-                >
+                    open={open}>
 
                     <Box sx={{ padding: '0 20px 20px 20px' }}>
                         <DrawerHeader sx={{ justifyContent: 'start', display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex' } }}>
@@ -225,39 +210,25 @@ export default function CollectionPage() {
                             </Grid>
                         </Grid>
                         <Box sx={{ mt: 4 }}>
-                            <MarketPlace name={"MarketPlace"} list={[{name : "LooksRare" , percentage : 120 ,total : 105},{name : "OpenSea", percentage : 56.5 ,total : 110}]}></MarketPlace>
+                            <MarketPlace name={"MarketPlace"} list={[{ name: "LooksRare", percentage: 120, total: 105 }, { name: "OpenSea", percentage: 56.5, total: 110 }]}></MarketPlace>
                             <Box sx={{ mt: 3, mb: 2, color: '#91939B' }}>
                                 Properties
                             </Box>
-                            <MarketPlace name={"Background"} list={[{name : "Purple" , percentage : 25 ,total : 8},{name : "Yellow", percentage : 56.5 ,total : 25}]}></MarketPlace>
-                            <MarketPlace name={"Background"} list={[{name : "Purple" , percentage : 25 ,total : 8},{name : "Yellow", percentage : 56.5 ,total : 25}]}></MarketPlace>
-                            <MarketPlace name={"Background"} list={[{name : "Purple" , percentage : 25 ,total : 8},{name : "Yellow", percentage : 56.5 ,total : 25}]}></MarketPlace>
+                            <MarketPlace name={"Background"} list={[{ name: "Purple", percentage: 25, total: 8 }, { name: "Yellow", percentage: 56.5, total: 25 }]}></MarketPlace>
+                            <MarketPlace name={"Background"} list={[{ name: "Purple", percentage: 25, total: 8 }, { name: "Yellow", percentage: 56.5, total: 25 }]}></MarketPlace>
+                            <MarketPlace name={"Background"} list={[{ name: "Purple", percentage: 25, total: 8 }, { name: "Yellow", percentage: 56.5, total: 25 }]}></MarketPlace>
                             {/* <Properties></Properties> */}
                         </Box>
                     </Box>
-                    <Divider />
-                    <List>
-                        {['All mail', 'Trash', 'Spam', 'All mail', 'Trash'].map((text, index) => (
-                            <ListItem button key={text}>
-                                <ListItemIcon>
-                                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                                </ListItemIcon>
-                                <ListItemText primary={text} />
-                            </ListItem>
-                        ))}
-                    </List>
                 </Drawer>
-                <Main open={open}>
-                    {/* <DrawerHeader /> */}
-
-                    <Box sx={{ mt: 4 }}>
+                <Main open={open} sx={{ p: 0 }}>
+                    <Box>
                         <CollectionData drawerCall={handleDrawerOpen}></CollectionData>
                         <NFTCollection></NFTCollection>
                     </Box>
 
                 </Main>
             </Box>
-            {/* <Footer></Footer> */}
         </>
     );
 }

@@ -89,7 +89,7 @@ export default function Header(props) {
 
     return (
         <>
-            <Box sx={{ flexGrow: 1 }}>
+            <Box sx={{ flexGrow: 1, mb: '5px' }}>
                 <AppBar position="fixed" sx={{ boxShadow: theme.palette.mode === 'dark' ? '0px 1px 0px #343742' : '0px 1px 0px rgba(0, 0, 0, 0.1)', background: alpha(theme.palette.primary.main, 1), minHeight: '64px', justifyContent: 'center' }}>
                     <Toolbar>
                         <Box>
@@ -142,9 +142,13 @@ export default function Header(props) {
                         </Container>
                         <Box sx={{ flexGrow: 1 }} />
                         <Box sx={{ display: { xs: 'none', md: 'flex', lg: 'flex' } }}>
-                            <MenuItem onClick={props.onClickTheme} sx={{ pl: 0, }}>
+                            <Box onClick={props.onClickTheme} sx={{
+                                pl: 0, '&:hover,&:focus': {
+                                    backgroundColor: alpha(theme.palette.primary.main, 1),
+                                }, display: 'flex', alignItems: 'center', pr: 2
+                            }}>
                                 {theme.palette.mode === 'dark' ? <LightModeOutlinedIcon sx={{ fontSize: 32 }} /> : <DarkModeOutlinedIcon sx={{ fontSize: 32 }} />}
-                            </MenuItem>
+                            </Box>
                         </Box>
                         <Box sx={{ flexGrow: 1 }} />
 
@@ -175,9 +179,9 @@ export default function Header(props) {
                     </Toolbar>
                 </AppBar>
                 {renderMobileMenu}
+                <ConnectionModal open={open && !active} onClose={handleClose}></ConnectionModal>
             </Box>
 
-            <ConnectionModal open={open && !active} onClose={handleClose}></ConnectionModal>
         </>
     );
 }

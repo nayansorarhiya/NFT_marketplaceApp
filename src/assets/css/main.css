@@ -8,6 +8,19 @@
     src: url('../fonts/Work_Sans/WorkSans-Regular.ttf');
 }
 
+::-webkit-scrollbar {
+    width: 2px;
+  }
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+
 body {
     /* font-family: 'DMSans' !important;
     font-style : normal !important; */
