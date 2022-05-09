@@ -182,49 +182,13 @@ export default function DataTable() {
     }
 
     async function apiCallforData() {
-        const resp = await fetch(`https://gem-api-6.herokuapp.com/collections`,
+        const resp = await fetch(`https://dh-backend.vercel.app/api/getCollection`,
             {
-                method: "post",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    "sort": { "oneDayVolume": "desc" },
-                    "limit": 100,
-                    "fields": {
-                        "name": 1,
-                        "symbol": 1,
-                        "standard": 1,
-                        "description": 1,
-                        "address": 1,
-                        "createdDate": 1,
-                        "externalUrl": 1,
-                        "imageUrl": 1,
-                        "totalSupply": 1,
-                        "sevenDayVolume": 1,
-                        "oneDayVolume": 1,
-                        "stats": 1,
-                        "indexingStatus": 1,
-                        "discordUrl": 1,
-                        "instagramUsername": 1,
-                        "isVerified": 1,
-                        "lastNumberOfUpdates": 1,
-                        "lastOpenSeaCancelledId": 1,
-                        "lastOpenSeaSaleCreatedId": 1,
-                        "slug": 1,
-                        "lastOpenSeaTransferId": 1,
-                        "lastRaribleAssetUpdateId": 1,
-                        "mediumUsername": 1,
-                        "telegramUrl": 1,
-                        "twitterUsername": 1,
-                        "updatedAt": 1,
-                        "wikiUrl": 1
-                    }
-                })
+                method: "get",
             }
         );
         const rows = await resp.json();
-        const localrows = (rows.data).map(v => ({
+        const localrows = (rows.data.data).map(v => ({
             imgurl: v.imageUrl,
             name: v.name,
             isVerified: v.isVerified,
