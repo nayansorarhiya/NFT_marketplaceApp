@@ -88,14 +88,14 @@ export default function CollectionPage() {
                 }),
                 marginLeft: '0px',
             }),
-            marginRight: `-${drawerWidth}px`,
-            ...(open && {
-                transition: theme.transitions.create('margin', {
-                    easing: theme.transitions.easing.easeOut,
-                    duration: theme.transitions.duration.enteringScreen,
-                }),
-                marginRight: '0px',
-            }),
+            // marginRight: `-${drawerWidth}px`,
+            // ...(open && {
+            //     transition: theme.transitions.create('margin', {
+            //         easing: theme.transitions.easing.easeOut,
+            //         duration: theme.transitions.duration.enteringScreen,
+            //     }),
+            //     marginRight: '0px',
+            // }),
         }),
     );
 

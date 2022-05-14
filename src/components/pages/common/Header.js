@@ -252,33 +252,33 @@ export default function Header(props) {
                 <ConnectionModal open={open && !active} onClose={handleClose}></ConnectionModal>
 
                 <Drawer
-                    // sx={{
-                    //     // width: drawerWidth,
-                    //     width: { xs: '0', sm: '0', md: topdrawerwidth, lg: topdrawerwidth },
-                    //     background: alpha(theme.palette.primary.main, 1),
-                    //     flexShrink: 0,
-                    //     '& .MuiDrawer-paper': {
-                    //         width: topdrawerwidth,
-                    //         boxSizing: 'border-box',
-                    //         // mt: { xs: 8.1, sm: 8.1, md: '0px', lg: '0px' },
-                    //         // pb: { xs: 8.1, sm: 8.1, md: '0px', lg: '0px' },
-                    //         mt: 8.1,
-                    //         background: alpha(theme.palette.primary.main, 1),
-                    //         // position: { xs: 'fixed', sm: 'fixed', md: 'relative', lg: 'relative' },
-                    //         // position: 'fixed',
-                    //         maxHeight: '100%',
-                    //         zIndex: 1,
-                    //     },
-                    // }}
                     sx={{
-                        width: drawerWidth,
+                        // width: drawerWidth,
+                        width: { xs: '0', sm: '0', md: topdrawerwidth, lg: topdrawerwidth },
+                        background: alpha(theme.palette.primary.main, 1),
                         flexShrink: 0,
                         '& .MuiDrawer-paper': {
-                            width: drawerWidth,
-                            zIndex: 1,
+                            width: topdrawerwidth,
+                            boxSizing: 'border-box',
+                            // mt: { xs: 8.1, sm: 8.1, md: '0px', lg: '0px' },
+                            // pb: { xs: 8.1, sm: 8.1, md: '0px', lg: '0px' },
                             mt: 8.1,
+                            background: alpha(theme.palette.primary.main, 1),
+                            // position: { xs: 'fixed', sm: 'fixed', md: 'relative', lg: 'relative' },
+                            // position: 'fixed',
+                            maxHeight: '100%',
+                            zIndex: 10000,
                         },
                     }}
+                    // sx={{
+                    //     width: drawerWidth,
+                    //     flexShrink: 0,
+                    //     '& .MuiDrawer-paper': {
+                    //         width: drawerWidth,
+                    //         zIndex: 1,
+                    //         mt: 8.1,
+                    //     },
+                    // }}
                     variant={cartvariant.view}
                     anchor={cartvariant.direction}
                     open={cartopen}
