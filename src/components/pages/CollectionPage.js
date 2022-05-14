@@ -8,7 +8,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import DoubleArrowOutlinedIcon from '@mui/icons-material/DoubleArrowOutlined';
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 import { ToggleButton } from '../CustomStyles';
-import { Button, FormControl, Grid, InputBase, MenuItem, Select, useMediaQuery } from '@mui/material';
+import { Badge, Button, FormControl, Grid, InputBase, MenuItem, Select, useMediaQuery } from '@mui/material';
 import eth from '../../assets/images/eth.svg';
 import MarketPlace from '../DropdownComponents/MarketPlace';
 import CollectionData from '../CollectionData';
@@ -88,6 +88,14 @@ export default function CollectionPage() {
                 }),
                 marginLeft: '0px',
             }),
+            marginRight: `-${drawerWidth}px`,
+            ...(open && {
+                transition: theme.transitions.create('margin', {
+                    easing: theme.transitions.easing.easeOut,
+                    duration: theme.transitions.duration.enteringScreen,
+                }),
+                marginRight: '0px',
+            }),
         }),
     );
 
@@ -116,7 +124,7 @@ export default function CollectionPage() {
                             pb: { xs: 8.1, sm: 8.1, md: '0px', lg: '0px' },
                             background: alpha(theme.palette.primary.main, 1),
                             position: { xs: 'fixed', sm: 'fixed', md: 'relative', lg: 'relative' },
-                            maxHeight: '100vh',
+                            maxHeight: '100%',
                             zIndex: 1,
                         },
                     }}
@@ -226,7 +234,6 @@ export default function CollectionPage() {
                         <CollectionData drawerCall={handleDrawerOpen}></CollectionData>
                         <NFTCollection></NFTCollection>
                     </Box>
-
                 </Main>
             </Box>
         </>
