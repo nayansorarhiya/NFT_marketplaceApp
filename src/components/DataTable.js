@@ -378,7 +378,6 @@ export default function DataTable() {
                                 .map((row, index) => {
                                     const labelId = `enhanced-table-checkbox-${index}`;
                                     return (
-
                                         <TableRow
                                             style={{ width: "100vw" }}
                                             hover

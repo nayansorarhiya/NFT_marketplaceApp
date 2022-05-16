@@ -7,6 +7,7 @@ import Footer from "./components/pages/common/Footer";
 import { Paper } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import ProfilePage from "./components/pages/ProfilePage";
 window.Buffer = window.Buffer || require("buffer").Buffer;
 
 function App() {
@@ -64,20 +65,22 @@ function App() {
   });
   const [cartWidth, setcartWidth] = useState(0);
   return (<>
-    <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
-      <Paper sx={{ background: darkMode ? '#1E212E' : '#F8F8F8', pt: '60px' }}>
-        <Header onClickTheme={modeChange} setcartWidth={setcartWidth}></Header>
-        <Main cartWidth={cartWidth}>
-          <BrowserRouter>
+    <BrowserRouter>
+      <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
+        <Paper sx={{ background: darkMode ? '#1E212E' : '#F8F8F8', pt: '60px' }}>
+          <Header onClickTheme={modeChange} setcartWidth={setcartWidth}></Header>
+          <Main cartWidth={cartWidth}>
+
             <Routes>
               <Route path='/' element={<Body />} />
               <Route path='/:contractAddress' element={<CollectionPage />} />
+              <Route path='/profile' element={<ProfilePage />} />
             </Routes>
-          </BrowserRouter>
-          <Footer />
-        </Main>
-      </Paper>
-    </ThemeProvider>
+            <Footer />
+          </Main>
+        </Paper>
+      </ThemeProvider>
+    </BrowserRouter>
 
   </>
   );

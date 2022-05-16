@@ -1,6 +1,10 @@
 import { alpha, Avatar, Box, Button, Card, CardActions, CardContent, CardMedia, Grid, styled, Typography, useTheme } from '@mui/material'
 import React from 'react'
 import card_img1 from '../../assets/images/card_img1.svg'
+import card_img2 from '../../assets/images/card_img2.svg'
+import card_img3 from '../../assets/images/card_img3.svg'
+import card_img4 from '../../assets/images/card_img4.svg'
+import card_img5 from '../../assets/images/card_img5.svg'
 import eth from '../../assets/images/eth.svg'
 import opensea from '../../assets/images/opensea.svg'
 
@@ -60,241 +64,11 @@ export default function NFTCollection() {
                     </Grid>
                     <Grid item lg={2.4} sm={6} xs={12} md={4}  >
                         <Card sx={{ mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1) }}>
-                            <CardMedia
-                                component="img"
-                                image={card_img1}
-                                alt="green iguana"
-                            >
-                            </CardMedia>
-                            <CardContent sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                                <Box>
-                                    34.91
-                                </Box>
-                                <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '7px' }}>
-                                    <Box sx={{ color: 'rgba(145, 147, 155, 1)' }}>
-                                        38.51
-                                    </Box>
-                                    <img src={eth} alt="eth" height={'21px'} />
-                                </Box>
-                            </CardContent>
-                            {/* <CountButton># 7258</CountButton>
-                            <BadgeImage src={opensea}></BadgeImage> */}
-                        </Card>
-                    </Grid>
-                    <Grid item lg={2.4} sm={6} xs={12} md={4}  >
-                        <Card sx={{ mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1) }}>
-                            <CardMedia
-                                component="img"
-                                image={card_img1}
-                                alt="green iguana"
-                            >
-                            </CardMedia>
-                            <CardContent sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                                <Box>
-                                    34.91
-                                </Box>
-                                <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '7px' }}>
-                                    <Box sx={{ color: 'rgba(145, 147, 155, 1)' }}>
-                                        38.51
-                                    </Box>
-                                    <img src={eth} alt="eth" height={'21px'} />
-                                </Box>
-                            </CardContent>
-                            {/* <CountButton># 7258</CountButton>
-                            <BadgeImage src={opensea}></BadgeImage> */}
-                        </Card>
-                    </Grid>
-                    <Grid item lg={2.4} sm={6} xs={12} md={4}  >
-                        <Card sx={{ mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1) }}>
-                            <CardMedia
-                                component="img"
-                                image={card_img1}
-                                alt="green iguana"
-                            >
-                            </CardMedia>
-                            <CardContent sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                                <Box>
-                                    34.91
-                                </Box>
-                                <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '7px' }}>
-                                    <Box sx={{ color: 'rgba(145, 147, 155, 1)' }}>
-                                        38.51
-                                    </Box>
-                                    <img src={eth} alt="eth" height={'21px'} />
-                                </Box>
-                            </CardContent>
-                            {/* <CountButton># 7258</CountButton>
-                            <BadgeImage src={opensea}></BadgeImage> */}
-                        </Card>
-                    </Grid>
-                    <Grid item lg={2.4} sm={6} xs={12} md={4}  >
-                        <Card sx={{ mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1) }}>
-                            <CardMedia
-                                component="img"
-                                image={card_img1}
-                                alt="green iguana"
-                            >
-                            </CardMedia>
-                            <CardContent sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                                <Box>
-                                    34.91
-                                </Box>
-                                <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '7px' }}>
-                                    <Box sx={{ color: 'rgba(145, 147, 155, 1)' }}>
-                                        38.51
-                                    </Box>
-                                    <img src={eth} alt="eth" height={'21px'} />
-                                </Box>
-                            </CardContent>
-                            {/* <CountButton># 7258</CountButton>
-                            <BadgeImage src={opensea}></BadgeImage> */}
-                        </Card>
-                    </Grid>
-                    <Grid item lg={2.4} sm={6} xs={12} md={4}  >
-                        <Card sx={{ mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1) }}>
-                            <CardMedia
-                                component="img"
-                                image={card_img1}
-                                alt="green iguana"
-                            >
-                            </CardMedia>
-                            <CardContent sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                                <Box>
-                                    34.91
-                                </Box>
-                                <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '7px' }}>
-                                    <Box sx={{ color: 'rgba(145, 147, 155, 1)' }}>
-                                        38.51
-                                    </Box>
-                                    <img src={eth} alt="eth" height={'21px'} />
-                                </Box>
-                            </CardContent>
-                            {/* <CountButton># 7258</CountButton>
-                            <BadgeImage src={opensea}></BadgeImage> */}
-                        </Card>
-                    </Grid>
-                    <Grid item lg={2.4} sm={6} xs={12} md={4}  >
-                        <Card sx={{ mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1) }}>
-                            <CardMedia
-                                component="img"
-                                image={card_img1}
-                                alt="green iguana"
-                            >
-                            </CardMedia>
-                            <CardContent sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                                <Box>
-                                    34.91
-                                </Box>
-                                <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '7px' }}>
-                                    <Box sx={{ color: 'rgba(145, 147, 155, 1)' }}>
-                                        38.51
-                                    </Box>
-                                    <img src={eth} alt="eth" height={'21px'} />
-                                </Box>
-                            </CardContent>
-                            {/* <CountButton># 7258</CountButton>
-                            <BadgeImage src={opensea}></BadgeImage> */}
-                        </Card>
-                    </Grid>
-                    <Grid item lg={2.4} sm={6} xs={12} md={4}  >
-                        <Card sx={{ mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1) }}>
-                            <CardMedia
-                                component="img"
-                                image={card_img1}
-                                alt="green iguana"
-                            >
-                            </CardMedia>
-                            <CardContent sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                                <Box>
-                                    34.91
-                                </Box>
-                                <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '7px' }}>
-                                    <Box sx={{ color: 'rgba(145, 147, 155, 1)' }}>
-                                        38.51
-                                    </Box>
-                                    <img src={eth} alt="eth" height={'21px'} />
-                                </Box>
-                            </CardContent>
-                            {/* <CountButton># 7258</CountButton>
-                            <BadgeImage src={opensea}></BadgeImage> */}
-                        </Card>
-                    </Grid>
-                    <Grid item lg={2.4} sm={6} xs={12} md={4}  >
-                        <Card sx={{ mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1) }}>
-                            <CardMedia
-                                component="img"
-                                image={card_img1}
-                                alt="green iguana"
-                            >
-                            </CardMedia>
-                            <CardContent sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                                <Box>
-                                    34.91
-                                </Box>
-                                <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '7px' }}>
-                                    <Box sx={{ color: 'rgba(145, 147, 155, 1)' }}>
-                                        38.51
-                                    </Box>
-                                    <img src={eth} alt="eth" height={'21px'} />
-                                </Box>
-                            </CardContent>
-                            {/* <CountButton># 7258</CountButton>
-                            <BadgeImage src={opensea}></BadgeImage> */}
-                        </Card>
-                    </Grid>
-                    <Grid item lg={2.4} sm={6} xs={12} md={4}  >
-                        <Card sx={{ mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1) }}>
-                            <CardMedia
-                                component="img"
-                                image={card_img1}
-                                alt="green iguana"
-                            >
-                            </CardMedia>
-                            <CardContent sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                                <Box>
-                                    34.91
-                                </Box>
-                                <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '7px' }}>
-                                    <Box sx={{ color: 'rgba(145, 147, 155, 1)' }}>
-                                        38.51
-                                    </Box>
-                                    <img src={eth} alt="eth" height={'21px'} />
-                                </Box>
-                            </CardContent>
-                            {/* <CountButton># 7258</CountButton>
-                            <BadgeImage src={opensea}></BadgeImage> */}
-                        </Card>
-                    </Grid>
-                    <Grid item lg={2.4} sm={6} xs={12} md={4}  >
-                        <Card sx={{ mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1) }}>
-                            <CardMedia
-                                component="img"
-                                image={card_img1}
-                                alt="green iguana"
-                            >
-                            </CardMedia>
-                            <CardContent sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                                <Box>
-                                    34.91
-                                </Box>
-                                <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '7px' }}>
-                                    <Box sx={{ color: 'rgba(145, 147, 155, 1)' }}>
-                                        38.51
-                                    </Box>
-                                    <img src={eth} alt="eth" height={'21px'} />
-                                </Box>
-                            </CardContent>
-                            {/* <CountButton># 7258</CountButton>
-                            <BadgeImage src={opensea}></BadgeImage> */}
-                        </Card>
-                    </Grid>
-                    <Grid item lg={2.4} sm={6} xs={12} md={4}  >
-                        <Card sx={{ mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1) }}>
                             <Box sx={{position: 'relative'}}>
                                 <BadgeImage src={opensea}></BadgeImage>
                                 <CardMedia
                                     component="img"
-                                    image={card_img1}
+                                    image={card_img2}
                                     alt="green iguana"
                                 >
                                 </CardMedia>
@@ -313,6 +87,82 @@ export default function NFTCollection() {
                             </CardContent>
                         </Card>
                     </Grid>
+                    <Grid item lg={2.4} sm={6} xs={12} md={4}  >
+                        <Card sx={{ mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1) }}>
+                            <Box sx={{position: 'relative'}}>
+                                <BadgeImage src={opensea}></BadgeImage>
+                                <CardMedia
+                                    component="img"
+                                    image={card_img3}
+                                    alt="green iguana"
+                                >
+                                </CardMedia>
+                                <CountButton># 7258</CountButton>
+                            </Box>
+                            <CardContent sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                                <Box>
+                                    34.91
+                                </Box>
+                                <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '7px' }}>
+                                    <Box sx={{ color: 'rgba(145, 147, 155, 1)' }}>
+                                        38.51
+                                    </Box>
+                                    <img src={eth} alt="eth" height={'21px'} />
+                                </Box>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                    <Grid item lg={2.4} sm={6} xs={12} md={4}  >
+                        <Card sx={{ mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1) }}>
+                            <Box sx={{position: 'relative'}}>
+                                <BadgeImage src={opensea}></BadgeImage>
+                                <CardMedia
+                                    component="img"
+                                    image={card_img4}
+                                    alt="green iguana"
+                                >
+                                </CardMedia>
+                                <CountButton># 7258</CountButton>
+                            </Box>
+                            <CardContent sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                                <Box>
+                                    34.91
+                                </Box>
+                                <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '7px' }}>
+                                    <Box sx={{ color: 'rgba(145, 147, 155, 1)' }}>
+                                        38.51
+                                    </Box>
+                                    <img src={eth} alt="eth" height={'21px'} />
+                                </Box>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                    <Grid item lg={2.4} sm={6} xs={12} md={4}  >
+                        <Card sx={{ mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1) }}>
+                            <Box sx={{position: 'relative'}}>
+                                <BadgeImage src={opensea}></BadgeImage>
+                                <CardMedia
+                                    component="img"
+                                    image={card_img5}
+                                    alt="green iguana"
+                                >
+                                </CardMedia>
+                                <CountButton># 7258</CountButton>
+                            </Box>
+                            <CardContent sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                                <Box>
+                                    34.91
+                                </Box>
+                                <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '7px' }}>
+                                    <Box sx={{ color: 'rgba(145, 147, 155, 1)' }}>
+                                        38.51
+                                    </Box>
+                                    <img src={eth} alt="eth" height={'21px'} />
+                                </Box>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                   
 
                 </Grid>
             </Box>

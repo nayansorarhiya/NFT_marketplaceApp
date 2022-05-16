@@ -33,13 +33,13 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
 }));
 
 const Connected = () => {
-    const { active, account, deactivate } = useWeb3React();
+    const { account } = useWeb3React();
     return (<>
         <Search sx={{ display: 'flex',alignItems: 'center', width: '100px', borderRadius: '25px', height: '44px',  pr: 1.5, border: '1px solid rgba(145, 147, 155, 0.3)' }}>
             {/* <SearchIconWrapper> */}
             <Box sx={{display: 'flex',alignItems: 'center',ml: 0.25 }}>
                 <Avatar src={profileimage}></Avatar>
-                <Box sx={{ml : 1}}>{account.substring(0, 4) + "..." + account.substring(account.length - 4)}</Box>
+                <Box sx={{ml : 1}}>{account.substring(0, 6) + "..." + account.substring(account.length - 4)}</Box>
             </Box>
             {/* </SearchIconWrapper> */}
         </Search>

@@ -24,6 +24,7 @@ import close from '../../../assets/images/close.svg'
 import vector from '../../../assets/images/vector.svg'
 import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 import eth from '../../../assets/images/eth.svg';
+import { useNavigate } from 'react-router-dom';
 
 
 const drawerWidth = 280;
@@ -56,6 +57,13 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 export default function Header(props) {
+
+    const navigate = useNavigate();
+    const profile = () => {
+
+        navigate(`/profile`);
+
+    }
     const { active, account, deactivate } = useWeb3React();
     const theme = useTheme();
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -105,6 +113,7 @@ export default function Header(props) {
     }, [active])
 
 
+   
     const mobileMenuId = 'primary-search-account-menu-mobile';
     const renderMobileMenu = (
         <Menu
@@ -140,6 +149,9 @@ export default function Header(props) {
             <Divider />
             <MenuItem>
                 sell
+            </MenuItem>
+            <MenuItem onClick={profile}>
+                Profile
             </MenuItem>
             <Divider />
             <MenuItem onClick={() => active ? deactivate() : ConnectModal()}>
@@ -208,6 +220,11 @@ export default function Header(props) {
                                         <Box sx={{ ml: 4 }}>
                                             <MenuItem>
                                                 sell
+                                            </MenuItem>
+                                        </Box>
+                                        <Box sx={{ ml: 4 }}>
+                                            <MenuItem onClick={profile}>
+                                                Profile
                                             </MenuItem>
                                         </Box>
                                     </Box>
@@ -281,15 +298,6 @@ export default function Header(props) {
                             zIndex: 1,
                         },
                     }}
-                    // sx={{
-                    //     width: drawerWidth,
-                    //     flexShrink: 0,
-                    //     '& .MuiDrawer-paper': {
-                    //         width: drawerWidth,
-                    //         zIndex: 1,
-                    //         mt: 8.1,
-                    //     },
-                    // }}
                     variant={cartvariant.view}
                     anchor={cartvariant.direction}
                     open={cartopen}
