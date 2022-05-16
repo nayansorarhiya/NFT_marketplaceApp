@@ -38,54 +38,7 @@ export default function NFTCollection() {
             <Box sx={{ p: '32px 20px 20px 20px' }}>
                 <Grid container spacing={2}>
                     <Grid item lg={2.4} sm={6} xs={12} md={4} xl={2}  >
-                        <Card sx={{ mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1) }}>
-                            <CardMedia
-                                component="img"
-                                image={card_img1}
-                                alt="green iguana"
-                            >
-                            </CardMedia>
-                            <CardContent sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                                <Box># 7258</Box>
-                                <Box src={opensea}></Box>
-                                <Box>
-                                    34.91
-                                </Box>
-                                <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '7px' }}>
-                                    <Box sx={{ color: 'rgba(145, 147, 155, 1)' }}>
-                                        38.51
-                                    </Box>
-                                    <img src={eth} alt="eth" height={'21px'} />
-                                </Box>
-
-                            </CardContent>
-                        </Card>
-                    </Grid>
-                    <Grid item lg={2.4} sm={6} xs={12} md={4} xl={2}  >
-                        <Card sx={{ mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1) }}>
-                            <CardMedia
-                                component="img"
-                                image={card_img1}
-                                alt="green iguana"
-                            >
-                            </CardMedia>
-                            <CardContent sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                                <Box>
-                                    34.91
-                                </Box>
-                                <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '7px' }}>
-                                    <Box sx={{ color: 'rgba(145, 147, 155, 1)' }}>
-                                        38.51
-                                    </Box>
-                                    <img src={eth} alt="eth" height={'21px'} />
-                                </Box>
-                            </CardContent>
-                            <CountButton># 7258</CountButton>
-                            <BadgeImage src={opensea}></BadgeImage>
-                        </Card>
-                    </Grid>
-                    <Grid item lg={2.4} sm={6} xs={12} md={4} xl={2}  >
-                        <Card sx={{ mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1) }}>
+                        <Card sx={{  mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1) }}>
                             <CardMedia
                                 component="img"
                                 image={card_img1}
@@ -108,7 +61,7 @@ export default function NFTCollection() {
                         </Card>
                     </Grid>
                     <Grid item lg={2.4} sm={6} xs={12} md={4} xl={2}  >
-                        <Card sx={{ mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1) }}>
+                        <Card sx={{  mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1) }}>
                             <CardMedia
                                 component="img"
                                 image={card_img1}
@@ -131,7 +84,7 @@ export default function NFTCollection() {
                         </Card>
                     </Grid>
                     <Grid item lg={2.4} sm={6} xs={12} md={4} xl={2}  >
-                        <Card sx={{ mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1) }}>
+                        <Card sx={{  mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1) }}>
                             <CardMedia
                                 component="img"
                                 image={card_img1}
@@ -154,7 +107,7 @@ export default function NFTCollection() {
                         </Card>
                     </Grid>
                     <Grid item lg={2.4} sm={6} xs={12} md={4} xl={2}  >
-                        <Card sx={{ mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1) }}>
+                        <Card sx={{  mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1) }}>
                             <CardMedia
                                 component="img"
                                 image={card_img1}
@@ -177,7 +130,7 @@ export default function NFTCollection() {
                         </Card>
                     </Grid>
                     <Grid item lg={2.4} sm={6} xs={12} md={4} xl={2}  >
-                        <Card sx={{ mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1) }}>
+                        <Card sx={{  mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1) }}>
                             <CardMedia
                                 component="img"
                                 image={card_img1}
@@ -200,7 +153,7 @@ export default function NFTCollection() {
                         </Card>
                     </Grid>
                     <Grid item lg={2.4} sm={6} xs={12} md={4} xl={2}  >
-                        <Card sx={{ mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1) }}>
+                        <Card sx={{  mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1) }}>
                             <CardMedia
                                 component="img"
                                 image={card_img1}
@@ -223,7 +176,7 @@ export default function NFTCollection() {
                         </Card>
                     </Grid>
                     <Grid item lg={2.4} sm={6} xs={12} md={4} xl={2}  >
-                        <Card sx={{ mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1) }}>
+                        <Card sx={{  mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1) }}>
                             <CardMedia
                                 component="img"
                                 image={card_img1}
@@ -246,7 +199,7 @@ export default function NFTCollection() {
                         </Card>
                     </Grid>
                     <Grid item lg={2.4} sm={6} xs={12} md={4} xl={2}  >
-                        <Card sx={{ mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1) }}>
+                        <Card sx={{  mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1) }}>
                             <CardMedia
                                 component="img"
                                 image={card_img1}
@@ -269,7 +222,53 @@ export default function NFTCollection() {
                         </Card>
                     </Grid>
                     <Grid item lg={2.4} sm={6} xs={12} md={4} xl={2}  >
-                        <Card sx={{ mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1) }}>
+                        <Card sx={{  mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1) }}>
+                            <CardMedia
+                                component="img"
+                                image={card_img1}
+                                alt="green iguana"
+                            >
+                            </CardMedia>
+                            <CardContent sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                                <Box>
+                                    34.91
+                                </Box>
+                                <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '7px' }}>
+                                    <Box sx={{ color: 'rgba(145, 147, 155, 1)' }}>
+                                        38.51
+                                    </Box>
+                                    <img src={eth} alt="eth" height={'21px'} />
+                                </Box>
+                            </CardContent>
+                            {/* <CountButton># 7258</CountButton>
+                            <BadgeImage src={opensea}></BadgeImage> */}
+                        </Card>
+                    </Grid>
+                    <Grid item lg={2.4} sm={6} xs={12} md={4} xl={2}  >
+                        <Card sx={{  mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1) }}>
+                            <CardMedia
+                                component="img"
+                                image={card_img1}
+                                alt="green iguana"
+                            >
+                            </CardMedia>
+                            <CardContent sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                                <Box>
+                                    34.91
+                                </Box>
+                                <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '7px' }}>
+                                    <Box sx={{ color: 'rgba(145, 147, 155, 1)' }}>
+                                        38.51
+                                    </Box>
+                                    <img src={eth} alt="eth" height={'21px'} />
+                                </Box>
+                            </CardContent>
+                            {/* <CountButton># 7258</CountButton>
+                            <BadgeImage src={opensea}></BadgeImage> */}
+                        </Card>
+                    </Grid>
+                    <Grid item lg={2.4} sm={6} xs={12} md={4} xl={2}  >
+                        <Card sx={{  mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1) }}>
                             <CardMedia
                                 component="img"
                                 image={card_img1}
