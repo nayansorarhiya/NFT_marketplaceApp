@@ -8,11 +8,12 @@ import MenuIcon from '@mui/icons-material/Menu';
 import DoubleArrowOutlinedIcon from '@mui/icons-material/DoubleArrowOutlined';
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 import { ToggleButton } from '../CustomStyles';
-import { Badge, Button, FormControl, Grid, InputBase, MenuItem, Select, useMediaQuery } from '@mui/material';
+import { Avatar, Badge, Button, FormControl, Grid, InputBase, MenuItem, Select, useMediaQuery } from '@mui/material';
 import eth from '../../assets/images/eth.svg';
 import MarketPlace from '../DropdownComponents/MarketPlace';
 import CollectionData from '../CollectionData';
 import NFTCollection from '../CollectionPageComponents/NFTCollection';
+import menu from '../../assets/images/menu.svg'
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: 'inherit',
@@ -104,14 +105,22 @@ export default function CollectionPage() {
             <Box sx={{ display: 'flex', }} >
                 <CssBaseline />
                 <Box sx={{ boxShadow: `1px 0px 0px  ${theme.palette.primary.borderDrawer}`, background: alpha(theme.palette.primary.main, 1), display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex' } }}>
-                    <DoubleArrowOutlinedIcon
+                    <Box
                         color="inherit"
                         aria-label="open drawer"
                         onClick={handleDrawerOpen}
-                        sx={{ m: 2, ...(open && { display: 'none' }) }}
+                        height='40px'
+                        width='40px'
+                        sx={{ m: 3, ...(open && { display: 'none' }), cursor: 'pointer' }}
                     >
-                        <MenuIcon />
-                    </DoubleArrowOutlinedIcon>
+                        <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="21" cy="21" r="20.5" stroke="#40434E" />
+                            <path d="M13 15.6667H29M16 21H26M18 26.3333H24" stroke={alpha(theme.palette.primary.font, 1)} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+
+                        {/* <Box>Filter</Box> */}
+                        {/* <MenuIcon /> */}
+                    </Box>
                 </Box>
                 <Drawer
                     sx={{
@@ -135,13 +144,18 @@ export default function CollectionPage() {
                     <Box sx={{ padding: '0 20px 20px 20px' }}>
                         <DrawerHeader sx={{ justifyContent: 'start', display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex' } }}>
                             {/* <img src={backarrow} /> */}
-                            <ArrowBackOutlinedIcon onClick={handleDrawerClose} sx={{
-                                width: '30px', height: '30px', border: '1px solid', borderColor: '#40434E',
-                                borderRadius: '22px'
+                            <Box onClick={handleDrawerClose} sx={{
+                                width: '22px', height: '22px', cursor: 'pointer',pb :1
                             }}>
-                            </ArrowBackOutlinedIcon>
+                                <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="0.5" y="0.5" width="43" height="43" rx="21.5" stroke="#40434E" />
+                                    <path d="M21.3125 16.5L15.8125 22L21.3125 27.5" stroke={alpha(theme.palette.primary.font, 1)} stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M15.8125 22L27.5 22" stroke={alpha(theme.palette.primary.font, 1)} stroke-width="1.5" stroke-linecap="round" />
+                                </svg>
+
+                            </Box>
                         </DrawerHeader>
-                        <Box sx={{ fontWeight: 600, fontSize: '22px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: { xs: 3, sm: 3, md: 0, lg: 0 } }}>
+                        <Box sx={{ fontWeight: 600, fontSize: '22px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: { xs: 3, sm: 3, md: 0, lg: 0 }, pt: 2 }}>
                             <Box> Filter </Box>
                             <Button variant='outlined' onClick={handleDrawerClose} sx={{
                                 display: { xs: 'flex', sm: 'flex', md: 'none', lg: 'none' },
