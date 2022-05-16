@@ -15,7 +15,7 @@ import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import Divider from '@mui/material/Divider/Divider';
 import CustomButton from '../../CustomButton';
-import { Search, SearchIconWrapper, StyledInputBase, LogoTypography } from '../../CustomStyles';
+import { Search, SearchIconWrapper, StyledInputBase, LogoTypography, Connected } from '../../CustomStyles';
 import ConnectionModal from '../../modals/ConnectionModal';
 import { useWeb3React } from '@web3-react/core';
 import { Button, CssBaseline, Drawer, List, ListItem, ListItemIcon, ListItemText, Typography, useMediaQuery } from '@mui/material';
@@ -83,13 +83,16 @@ export default function Header(props) {
     React.useEffect(() => {
         setCartVariant({ view: isMobile ? 'persistent' : 'persistent', width: isMobile ? 0 : 280, direction: isMobile ? 'bottom' : 'right' })
         setTopDrawerwidth(isMobile ? '100%' : 280);
+        props.setcartWidth(0);
     }, [isMobile])
 
     const handleDrawerOpen = () => {
         setCartOpen(true);
+        !isMobile && props.setcartWidth(280);
     };
     const handleDrawerClose = () => {
         setCartOpen(false);
+        props.setcartWidth(0);
     };
 
     const ConnectModal = () => setOpen(true);
@@ -139,8 +142,10 @@ export default function Header(props) {
                 sell
             </MenuItem>
             <Divider />
-            <MenuItem>
-                <CustomButton variant="contained" onClick={() => active ? deactivate() : ConnectModal()}>{active ? account.substring(0, 4) + "..." + account.substring(account.length - 4) : "Connect Wallet"}</CustomButton>
+            <MenuItem onClick={() => active ? deactivate() : ConnectModal()}>
+                {active ? <Connected > </Connected> :
+                    <CustomButton sx={{ whiteSpace: 'nowrap' }} variant="contained">Connect Wallet </CustomButton>
+                }
             </MenuItem>
         </Menu>
     );
@@ -222,13 +227,19 @@ export default function Header(props) {
                         <Box sx={{ flexGrow: 1 }} />
 
                         <Box sx={{ display: { lg: 'flex', xs: 'none' } }}>
-                            <MenuItem sx={{ pl: 0 }}>
-                                <CustomButton variant="contained" onClick={() => active ? deactivate() : ConnectModal()}>{active ? account.substring(0, 4) + "..." + account.substring(account.length - 4) : "Connect Wallet"} </CustomButton>
-                            </MenuItem>
+                            <Box sx={{
+                                pl: 0,
+                                cursor: 'pointer',
+                                pr: 2,
+                                '&:hover': { backgroundColor: 'none' },
+                            }} onClick={() => active ? deactivate() : ConnectModal()}>
+                                {active ? <Connected > </Connected> :
+                                    <CustomButton sx={{ whiteSpace: 'nowrap' }} variant="contained">Connect Wallet </CustomButton>
+                                }
+                            </Box>
                         </Box>
                         <Box sx={{ display: 'flex' }}>
-                            <MenuItem sx={{ padding: 0, ...(open && { display: 'none' }) }} onClick={!cartopen ? handleDrawerOpen : handleDrawerClose}
-                            >
+                            <MenuItem sx={{ padding: 0, }} onClick={!cartopen ? handleDrawerOpen : handleDrawerClose}>
                                 <Badge badgeContent={1} color="error">
                                     <ShoppingCartOutlinedIcon sx={{ fontSize: 32 }} />
                                 </Badge>
@@ -267,7 +278,7 @@ export default function Header(props) {
                             // position: { xs: 'fixed', sm: 'fixed', md: 'relative', lg: 'relative' },
                             // position: 'fixed',
                             maxHeight: '100%',
-                            zIndex: 10000,
+                            zIndex: 1,
                         },
                     }}
                     // sx={{
@@ -405,7 +416,7 @@ export default function Header(props) {
                         </Box>
                     </Box>
                 </Drawer>
-            </Box>
+            </Box >
 
         </>
     );

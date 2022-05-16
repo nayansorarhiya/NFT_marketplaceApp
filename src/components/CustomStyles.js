@@ -1,11 +1,13 @@
-import { Box } from '@mui/material';
+import { Avatar, Box } from '@mui/material';
 import InputBase from '@mui/material/InputBase';
 import { styled, alpha, useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import logo from '../assets/images/logo.svg';
+import profileimage from '../assets/images/profileimage.svg';
 // import logo_name from '../assets/images/logo_name.svg';
 // import blacklogo_name from '../assets/images/blacklogo_name.svg';
 import { Switch } from '@mui/material';
+import { useWeb3React } from '@web3-react/core';
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -29,6 +31,20 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
     alignItems: 'center',
     justifyContent: 'center',
 }));
+
+const Connected = () => {
+    const { active, account, deactivate } = useWeb3React();
+    return (<>
+        <Search sx={{ display: 'flex',alignItems: 'center', width: '100px', borderRadius: '25px', height: '44px',  pr: 1.5, border: '1px solid rgba(145, 147, 155, 0.3)' }}>
+            {/* <SearchIconWrapper> */}
+            <Box sx={{display: 'flex',alignItems: 'center',ml: 0.25 }}>
+                <Avatar src={profileimage}></Avatar>
+                <Box sx={{ml : 1}}>{account.substring(0, 4) + "..." + account.substring(account.length - 4)}</Box>
+            </Box>
+            {/* </SearchIconWrapper> */}
+        </Search>
+    </>);
+}
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: 'inherit',
@@ -110,4 +126,22 @@ const ToggleButton = (props) => {
     );
 }
 
-export { Search, SearchIconWrapper, StyledInputBase, LogoTypography, ToggleButton };
+const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
+    ({ theme, open, cartWidth }) => ({
+        flexGrow: 1,
+        transition: theme.transitions.create('margin', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+        marginRight: `${cartWidth}px`,
+        ...(open && {
+            transition: theme.transitions.create('margin', {
+                easing: theme.transitions.easing.easeOut,
+                duration: theme.transitions.duration.enteringScreen,
+            }),
+            marginRight: '0px',
+        }),
+    }),
+);
+
+export { Search, SearchIconWrapper, StyledInputBase, LogoTypography, ToggleButton, Main, Connected };

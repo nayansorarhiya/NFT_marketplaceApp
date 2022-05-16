@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Header from "./components/pages/common/Header";
 import Body from "./components/pages/Body";
 import CollectionPage from "./components/pages/CollectionPage";
+import { Main } from "./components/CustomStyles";
 import Footer from "./components/pages/common/Footer";
 import { Paper } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -23,14 +24,14 @@ function App() {
       mode: 'dark',
       primary: {
         // main: '#2B2F41',
-        main: "#161616",
+        main: "#2B2F41",
         dark: '#485FE6',
         logo: '#FFFFFF',
         searchIcon: '#91939B',
         font: '#FFFFFF',
         buttonfont: '#FFFFFF',
-        // homeBg: '#1E212E',
-        homeBg: '#040404',
+        homeBg: '#1E212E',
+        // homeBg: '#040404',
         tableHead: '#F8F8F8',
         footerIcon: '#F8F8F8',
         borderDrawer: '#343742',
@@ -61,18 +62,20 @@ function App() {
       fontFamily: 'DMSans',
     }
   });
-
+  const [cartWidth, setcartWidth] = useState(0);
   return (<>
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
-      <Paper sx={{ background: darkMode ? '#040404' : '#F8F8F8', pt: '60px' }}>
-        <Header onClickTheme={modeChange}></Header>
-        <BrowserRouter>
-          <Routes>
-            <Route path='/' element={<Body />} />
-            <Route path='/:contractAddress' element={<CollectionPage />} />
-          </Routes>
-        </BrowserRouter>
-        <Footer />
+      <Paper sx={{ background: darkMode ? '#1E212E' : '#F8F8F8', pt: '60px' }}>
+        <Header onClickTheme={modeChange} setcartWidth={setcartWidth}></Header>
+        <Main cartWidth={cartWidth}>
+          <BrowserRouter>
+            <Routes>
+              <Route path='/' element={<Body />} />
+              <Route path='/:contractAddress' element={<CollectionPage />} />
+            </Routes>
+          </BrowserRouter>
+          <Footer />
+        </Main>
       </Paper>
     </ThemeProvider>
 
