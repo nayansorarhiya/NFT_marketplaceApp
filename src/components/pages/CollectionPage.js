@@ -145,7 +145,7 @@ export default function CollectionPage() {
                         <DrawerHeader sx={{ justifyContent: 'start', display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex' } }}>
                             {/* <img src={backarrow} /> */}
                             <Box onClick={handleDrawerClose} sx={{
-                                width: '22px', height: '22px', cursor: 'pointer',pb :1
+                                width: '22px', height: '22px', cursor: 'pointer', pb: 1
                             }}>
                                 <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <rect x="0.5" y="0.5" width="43" height="43" rx="21.5" stroke="#40434E" />
@@ -168,78 +168,80 @@ export default function CollectionPage() {
                                 },
                             }}>Done</Button>
                         </Box>
-                        <ToggleButton label="Buy Now"></ToggleButton>
-                        <ToggleButton label="Rarity Ranking"></ToggleButton>
-                        <Box sx={{ display: 'flex', alignItems: 'center', color: '#91939B', fontWeight: 500, fontSize: '16px', lineHeight: '21px', minHeight: '38px' }}>
-                            Rarity Ranking Range
-                        </Box>
-
-                        <Grid container spacing={1} sx={{ display: 'flex' }}>
-                            <Grid item xs={6}>
-                                <StyledInputBase placeholder='Min'></StyledInputBase>
-                            </Grid>
-                            <Grid item xs={6}>
-                                <StyledInputBase placeholder='Max'></StyledInputBase>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Button variant='outlined' sx={{
-                                    width: '100%', color: 'inherit', border: '1px solid #485FE6',
-                                    fontWeight: '500',
-                                    fontSize: '16px', textTransform: 'capitalize',
-                                    '&:hover,&:focus': {
-                                        border: '1px solid #485FE6',
-                                    },
-                                }}>Apply</Button>
-                            </Grid>
-                        </Grid>
-                        <Box sx={{ display: 'flex', alignItems: 'center', color: '#91939B', fontWeight: 500, fontSize: '16px', lineHeight: '21px', minHeight: '38px', mt: 3 }}>
-                            Price Range
-                        </Box>
-
-                        <Grid container spacing={1} sx={{ display: 'flex' }}>
-                            <Grid item xs={4}>
-                                <StyledInputBase placeholder='Min'></StyledInputBase>
-                            </Grid>
-                            <Grid item xs={4}>
-                                <StyledInputBase placeholder='Max'></StyledInputBase>
-                            </Grid>
-                            <Grid item xs={4}>
-                                <FormControl sx={{ maxWidth: '100%', width: '100%' }} size="small">
-                                    <DropSelect
-                                        sx={{
-                                            border: '1px solid rgba(145, 147, 155, 0.3)',
-                                            '&:hover,&:outfocus': {
-                                                border: '1px solid #485FE6',
-                                            },
-                                        }}
-                                        value={dropdown}
-                                        onChange={handleChange}
-                                    >
-                                        <MenuItem value={0}><img src={eth} alt="ethicon" /></MenuItem>
-                                        <MenuItem value={1}>2</MenuItem>
-                                    </DropSelect>
-                                </FormControl>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Button variant='outlined' sx={{
-                                    width: '100%', color: 'inherit', border: '1px solid #485FE6',
-                                    fontWeight: '500',
-                                    fontSize: '16px', textTransform: 'capitalize',
-                                    '&:hover,&:focus': {
-                                        border: '1px solid #485FE6',
-                                    },
-                                }}>Apply</Button>
-                            </Grid>
-                        </Grid>
-                        <Box sx={{ mt: 4 }}>
-                            <MarketPlace name={"MarketPlace"} list={[{ name: "LooksRare", percentage: 120, total: 105 }, { name: "OpenSea", percentage: 56.5, total: 110 }]}></MarketPlace>
-                            <Box sx={{ mt: 3, mb: 2, color: '#91939B' }}>
-                                Properties
+                        <Box sx={{ maxHeight: '100vh', overflow: 'auto' }}>
+                            <ToggleButton label="Buy Now"></ToggleButton>
+                            <ToggleButton label="Rarity Ranking"></ToggleButton>
+                            <Box sx={{ display: 'flex', alignItems: 'center', color: '#91939B', fontWeight: 500, fontSize: '16px', lineHeight: '21px', minHeight: '38px' }}>
+                                Rarity Ranking Range
                             </Box>
-                            <MarketPlace name={"Background"} list={[{ name: "Purple", percentage: 25, total: 8 }, { name: "Yellow", percentage: 56.5, total: 25 }]}></MarketPlace>
-                            <MarketPlace name={"Background"} list={[{ name: "Purple", percentage: 25, total: 8 }, { name: "Yellow", percentage: 56.5, total: 25 }]}></MarketPlace>
-                            <MarketPlace name={"Background"} list={[{ name: "Purple", percentage: 25, total: 8 }, { name: "Yellow", percentage: 56.5, total: 25 }]}></MarketPlace>
-                            {/* <Properties></Properties> */}
+
+                            <Grid container spacing={1} sx={{ display: 'flex' }}>
+                                <Grid item xs={6}>
+                                    <StyledInputBase placeholder='Min'></StyledInputBase>
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <StyledInputBase placeholder='Max'></StyledInputBase>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Button variant='outlined' sx={{
+                                        width: '100%', color: 'inherit', border: '1px solid #485FE6',
+                                        fontWeight: '500',
+                                        fontSize: '16px', textTransform: 'capitalize',
+                                        '&:hover,&:focus': {
+                                            border: '1px solid #485FE6',
+                                        },
+                                    }}>Apply</Button>
+                                </Grid>
+                            </Grid>
+                            <Box sx={{ display: 'flex', alignItems: 'center', color: '#91939B', fontWeight: 500, fontSize: '16px', lineHeight: '21px', minHeight: '38px', mt: 3 }}>
+                                Price Range
+                            </Box>
+
+                            <Grid container spacing={1} sx={{ display: 'flex' }}>
+                                <Grid item xs={4}>
+                                    <StyledInputBase placeholder='Min'></StyledInputBase>
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <StyledInputBase placeholder='Max'></StyledInputBase>
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <FormControl sx={{ maxWidth: '100%', width: '100%' }} size="small">
+                                        <DropSelect
+                                            sx={{
+                                                border: '1px solid rgba(145, 147, 155, 0.3)',
+                                                '&:hover,&:outfocus': {
+                                                    border: '1px solid #485FE6',
+                                                },
+                                            }}
+                                            value={dropdown}
+                                            onChange={handleChange}
+                                        >
+                                            <MenuItem value={0}><img src={eth} alt="ethicon" /></MenuItem>
+                                            <MenuItem value={1}>2</MenuItem>
+                                        </DropSelect>
+                                    </FormControl>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Button variant='outlined' sx={{
+                                        width: '100%', color: 'inherit', border: '1px solid #485FE6',
+                                        fontWeight: '500',
+                                        fontSize: '16px', textTransform: 'capitalize',
+                                        '&:hover,&:focus': {
+                                            border: '1px solid #485FE6',
+                                        },
+                                    }}>Apply</Button>
+                                </Grid>
+                            </Grid>
+                            <Box sx={{ mt: 4 }}>
+                                <MarketPlace name={"MarketPlace"} list={[{ name: "LooksRare", percentage: 120, total: 105 }, { name: "OpenSea", percentage: 56.5, total: 110 }]}></MarketPlace>
+                                <Box sx={{ mt: 3, mb: 2, color: '#91939B' }}>
+                                    Properties
+                                </Box>
+                                <MarketPlace name={"Background"} list={[{ name: "Purple", percentage: 25, total: 8 }, { name: "Yellow", percentage: 56.5, total: 25 }]}></MarketPlace>
+                                <MarketPlace name={"Background"} list={[{ name: "Purple", percentage: 25, total: 8 }, { name: "Yellow", percentage: 56.5, total: 25 }]}></MarketPlace>
+                                <MarketPlace name={"Background"} list={[{ name: "Purple", percentage: 25, total: 8 }, { name: "Yellow", percentage: 56.5, total: 25 }]}></MarketPlace>
+                                {/* <Properties></Properties> */}
+                            </Box>
                         </Box>
                     </Box>
                 </Drawer>

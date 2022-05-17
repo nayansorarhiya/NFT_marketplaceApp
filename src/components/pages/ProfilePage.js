@@ -1,9 +1,14 @@
-import { alpha, Box, Divider, MenuItem, Select, useTheme } from '@mui/material';
+import { alpha, Avatar, Box, Divider, MenuItem, Select, useTheme } from '@mui/material';
 import { useWeb3React } from '@web3-react/core';
-import React from 'react'
+import React, { useState } from 'react'
 import { Connected, Search, SearchIconWrapper, StyledInputBase } from '../CustomStyles';
 import SearchIcon from '@mui/icons-material/Search';
 import NFTCollection from '../CollectionPageComponents/NFTCollection';
+import CustomButton from '../CustomButton';
+import profileimage from '../../assets/images/profileimage.svg';
+import copyClip from '../../assets/images/copyClip.svg';
+import DoneIcon from '@mui/icons-material/Done';
+import ContentCopyRoundedIcon from '@mui/icons-material/ContentCopyRounded';
 
 
 export default function ProfilePage() {
@@ -13,6 +18,7 @@ export default function ProfilePage() {
     const [rowfilter, setRowFilter] = React.useState({
         label: '24h', option: 0
     });
+    const [copied, setCopied] = useState(false);
 
     const handleChange = (event) => {
         setDropdown(event.target.value);
@@ -51,22 +57,41 @@ export default function ProfilePage() {
     return (
         <>
             <Box sx={{ p: 3 }}>
-                <Box sx={{ width: '15%' }}>
-                    <Box sx={{
-                        pl: 0,
-                        cursor: 'pointer',
-                        pr: 2,
-                        backgroundColor: alpha(theme.palette.primary.homeBg, 1),
+                {active ?
+                    <Box>
+                        <Box sx={{
+                            pl: 0,
+                            cursor: 'pointer',
+                            pr: 2,
+                            backgroundColor: alpha(theme.palette.primary.homeBg, 1),
+                            display: 'flex',
+                            alignItems: 'center',
+                        }}>
+                            <Search sx={{ maxWidth: '195px', display: 'flex', alignItems: 'center', borderRadius: '25px', height: '44px', pr: 1.5, border: '1px solid rgba(145, 147, 155, 0.3)' }}>
 
-                    }}>
-                        {active ? <Connected > </Connected> :
-                            // <CustomButton sx={{ whiteSpace: 'nowrap' }} variant="contained">Connect Wallet </CustomButton>
-                            <></>
-                        }
-                    </Box>
-                </Box>
-                <Box sx={{ pt: 5, display: {xs: 'block', sm: 'block', md: 'flex', lg: 'flex'}, gap: '13px' }}>
-                    <Box sx={{ width: '90%' }}>
+                                <Box sx={{ display: 'flex', alignItems: 'center', ml: 0.25, }}>
+                                    <Avatar src={profileimage}></Avatar>
+                                    <Box sx={{ ml: 1, mr: 1 }}>{account.substring(0, 6) + "..." + account.substring(account.length - 4)}</Box>
+                                    {!copied ? <>
+                                        <ContentCopyRoundedIcon onClick={() => {
+                                            navigator.clipboard.writeText(`${account}`)
+                                            setCopied(true);
+                                            setTimeout(() => {
+                                                setCopied(false);
+                                            }, 500);
+                                        }} ></ContentCopyRoundedIcon></>
+                                        : <DoneIcon></DoneIcon>
+                                    }
+                                </Box>
+
+                            </Search>
+
+                        </Box>
+                    </Box> :
+                    <></>
+                }
+                <Box sx={{ pt: 3, display: { xs: 'block', sm: 'flex', md: 'flex', lg: 'flex' }, alignItems: 'center', gap: '13px' }}>
+                    <Box sx={{ width: '100%' }}>
                         <Search sx={{ display: 'flex' }}>
                             <SearchIconWrapper >
                                 <SearchIcon />
@@ -74,13 +99,13 @@ export default function ProfilePage() {
                             <StyledInputBase
                                 placeholder="Search collections by name or address "
                                 inputProps={{ 'aria-label': 'search' }}
-                                sx={{ width: { xs: '100%', sm: '350px', md: '400px', lg: '500px' } }}
+                                sx={{ width: '100%' }}
                             // onChange={requestSearch}
                             />
                         </Search>
                     </Box>
                     <Box sx={{ gap: 1, justifyContent: 'right', mt: { xs: 2, sm: 0, md: 0, lg: 0 } }}>
-                        <Box sx={{ minWidth: 100 }} >
+                        <Box sx={{ minWidth: '100%' }} >
                             {/* <FormControl> */}
                             <Select
                                 value={dropdown}
@@ -91,6 +116,7 @@ export default function ProfilePage() {
                                         border: '1px solid rgba(145, 147, 155, 0.3)',
                                     },
                                     height: '40px',
+                                    width: '100%',
                                 }}
                             >
                                 <MenuItem value={0} sx={{ width: '100%' }}>All Collection</MenuItem>
@@ -105,9 +131,7 @@ export default function ProfilePage() {
                 </Box>
             </Box>
             <Divider />
-
             <NFTCollection></NFTCollection>
-
         </>
     )
 }

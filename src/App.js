@@ -36,6 +36,7 @@ function App() {
         tableHead: '#F8F8F8',
         footerIcon: '#F8F8F8',
         borderDrawer: '#343742',
+        itemhover: 'rgba(53,57,69,1)',
       },
     },
     typography: {
@@ -57,6 +58,7 @@ function App() {
         tableHead: '#1E212E',
         footerIcon: '#2B2F41',
         borderDrawer: '#D9DADC',
+        itemhover: 'rgba(244, 245, 246,1)',
       },
     },
     typography: {

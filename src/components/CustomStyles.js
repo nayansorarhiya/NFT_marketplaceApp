@@ -35,13 +35,11 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
 const Connected = () => {
     const { account } = useWeb3React();
     return (<>
-        <Search sx={{ display: 'flex',alignItems: 'center', width: '100px', borderRadius: '25px', height: '44px',  pr: 1.5, border: '1px solid rgba(145, 147, 155, 0.3)' }}>
-            {/* <SearchIconWrapper> */}
-            <Box sx={{display: 'flex',alignItems: 'center',ml: 0.25 }}>
+        <Search sx={{ display: 'flex', alignItems: 'center', borderRadius: '25px', height: '44px', pr: 1.5, border: '1px solid rgba(145, 147, 155, 0.3)' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', ml: 0.25 }}>
                 <Avatar src={profileimage}></Avatar>
-                <Box sx={{ml : 1}}>{account.substring(0, 6) + "..." + account.substring(account.length - 4)}</Box>
+                <Box sx={{ ml: 1 }}>{account.substring(0, 6) + "..." + account.substring(account.length - 4)}</Box>
             </Box>
-            {/* </SearchIconWrapper> */}
         </Search>
     </>);
 }
@@ -68,7 +66,7 @@ const LogoTypography = () => {
                 variant="h6"
                 noWrap
                 component="div"
-                sx={{ fontSize: '20px', display: 'flex', color: alpha(theme.palette.primary.footerIcon, 1), marginLeft: { xs: theme.spacing(0), sm: theme.spacing(0) } }}
+                sx={{ cursor: 'pointer', fontSize: '20px', display: 'flex', color: alpha(theme.palette.primary.footerIcon, 1), marginLeft: { xs: theme.spacing(0), sm: theme.spacing(0) } }}
                 className="headerlogo"
             >
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -104,6 +102,9 @@ const CustomeSwitch = styled(Switch)(({ theme }) => ({
         backgroundColor: 'rgba(255,255,255,1)',
     },
     '& .MuiSwitch-switchBase': {
+        '&.css-1fmfuzp-MuiButtonBase-root-MuiSwitch-switchBase:hover': {
+            backgroundColor: 'rgba(255, 255, 255,0.03)',
+        },
         '&.Mui-checked': {
             '& + .MuiSwitch-track': {
                 opacity: 1,
