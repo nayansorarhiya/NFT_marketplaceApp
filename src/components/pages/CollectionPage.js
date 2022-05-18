@@ -46,7 +46,7 @@ const DropSelect = styled(Select)(({ theme }) => ({
 export default function CollectionPage() {
 
     const theme = useTheme();
-    const [open, setOpen] = React.useState(true);
+    const [open, setOpen] = React.useState(false);
     const [dropdown, setDropdown] = React.useState(0);
     const [variant, setVariant] = React.useState({
         view: '', width: '', direction: ''
