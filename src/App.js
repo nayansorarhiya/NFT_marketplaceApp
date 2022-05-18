@@ -25,14 +25,14 @@ function App() {
       mode: 'dark',
       primary: {
         // main: '#2B2F41',
-        main: "#2B2F41",
+        main: "#161616",
         dark: '#485FE6',
         logo: '#FFFFFF',
         searchIcon: '#91939B',
         font: '#FFFFFF',
         buttonfont: '#FFFFFF',
-        homeBg: '#1E212E',
-        // homeBg: '#040404',
+        // homeBg: '#1E212E',
+        homeBg: '#040404',
         tableHead: '#F8F8F8',
         footerIcon: '#F8F8F8',
         borderDrawer: '#343742',
@@ -69,7 +69,7 @@ function App() {
   return (<>
     <BrowserRouter>
       <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
-        <Paper sx={{ background: darkMode ? '#1E212E' : '#F8F8F8', pt: '60px' }}>
+        <Paper sx={{ background: darkMode ? '#040404' : '#F8F8F8', pt: '60px' }}>
           <Header onClickTheme={modeChange} setcartWidth={setcartWidth}></Header>
           <Main cartWidth={cartWidth}>
 
