@@ -362,7 +362,7 @@ export default function DataTable() {
                         sx={{ minWidth: 200, borderCollapse: 'unset', p: 0 }}
                         aria-labelledby="tableTitle"
                         size='medium'   // small | medium
-                        onClick={collectionNavigation}
+                        
                     >
                         <EnhancedTableHead
                             order={order}
@@ -372,7 +372,7 @@ export default function DataTable() {
                             label={rowfilter.label}
                             option={rowfilter.option}
                         />
-                        <TableBody>
+                        <TableBody onClick={collectionNavigation}>
 
                             {searchrows.length !== 0 ? (stableSort(searchrows, getComparator(order, orderBy))
                                 .map((row, index) => {
