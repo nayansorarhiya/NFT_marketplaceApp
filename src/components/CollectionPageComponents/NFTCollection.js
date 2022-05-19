@@ -1,65 +1,26 @@
-import { alpha, Avatar, Box, Button, Card, CardContent, CardMedia, Grid, styled, Typography, useTheme } from '@mui/material'
+import { Box, Grid } from '@mui/material'
 import React from 'react'
 import card_img1 from '../../assets/images/card_img1.svg'
-import eth from '../../assets/images/eth.svg'
+import card_img2 from '../../assets/images/card_img2.svg'
+import card_img3 from '../../assets/images/card_img3.svg'
+import card_img4 from '../../assets/images/card_img4.svg'
+import card_img5 from '../../assets/images/card_img5.svg'
 import opensea from '../../assets/images/opensea.svg'
-
-const CountButton = styled(Button)`
-    background: #485FE6;
-    border: 2px solid #FFFFFF;
-    border-radius: 3px;
-    padding: 2px 6px;
-    color: #FFFFFF;
-    width: 60px;
-    height: 22px;
-    position: relative;
-    /* right: 100px;
-    bottom: 45px; */
-    bottom: 90px;
-    left: 15px;
-
-`
-const BadgeImage = styled(Avatar)`
-    position: relative;
-    bottom: 300px;
-    /* right: 160px; */
-    left: 15px;
-    height: 32px;
-    width: 32px;
+import NFTCard from '../card/NFTCard'
 
 
-`
 
 export default function NFTCollection() {
-    const theme = useTheme();
     return (
         <>
-            <Box>
-                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                    <Grid item xs={3} md={3} sm={5} lg={2} xl={2}  >
-                        <Card sx={{ minWidth: 240, maxHeight: '295px', mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1)
-                        }}>
-                            <CardMedia
-                                component="img"
-                                image={card_img1}
-                                alt="NFT image"
-                            />
-                            <CardContent sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                                <Box>
-                                    34.91
-                                </Box>
-                                <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '7px' }}>
-                                    <Box sx={{ color: 'rgba(145, 147, 155, 1)' }}>
-                                        38.51
-                                    </Box>
-                                    <img src={eth} alt="eth" height={'21px'} />
-                                </Box>
-                            </CardContent>
-                            <CountButton># 7258</CountButton>
-                            <BadgeImage src={opensea}></BadgeImage>
 
-                        </Card>
-                    </Grid>
+            <Box sx={{ p: '32px 20px 20px 20px', height: '100vh', maxHeight: '100vh', overflow: 'auto' }}>
+                <Grid container spacing={2}>
+                    <NFTCard opensea={opensea} card_img1={card_img1}></NFTCard>
+                    <NFTCard opensea={opensea} card_img1={card_img2}></NFTCard>
+                    <NFTCard opensea={opensea} card_img1={card_img3}></NFTCard>
+                    <NFTCard opensea={opensea} card_img1={card_img4}></NFTCard>
+                    <NFTCard opensea={opensea} card_img1={card_img5}></NFTCard>
                 </Grid>
             </Box>
         </>

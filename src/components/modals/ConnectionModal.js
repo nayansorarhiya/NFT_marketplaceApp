@@ -26,8 +26,50 @@ const Injected = new InjectedConnector({
 });
 
 export default function ConnectionModal(props) {
-    const { activate } = useWeb3React();
+    const { activate, chainId } = useWeb3React();
     const theme = useTheme();
+    const walletConnect = async () => {
+        const reqChainId = "0x61";
+        if (window.ethereum) {
+    
+          const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+          if (chainId != reqChainId) {
+            await window.ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: reqChainId}] });
+          }
+          activate(Injected);
+        }
+        else {
+          alert("Metamask is not Installed");
+        }
+    
+    
+      }
+    async function chainSwitch() {
+        try {
+            // debugger;
+            const result = await window.ethereum.request('wallet_switchEthereumChain', [{ chainId: `0x61` }])
+            // activate(Injected)
+        } catch (switchError) {
+            // 4902 indicates that the client does not recognize the Harmony One network
+            if (switchError.code === 4902) {
+                await window.ethereum.request({
+                    method: 'wallet_addEthereumChain',
+                    params: [{
+                        chainId: '0x61',
+                        rpcUrls: ['https://speedy-nodes-nyc.moralis.io/f4821cc9723d2edb79055d15/bsc/testnet'],
+                        chainName: 'Binance Smart Chain Testnet',
+                        nativeCurrency: { name: 'ONE', decimals: 18, symbol: 'ONE' },
+                        blockExplorerUrls: ['https://explorer.harmony.one'],
+                        // iconUrls: ['https://harmonynews.one/wp-content/uploads/2019/11/slfdjs.png'],
+                    }],
+                })
+            }
+        }
+    }
+    React.useEffect(() => {
+        chainSwitch();
+    }, [chainId])
+
     const style = {
         position: 'absolute',
         top: '50%',
@@ -89,7 +131,7 @@ export default function ConnectionModal(props) {
                     </Typography>
                     <List sx={{ pt: 6 }}>
                         <Divider />
-                        <ListItem button sx={{ py: 3 }} onClick={() => { activate(Injected); }}>
+                        <ListItem button sx={{ py: 3 }} onClick={() => { walletConnect() }}>
                             <img src={metamask} alt='metamask' />
                             <Typography sx={WalletConnect}>
                                 Metamask

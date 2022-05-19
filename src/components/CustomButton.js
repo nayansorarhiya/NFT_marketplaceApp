@@ -12,4 +12,5 @@ const CustomButton = styled(Button)(({ theme }) => ({
         backgroundColor: alpha(theme.palette.primary.dark, 1),
     },
 }));
+
 export default CustomButton;
