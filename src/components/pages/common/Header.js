@@ -152,11 +152,8 @@ export default function Header(props) {
             <MenuItem>
                 sell
             </MenuItem>
-            <MenuItem onClick={profile}>
-                Profile
-            </MenuItem>
             <Divider />
-            <MenuItem onClick={() => active ? deactivate() : ConnectModal()}>
+            <MenuItem onClick={() => !active && ConnectModal()}>
                 {active ? <Connected > </Connected> :
                     <CustomButton sx={{ whiteSpace: 'nowrap' }} variant="contained">Connect Wallet </CustomButton>
                 }
@@ -209,24 +206,19 @@ export default function Header(props) {
                                                 discover
                                             </MenuItem>
                                         </Box>
-                                        <Box sx={{ ml: 4 }}>
+                                        <Box sx={{ ml: 3.8 }}>
                                             <MenuItem>
                                                 states
                                             </MenuItem>
                                         </Box>
-                                        <Box sx={{ ml: 4 }}>
+                                        <Box sx={{ ml: 3.8 }}>
                                             <MenuItem>
                                                 staking
                                             </MenuItem>
                                         </Box>
-                                        <Box sx={{ ml: 4 }}>
+                                        <Box sx={{ ml: 3.8 }}>
                                             <MenuItem>
                                                 sell
-                                            </MenuItem>
-                                        </Box>
-                                        <Box sx={{ ml: 4 }}>
-                                            <MenuItem onClick={profile}>
-                                                Profile
                                             </MenuItem>
                                         </Box>
                                     </Box>
@@ -251,7 +243,7 @@ export default function Header(props) {
                                 cursor: 'pointer',
                                 pr: 2,
                                 '&:hover': { backgroundColor: 'none' },
-                            }} onClick={() => active ? deactivate() : ConnectModal()}>
+                            }} onClick={() => !active && ConnectModal()}>
                                 {active ? <Connected > </Connected> :
                                     <CustomButton sx={{ whiteSpace: 'nowrap' }} variant="contained">Connect Wallet </CustomButton>
                                 }

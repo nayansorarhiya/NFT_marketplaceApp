@@ -11,16 +11,16 @@ const CountButton = styled(Button)`
     width: 60px;
     height: 22px;
     position: absolute;
-    bottom : 15px;
+    bottom : 5%;
     ${'' /* bottom: 90px; */}
-    left: 15px;
+    left: 5%;
 
 `
 
 const BadgeImage = styled(Avatar)`
     position: absolute;
     ${'' /* bottom: 300px; */}
-    margin : 15px;
+    margin : 5%;
     height: 32px;
     width: 32px;
 `

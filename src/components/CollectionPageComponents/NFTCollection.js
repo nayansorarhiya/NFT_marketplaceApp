@@ -21,6 +21,16 @@ export default function NFTCollection() {
                     <NFTCard opensea={opensea} card_img1={card_img3}></NFTCard>
                     <NFTCard opensea={opensea} card_img1={card_img4}></NFTCard>
                     <NFTCard opensea={opensea} card_img1={card_img5}></NFTCard>
+                    <NFTCard opensea={opensea} card_img1={card_img1}></NFTCard>
+                    <NFTCard opensea={opensea} card_img1={card_img2}></NFTCard>
+                    <NFTCard opensea={opensea} card_img1={card_img3}></NFTCard>
+                    <NFTCard opensea={opensea} card_img1={card_img4}></NFTCard>
+                    <NFTCard opensea={opensea} card_img1={card_img5}></NFTCard>
+                    <NFTCard opensea={opensea} card_img1={card_img1}></NFTCard>
+                    <NFTCard opensea={opensea} card_img1={card_img2}></NFTCard>
+                    <NFTCard opensea={opensea} card_img1={card_img3}></NFTCard>
+                    <NFTCard opensea={opensea} card_img1={card_img4}></NFTCard>
+                    <NFTCard opensea={opensea} card_img1={card_img5}></NFTCard>
                 </Grid>
             </Box>
         </>

@@ -178,8 +178,8 @@ export default function DataTable() {
 
   const navigate = useNavigate();
 
-  const collectionNavigation = () => {
-    navigate(`/collection`);
+  const collectionNavigation = (slug) => {
+    navigate(`/collection/${slug}`);
   };
 
   async function apiCallforData() {
@@ -193,6 +193,7 @@ export default function DataTable() {
     const localrows = rows.data.data.map((v) => ({
       imgurl: v.imageUrl,
       name: v.name,
+      slug : v.slug,
       isVerified: v.isVerified,
       floorprice: v.stats.floor_price ? v.stats.floor_price : -1,
 
@@ -366,7 +367,7 @@ export default function DataTable() {
               label={rowfilter.label}
               option={rowfilter.option}
             />
-            <TableBody onClick={collectionNavigation}>
+            <TableBody>
               {searchrows.length !== 0 ? (
                 stableSort(searchrows, getComparator(order, orderBy)).map(
                   (row, index) => {
@@ -377,6 +378,7 @@ export default function DataTable() {
                         hover
                         tabIndex={-1}
                         key={row.name}
+                        onClick={() => collectionNavigation(row.slug)}
                       >
                         <TableCell
                           className="padding-0"
@@ -596,39 +598,39 @@ export default function DataTable() {
                         >
                           {row.onedayvolumevalue[rowfilter.option] !==
                             undefined && (
-                            <Box
-                              sx={{
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "end",
-                                pt: "10px",
-                                pb: "10px",
-                              }}
-                            >
                               <Box
                                 sx={{
                                   display: "flex",
-                                  flexDirection: "column",
+                                  alignItems: "center",
+                                  justifyContent: "end",
+                                  pt: "10px",
+                                  pb: "10px",
                                 }}
                               >
-                                <Box className="h24-Hidden">
-                                  {parseFloat(
-                                    row.onedayvolumevalue[rowfilter.option]
-                                  ).toFixed(2)}
+                                <Box
+                                  sx={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                  }}
+                                >
+                                  <Box className="h24-Hidden">
+                                    {parseFloat(
+                                      row.onedayvolumevalue[rowfilter.option]
+                                    ).toFixed(2)}
+                                  </Box>
+                                </Box>
+                                <Box
+                                  className="h24-Hidden"
+                                  sx={{
+                                    ml: 1,
+                                    display: "flex",
+                                    justifyContent: "center",
+                                  }}
+                                >
+                                  <img src={eth} alt="ethicon" />{" "}
                                 </Box>
                               </Box>
-                              <Box
-                                className="h24-Hidden"
-                                sx={{
-                                  ml: 1,
-                                  display: "flex",
-                                  justifyContent: "center",
-                                }}
-                              >
-                                <img src={eth} alt="ethicon" />{" "}
-                              </Box>
-                            </Box>
-                          )}
+                            )}
                         </TableCell>
                         <TableCell
                           className="mobileCells "

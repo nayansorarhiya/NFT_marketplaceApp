@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "./components/pages/common/Header";
 import Body from "./components/pages/Body";
 import CollectionPage from "./components/pages/CollectionPage";
-import { Main } from "./components/CustomStyles";
+import { Main, ScrollToTop } from "./components/CustomStyles";
 import Footer from "./components/pages/common/Footer";
 import { Paper } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -66,16 +66,17 @@ function App() {
     }
   });
   const [cartWidth, setcartWidth] = useState(0);
+
   return (<>
     <BrowserRouter>
       <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
         <Paper sx={{ background: darkMode ? '#040404' : '#F8F8F8', pt: '60px' }}>
           <Header onClickTheme={modeChange} setcartWidth={setcartWidth}></Header>
           <Main cartWidth={cartWidth}>
-
+            <ScrollToTop />
             <Routes>
-              <Route path='/' element={<Body />} />
-              <Route path='/:contractAddress' element={<CollectionPage />} />
+              <Route path='/*' element={<Body />} />
+              <Route path='collection/:slug' element={<CollectionPage />} />
               <Route path='/profile' element={<ProfilePage />} />
             </Routes>
             <Footer />

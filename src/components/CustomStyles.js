@@ -1,13 +1,25 @@
-import { Avatar, Box } from '@mui/material';
+import { Avatar, Box, Divider } from '@mui/material';
 import InputBase from '@mui/material/InputBase';
 import { styled, alpha, useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import logo from '../assets/images/logo.svg';
+import eth from '../assets/images/eth.svg';
 import profileimage from '../assets/images/profileimage.svg';
 // import logo_name from '../assets/images/logo_name.svg';
 // import blacklogo_name from '../assets/images/blacklogo_name.svg';
 import { Switch } from '@mui/material';
 import { useWeb3React } from '@web3-react/core';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import * as React from 'react';
+import Button from '@mui/material/Button';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Fade from '@mui/material/Fade';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import RedeemIcon from '@mui/icons-material/Redeem';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { BigNumber, ethers } from 'ethers';
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -32,15 +44,59 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
     justifyContent: 'center',
 }));
 
+
+
 const Connected = () => {
-    const { account } = useWeb3React();
+    const { account, active, deactivate, library } = useWeb3React();
+    const [balance, setBalance] = React.useState(BigNumber.from("0"));
+    useEffect(() => {
+        let getBalance = async () => {
+            if (active) {
+                setBalance(await library.getBalance(account));
+            }
+        }
+        getBalance();
+    }, [active])
+    const navigate = useNavigate();
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
     return (<>
-        <Search sx={{ display: 'flex', alignItems: 'center', borderRadius: '25px', height: '44px', pr: 1.5, border: '1px solid rgba(145, 147, 155, 0.3)' }}>
+
+        <Search onClick={handleClick} aria-expanded={open ? 'true' : undefined} sx={{ display: 'flex', alignItems: 'center', borderRadius: '25px', height: '44px', pr: 1.5, border: '1px solid rgba(145, 147, 155, 0.3)' }}>
             <Box sx={{ display: 'flex', alignItems: 'center', ml: 0.25 }}>
                 <Avatar src={profileimage}></Avatar>
                 <Box sx={{ ml: 1 }}>{account.substring(0, 6) + "..." + account.substring(account.length - 4)}</Box>
             </Box>
         </Search>
+        <Menu
+            transformOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+            }}
+            id="primary-search-account-menu-mobile"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+        >
+            <MenuItem sx={{
+                width: '200px', display: 'block', fontSize: '18px', fontWeight: 700
+            }}>
+                {account.substring(0, 6) + "..." + account.substring(account.length - 4)}
+                <Box sx={{ display: 'flex', alignItems: 'center', fontSize: '16px', fontWeight: 700, gap: '5px', }}> {parseFloat((ethers.utils.formatEther(balance.toString())).toString()).toFixed(4)}<img src={eth} /></Box>
+            </MenuItem>
+            <Divider />
+            <MenuItem onClick={() => { navigate("/profile"); handleClose() }} sx={{ fontWeight: 700, fontSize: '14px', }}><PersonOutlineIcon sx={{ mr: 1 }} />My Profile</MenuItem>
+            <Divider />
+            <MenuItem onClick={() => { navigate("/rewards"); handleClose() }} sx={{ fontWeight: 700, fontSize: '14px', }}><RedeemIcon sx={{ mr: 1 }} />My Rewards</MenuItem>
+            <Divider />
+            <MenuItem onClick={() => { deactivate(); handleClose(); }} sx={{ fontWeight: 700, fontSize: '14px', }}><LogoutIcon sx={{ mr: 1, transform: 'rotate(180deg)' }} />Disconnected</MenuItem>
+        </Menu>
     </>);
 }
 
@@ -144,5 +200,15 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
         }),
     }),
 );
+
+export function ScrollToTop() {
+    const { pathname } = useLocation();
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [pathname]);
+
+    return null;
+}
 
 export { Search, SearchIconWrapper, StyledInputBase, LogoTypography, ToggleButton, Main, Connected };
