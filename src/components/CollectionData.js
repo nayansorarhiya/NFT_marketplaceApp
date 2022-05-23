@@ -65,12 +65,12 @@ export default function CollectionData(props) {
                         mb: 1.5
                     }}>
                     <CollectionName>
-                        Mutant Ape Yacht club
-                        <img src={vectorCorrect} alt='verified' style={{ marginLeft: '10px' }} />
+                        {props.apidata.name}
+                        {props.apidata.isvarified &&<img src={vectorCorrect} alt='verified' style={{ marginLeft: '10px' }} />}
                     </CollectionName>
                 </Box>
 
-                <PriceRange></PriceRange>
+                <PriceRange apidata={props.apidata}></PriceRange>
                 <Box sx={{ display: { md: 'none', lg: 'none' } }}>
                     <Button variant='outlined' sx={{
                         width: '100%', color: 'inherit', border: '1px solid #485FE6',

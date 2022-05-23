@@ -57,8 +57,13 @@ export default function MarketPlace(props) {
     const handleChange = (panel) => (event, newExpanded) => {
         setExpanded((!expanded));
     };
+    // console.log(props.list)
+    // return <></>
+    if ((props.list).length === 0) {
+        return <></>;
+    }
     return (
-        <Box sx={{mt : 2}}>
+        <Box sx={{ mt: 2 }}>
 
             <StyleAccordion expanded={expanded} onChange={handleChange(true)} >
                 {<Box sx={{ p: '12px', pl: '16px', pr: '16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }} id="panel1a-header" aria-controls="panel1a-content">
@@ -68,13 +73,13 @@ export default function MarketPlace(props) {
                         <Box>
                             <StyledInputBase placeholder='Search'></StyledInputBase>
                         </Box>}
-                    <Box sx={{display : 'flex'}}>
+                    <Box sx={{ display: 'flex' }}>
                         {expanded === true && <SignalCellularAltRoundedIcon onClick={() => setFilter(!filter)}
                             sx={{ cursor: 'pointer', transform: filter ? 'scaleX(1)' : 'scaleX(-1)' }} />}
                         <ExpandMoreIcon onClick={handleChange(true)} sx={{ transform: !expanded ? 'rotate(0)' : 'rotate(180deg)' }} />
                     </Box>
                 </Box>}
-                <AccordionDetails sx={{ mt: 0 }}>
+                <AccordionDetails sx={{ mt: 0, maxHeight: '300px', overflow: 'auto' }}>
                     <Typography >
 
                         <FormGroup>
@@ -88,10 +93,11 @@ export default function MarketPlace(props) {
                                                 color: blue[600],
                                             },
                                         }}
-                                    />} label={item.name} />
-                                    <Box sx={{ display: 'flex', gap: '2px', maxWidth: '80px', overflow: 'hidden' }}>
-                                        <TotalItems>{item.total}</TotalItems>
-                                        <TotalItems>({item.percentage}%)</TotalItems>
+                                    />} label={item[props.label] ? item[props.label] : 0 } />
+
+                                    <Box sx={{ display: 'flex', gap: '2px',  overflow: 'hidden' }}>
+                                        <TotalItems>{item[props.count]}</TotalItems>
+                                        <TotalItems>({item[props.count] / 100}%)</TotalItems>
                                     </Box>
                                 </Box>)
                             })}

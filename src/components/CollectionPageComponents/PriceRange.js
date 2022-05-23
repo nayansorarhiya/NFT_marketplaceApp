@@ -8,33 +8,30 @@ const Price = styled(Box)`
     display: flex;
     gap: 4px;
 `
-const Text = styled(Box)`
-    color: #EB5757;
-`
 
-export default function PriceRange() {
+export default function PriceRange(props) {
     return (
 
         <Box sx={{ display: 'flex', gap: '25px' }}>
-            <Box sx={{display: { xs: 'block', sm: 'flex', md: 'flex', lg: 'flex' } , gap: '10px'}}>
+            <Box sx={{ display: { xs: 'block', sm: 'flex', md: 'flex', lg: 'flex' }, gap: '10px' }}>
                 <Price>
                     <span style={{ color: '#91939B' }}>24h: </span>
-                    <span>5,05.7</span>
+                    <span>{props.apidata.onedayvolume.toFixed(2)}</span>
                     <img style={{ marginLeft: '5px' }} src={eth} alt='eth' />
                 </Price>
-                <Text>
-                    -98.47%
-                </Text>
+                <Box sx={{ ...(props.apidata.onedaychange > 0 ? { color: '#27AE60' } : {color: '#EB5757'}) }}>
+                    {props.apidata.onedaychange.toFixed(2)}%
+                </Box>
             </Box>
-            <Box sx={{display: { xs: 'block', sm: 'flex', md: 'flex', lg: 'flex' }, gap: '10px'}}>
+            <Box sx={{ display: { xs: 'block', sm: 'flex', md: 'flex', lg: 'flex' }, gap: '10px' }}>
                 <Price>
                     <span style={{ color: '#91939B' }}>Floor: </span>
-                    <span>15.375</span>
+                    <span>{props.apidata.floorprice.toFixed(2)}</span>
                     <img style={{ marginLeft: '5px' }} src={eth} alt='eth' />
                 </Price>
                 <Price>
                     <span style={{ color: '#91939B' }}>Reveal: </span>
-                    <span style={{ color: '#27AE60' }} >97.25%</span>
+                    <span style={{ color: '#27AE60' }} >{props.apidata.revealpercentage}%</span>
                     <img style={{ marginLeft: '5px' }} src={info} alt='info' />
                 </Price>
             </Box>

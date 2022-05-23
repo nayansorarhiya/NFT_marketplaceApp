@@ -7,13 +7,14 @@ import Divider from '@mui/material/Divider';
 import MenuIcon from '@mui/icons-material/Menu';
 import DoubleArrowOutlinedIcon from '@mui/icons-material/DoubleArrowOutlined';
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
-import { ToggleButton } from '../CustomStyles';
+import { CustomeSwitch } from '../CustomStyles';
 import { Avatar, Badge, Button, FormControl, Grid, InputBase, MenuItem, Select, useMediaQuery } from '@mui/material';
 import eth from '../../assets/images/eth.svg';
 import MarketPlace from '../DropdownComponents/MarketPlace';
 import CollectionData from '../CollectionData';
 import NFTCollection from '../CollectionPageComponents/NFTCollection';
 import menu from '../../assets/images/menu.svg'
+import { useParams } from 'react-router-dom';
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: 'inherit',
@@ -48,10 +49,24 @@ export default function CollectionPage() {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
     const [dropdown, setDropdown] = React.useState(0);
+    const {slug} = useParams();
     const [variant, setVariant] = React.useState({
         view: '', width: '', direction: ''
     });
     const [topdrawerwidth, setTopDrawerwidth] = React.useState(280);
+    const [rarityinput, setRarityInput] = React.useState(false);
+    const [onecollectionData, setoneCollectionData] = React.useState([{
+        name: "",
+        isverified: false,
+        onedaychange: 0,
+        onedayvolume: 0,
+        floorprice: 0,
+        revealpercentage: 100,
+        marketstats: [],
+        traits: [],
+        traitslist: [],
+        traitcounts: [],
+    }]);
 
     const handleChange = (event) => {
         setDropdown(event.target.value);
@@ -99,6 +114,50 @@ export default function CollectionPage() {
             // }),
         }),
     );
+    const groupBy = (items, key) => items.reduce(
+        (result, item) => ({
+            ...result,
+            [item[key]]: [
+                ...(result[item[key]] || []),
+                item,
+            ],
+        }),
+        {},
+    );
+    
+    async function apiCallforData() {
+        const resp = await fetch(
+            `https://dh-backend.vercel.app/api/getCollectionDetails?slug=${slug}`,
+            {
+                method: "get",
+            }
+        );
+        const rows = await resp.json();
+        const localrows = rows.data.data.map((v) => ({
+            name: v.name,
+            isverified: v.isVerified,
+            onedaychange: v.stats.one_day_change ? v.stats.one_day_change : 0,
+            onedayvolume: v.stats.one_day_volume ? v.stats.one_day_volume : 0,
+            floorprice: v.stats.floor_price ? v.stats.floor_price : -1,
+            revealpercentage: v.revealPercentage ? v.revealPercentage : 100,
+            marketstats: (v.marketStats).length !== 0 ? v.marketStats : [],
+            traits: (v.traits).length !== 0 ? v.traits : [],
+            traitslist: [],
+            traitcounts: (v.traitCounts).length !== 0 ? v.traitCounts : [],
+        }));
+        localrows[0].traits = groupBy(localrows[0].traits, 'trait_type');
+        localrows[0].traitslist = Object.keys(localrows[0].traits)
+        setoneCollectionData(localrows);
+
+    }
+
+    React.useEffect(() => {
+        apiCallforData();
+    }, []);
+
+    React.useEffect(() => {
+        console.log(onecollectionData);
+    }, [onecollectionData]);
 
     return (
         <>
@@ -169,30 +228,38 @@ export default function CollectionPage() {
                             }}>Done</Button>
                         </Box>
                         <Box sx={{ maxHeight: '100vh', overflow: 'auto' }}>
-                            <ToggleButton label="Buy Now"></ToggleButton>
-                            <ToggleButton label="Rarity Ranking"></ToggleButton>
-                            <Box sx={{ display: 'flex', alignItems: 'center', color: '#91939B', fontWeight: 500, fontSize: '16px', lineHeight: '21px', minHeight: '38px' }}>
-                                Rarity Ranking Range
+                            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#91939B', fontWeight: 500, fontSize: '16px', lineHeight: '21px', mt: 1, mb: 1 }}>
+                                <Box>Buy Now</Box>
+                                <CustomeSwitch></CustomeSwitch>
                             </Box>
+                            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#91939B', fontWeight: 500, fontSize: '16px', lineHeight: '21px', mt: 1, mb: 1 }}>
+                                <Box>Rarity Ranking</Box>
+                                <CustomeSwitch onChange={() => setRarityInput(!rarityinput)}></CustomeSwitch>
+                            </Box>
+                            {rarityinput && <>
+                                <Box sx={{ display: 'flex', alignItems: 'center', color: '#91939B', fontWeight: 500, fontSize: '16px', lineHeight: '21px', minHeight: '38px' }}>
+                                    Rarity Ranking Range
+                                </Box>
 
-                            <Grid container spacing={1} sx={{ display: 'flex' }}>
-                                <Grid item xs={6}>
-                                    <StyledInputBase placeholder='Min'></StyledInputBase>
+                                <Grid container spacing={1} sx={{ display: 'flex' }}>
+                                    <Grid item xs={6}>
+                                        <StyledInputBase placeholder='Min'></StyledInputBase>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <StyledInputBase placeholder='Max'></StyledInputBase>
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <Button variant='outlined' sx={{
+                                            width: '100%', color: 'inherit', border: '1px solid #485FE6',
+                                            fontWeight: '500',
+                                            fontSize: '16px', textTransform: 'capitalize',
+                                            '&:hover,&:focus': {
+                                                border: '1px solid #485FE6',
+                                            },
+                                        }}>Apply</Button>
+                                    </Grid>
                                 </Grid>
-                                <Grid item xs={6}>
-                                    <StyledInputBase placeholder='Max'></StyledInputBase>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <Button variant='outlined' sx={{
-                                        width: '100%', color: 'inherit', border: '1px solid #485FE6',
-                                        fontWeight: '500',
-                                        fontSize: '16px', textTransform: 'capitalize',
-                                        '&:hover,&:focus': {
-                                            border: '1px solid #485FE6',
-                                        },
-                                    }}>Apply</Button>
-                                </Grid>
-                            </Grid>
+                            </>}
                             <Box sx={{ display: 'flex', alignItems: 'center', color: '#91939B', fontWeight: 500, fontSize: '16px', lineHeight: '21px', minHeight: '38px', mt: 3 }}>
                                 Price Range
                             </Box>
@@ -233,21 +300,33 @@ export default function CollectionPage() {
                                 </Grid>
                             </Grid>
                             <Box sx={{ mt: 4 }}>
-                                <MarketPlace name={"MarketPlace"} list={[{ name: "LooksRare", percentage: 120, total: 105 }, { name: "OpenSea", percentage: 56.5, total: 110 }]}></MarketPlace>
-                                <Box sx={{ mt: 3, mb: 2, color: '#91939B' }}>
-                                    Properties
-                                </Box>
-                                <MarketPlace name={"Background"} list={[{ name: "Purple", percentage: 25, total: 8 }, { name: "Yellow", percentage: 56.5, total: 25 }]}></MarketPlace>
-                                <MarketPlace name={"Background"} list={[{ name: "Purple", percentage: 25, total: 8 }, { name: "Yellow", percentage: 56.5, total: 25 }]}></MarketPlace>
-                                <MarketPlace name={"Background"} list={[{ name: "Purple", percentage: 25, total: 8 }, { name: "Yellow", percentage: 56.5, total: 25 }]}></MarketPlace>
-                                {/* <Properties></Properties> */}
+                                <MarketPlace name={"MarketPlace"} list={onecollectionData[0].marketstats} label={'_id'} count={'count'}></MarketPlace>
+                                {onecollectionData[0].traitcounts.length !== 0 &&
+                                    <>
+                                        <Box sx={{ mt: 3, mb: 2, color: '#91939B' }}>
+                                            Trait Count
+                                        </Box>
+                                        <MarketPlace name={"Trait Count"} list={onecollectionData[0].traitcounts} label={'_id'} count={'count'}></MarketPlace>
+                                    </>}
+                                {onecollectionData[0].traitslist.length !== 0 &&
+                                    <>
+                                        <Box sx={{ mt: 3, mb: 2, color: '#91939B' }}>
+                                            Properties
+                                        </Box>
+                                        {
+                                            onecollectionData[0].traitslist.map((value) => {
+                                                return (<MarketPlace name={value} list={onecollectionData[0].traits[value]} label={'trait_value'} count={'trait_count'}></MarketPlace>)
+                                            })
+                                        }
+                                    </>
+                                }
                             </Box>
                         </Box>
                     </Box>
                 </Drawer>
                 <Main open={open} sx={{ p: 0 }}>
                     <Box>
-                        <CollectionData drawerCall={handleDrawerOpen}></CollectionData>
+                        <CollectionData drawerCall={handleDrawerOpen} apidata={onecollectionData[0]}></CollectionData>
                         <NFTCollection></NFTCollection>
                     </Box>
                 </Main>

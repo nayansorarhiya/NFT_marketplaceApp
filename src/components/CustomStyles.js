@@ -172,16 +172,16 @@ const CustomeSwitch = styled(Switch)(({ theme }) => ({
 
 }));
 
-const ToggleButton = (props) => {
-    return (
-        <>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#91939B', fontWeight: 500, fontSize: '16px', lineHeight: '21px', mt: 1, mb: 1 }}>
-                <Box>{props.label}</Box>
-                <CustomeSwitch></CustomeSwitch>
-            </Box>
-        </>
-    );
-}
+// const ToggleButton = (props) => {
+//     return (
+//         <>
+//             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#91939B', fontWeight: 500, fontSize: '16px', lineHeight: '21px', mt: 1, mb: 1 }}>
+//                 <Box>{props.label}</Box>
+//                 {/* <CustomeSwitch onChange={()=> props.setRarityInput(!props.rarityinput)}></CustomeSwitch> */}
+//             </Box>
+//         </>
+//     );
+// }
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
     ({ theme, open, cartWidth }) => ({
@@ -211,4 +211,4 @@ export function ScrollToTop() {
     return null;
 }
 
-export { Search, SearchIconWrapper, StyledInputBase, LogoTypography, ToggleButton, Main, Connected };
+export { Search, SearchIconWrapper, StyledInputBase, LogoTypography, Main, Connected,CustomeSwitch};
