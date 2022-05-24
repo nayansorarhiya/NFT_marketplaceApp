@@ -15,6 +15,7 @@ import CollectionData from '../CollectionData';
 import NFTCollection from '../CollectionPageComponents/NFTCollection';
 import menu from '../../assets/images/menu.svg'
 import { useParams } from 'react-router-dom';
+import { BigNumber } from 'ethers';
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: 'inherit',
@@ -49,12 +50,27 @@ export default function CollectionPage() {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
     const [dropdown, setDropdown] = React.useState(0);
-    const {slug} = useParams();
+    const { slug } = useParams();
     const [variant, setVariant] = React.useState({
         view: '', width: '', direction: ''
     });
     const [topdrawerwidth, setTopDrawerwidth] = React.useState(280);
     const [rarityinput, setRarityInput] = React.useState(false);
+    const [offset, setOffset] = React.useState(0);
+    const [apifilter, setApiFilter] = React.useState({
+        "filters": {
+            "traits": {},
+            "traitsRange": {},
+            "slug": slug,
+            "rankRange": {},
+            "price": {}
+        },
+        "limit": 30,
+        "markets": [],
+        "offset": offset,
+        "sort": { "currentEthPrice": "asc" },
+        "status": [""]
+    });
     const [onecollectionData, setoneCollectionData] = React.useState([{
         name: "",
         isverified: false,
@@ -67,6 +83,14 @@ export default function CollectionPage() {
         traitslist: [],
         traitcounts: [],
     }]);
+    const [assetsdata, setAssetsdata] = React.useState([{
+        name: '',
+        market: '',
+        imageUrl: '',
+        rarityscore: 0,
+        price: "0",
+
+    }])
 
     const handleChange = (event) => {
         setDropdown(event.target.value);
@@ -124,8 +148,8 @@ export default function CollectionPage() {
         }),
         {},
     );
-    
-    async function apiCallforData() {
+
+    async function apiCallforCollectionData() {
         const resp = await fetch(
             `https://dh-backend.vercel.app/api/getCollectionDetails?slug=${slug}`,
             {
@@ -150,14 +174,39 @@ export default function CollectionPage() {
         setoneCollectionData(localrows);
 
     }
+    async function apiCallforAssetData() {
+        const assetresp = await fetch(
+            `https://dh-backend.vercel.app/api/getAssestDetails`,
+            {
+                method: "POST",
+                body: JSON.stringify(apifilter),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                }
+            }
+        );
+        const assetsrows = await assetresp.json();
+        // console.log(assetsrows.data.data);
+        const localassetsrows = assetsrows.data.data.map((v) => ({
+            name: v.name,
+            market: v.market,
+            imageurl: v.imageUrl,
+            rarityscore: v.rarityScore,
+            price: v.currentBasePrice.toLocaleString('fullwide', { useGrouping: false }),
+        }));
+        // localassetsrows[0].traits = groupBy(localassetsrows[0].traits, 'trait_type');
+        // localassetsrows[0].traitslist = Object.keys(localassetsrows[0].traits)
+        setAssetsdata(localassetsrows);
+        console.log(assetsdata);
+    }
 
     React.useEffect(() => {
-        apiCallforData();
+        apiCallforAssetData();
+    }, [apifilter]);
+    React.useEffect(() => {
+        apiCallforCollectionData();
+        apiCallforAssetData();
     }, []);
-
-    React.useEffect(() => {
-        console.log(onecollectionData);
-    }, [onecollectionData]);
 
     return (
         <>
@@ -300,7 +349,7 @@ export default function CollectionPage() {
                                 </Grid>
                             </Grid>
                             <Box sx={{ mt: 4 }}>
-                                <MarketPlace name={"MarketPlace"} list={onecollectionData[0].marketstats} label={'_id'} count={'count'}></MarketPlace>
+                                <MarketPlace setApiFilter={setApiFilter} apifilter={apifilter} keyword={"markets"} name={"MarketPlace"} list={onecollectionData[0].marketstats} label={'_id'} count={'count'}></MarketPlace>
                                 {onecollectionData[0].traitcounts.length !== 0 &&
                                     <>
                                         <Box sx={{ mt: 3, mb: 2, color: '#91939B' }}>
@@ -327,7 +376,7 @@ export default function CollectionPage() {
                 <Main open={open} sx={{ p: 0 }}>
                     <Box>
                         <CollectionData drawerCall={handleDrawerOpen} apidata={onecollectionData[0]}></CollectionData>
-                        <NFTCollection></NFTCollection>
+                        <NFTCollection assetsdata={assetsdata} rarityinput={rarityinput}></NFTCollection>
                     </Box>
                 </Main>
             </Box>

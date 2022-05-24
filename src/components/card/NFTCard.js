@@ -1,6 +1,11 @@
-import { alpha, Avatar, Box, Button, Card, CardActions, CardContent, CardMedia, Grid, styled, Typography, useTheme } from '@mui/material'
+import { alpha, Avatar, Box, Button, Card, CardActions, CardContent, CardMedia, Grid, Skeleton, styled, Typography, useTheme } from '@mui/material'
 import React from 'react';
 import eth from '../../assets/images/eth.svg'
+import { ethers } from 'ethers';
+import opensea from '../../assets/images/opensea.svg';
+import looksrare from '../../assets/images/looksrare.svg';
+import x2y2 from '../../assets/images/x2y2.svg';
+import nftx from '../../assets/images/nftx.svg';
 
 const CountButton = styled(Button)`
     background: #485FE6;
@@ -27,32 +32,45 @@ const BadgeImage = styled(Avatar)`
 
 export default function NFTCard(props) {
     const theme = useTheme();
+    let svgpath = '';
+    if (props.apidata.market == "looksrare") {
+        svgpath = looksrare;
+    } else if (props.apidata.market == "x2y2") {
+        svgpath = x2y2;
+    } else if (props.apidata.market == "opensea") {
+        svgpath = opensea;
+    }
+    else {
+        svgpath = nftx;
+    }
     return (<>
-        <Grid item lg={2.4} sm={6} xs={12} md={4}  >
-            <Card sx={{ mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1) }}>
-                <Box sx={{ position: 'relative' }}>
-                    <BadgeImage src={props.opensea}></BadgeImage>
-                    <CardMedia
-                        component="img"
-                        image={props.card_img1}
-                        alt="green iguana"
-                    >
-                    </CardMedia>
-                    <CountButton># 7258</CountButton>
-                </Box>
-                <CardContent sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Box>
-                        34.91
+        {props.apidata.name !== '' &&
+            <Grid item lg={2.4} sm={6} xs={12} md={4}  >
+                <Card sx={{ mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1) }}>
+                    <Box sx={{ position: 'relative' }}>
+                        {svgpath !== '' && <BadgeImage src={svgpath}></BadgeImage>}
+                        <CardMedia
+                            component="img"
+                            image={props.apidata.imageurl}
+                            alt="NFT image"
+                        >
+                        </CardMedia>
+                        {props.rarityinput && <CountButton>#{props.apidata.rarityscore}</CountButton>}
                     </Box>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '7px' }}>
-                        <Box sx={{ color: 'rgba(145, 147, 155, 1)' }}>
-                            38.51
+                    <CardContent sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <Box>
+                            {props.apidata.name}
                         </Box>
-                        <img src={eth} alt="eth" height={'21px'} />
-                    </Box>
-                </CardContent>
-            </Card>
-        </Grid>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '7px' }}>
+                            <Box sx={{ color: 'rgba(145, 147, 155, 1)' }}>
+                                {parseFloat(ethers.utils.formatEther((props.apidata.price).toString())).toFixed(3)}
+                            </Box>
+                            <img src={eth} alt="eth" height={'21px'} />
+                        </Box>
+                    </CardContent>
+                </Card>
+            </Grid>
+        }
     </>
     )
 }

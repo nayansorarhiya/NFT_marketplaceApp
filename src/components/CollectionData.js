@@ -1,4 +1,4 @@
-import { Box, Button, Divider, FormControl, MenuItem, Select, styled } from '@mui/material'
+import { Box, Button, Divider, FormControl, MenuItem, Select, Skeleton, styled } from '@mui/material'
 import React from 'react'
 import vectorCorrect from '../assets/images/vectorCorrect.svg'
 import PriceRange from './CollectionPageComponents/PriceRange'
@@ -57,20 +57,25 @@ export default function CollectionData(props) {
     };
     return (
         <>
-            <Box sx={{p:'32px 20px 20px 20px'}}>
-                <Box
-                    sx={{
-                        display: 'flex',
-                        gap: '13px',
-                        mb: 1.5
-                    }}>
-                    <CollectionName>
-                        {props.apidata.name}
-                        {props.apidata.isvarified &&<img src={vectorCorrect} alt='verified' style={{ marginLeft: '10px' }} />}
-                    </CollectionName>
-                </Box>
+            <Box sx={{ p: '32px 20px 20px 20px' }}>
+                {props.apidata.name ? <>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            gap: '13px',
+                            mb: 1.5
+                        }}>
+                        <CollectionName>
+                            {props.apidata.name}
+                            {props.apidata.isvarified && <img src={vectorCorrect} alt='verified' style={{ marginLeft: '10px' }} />}
+                        </CollectionName>
+                    </Box>
 
-                <PriceRange apidata={props.apidata}></PriceRange>
+                    <PriceRange apidata={props.apidata}></PriceRange>
+                </> : <>
+                    <Skeleton animation="wave" sx={{width : '100%', maxWidth : '400px', height: '60px'}}/>
+                </>
+                }
                 <Box sx={{ display: { md: 'none', lg: 'none' } }}>
                     <Button variant='outlined' sx={{
                         width: '100%', color: 'inherit', border: '1px solid #485FE6',
