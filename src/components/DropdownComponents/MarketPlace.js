@@ -87,7 +87,7 @@ export default function MarketPlace(props) {
 
                                 return (<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                     <FormControlLabel control={<CheckboxComponents onChange={e => {
-                                        if (e.target.checked == true) {
+                                        if (e.target.checked === true) {
                                             props.setApiFilter({ ...(props.apifilter), [props.keyword]: [...props.apifilter.markets, item[props.label]], })
                                         } else {
                                             let arr = (props.apifilter.markets).filter((val) => {

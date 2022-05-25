@@ -11,6 +11,7 @@ import { CustomeSwitch } from '../CustomStyles';
 import { Avatar, Badge, Button, FormControl, Grid, InputBase, MenuItem, Select, useMediaQuery } from '@mui/material';
 import eth from '../../assets/images/eth.svg';
 import MarketPlace from '../DropdownComponents/MarketPlace';
+import Properties from '../DropdownComponents/Properties';
 import CollectionData from '../CollectionData';
 import NFTCollection from '../CollectionPageComponents/NFTCollection';
 import menu from '../../assets/images/menu.svg'
@@ -59,7 +60,7 @@ export default function CollectionPage() {
     const [offset, setOffset] = React.useState(0);
     const [apifilter, setApiFilter] = React.useState({
         "filters": {
-            "traits": {},
+            "traits": {  },
             "traitsRange": {},
             "slug": slug,
             "rankRange": {},
@@ -364,7 +365,7 @@ export default function CollectionPage() {
                                         </Box>
                                         {
                                             onecollectionData[0].traitslist.map((value) => {
-                                                return (<MarketPlace name={value} list={onecollectionData[0].traits[value]} label={'trait_value'} count={'trait_count'}></MarketPlace>)
+                                                return (<Properties setApiFilter={setApiFilter} apifilter={apifilter} keyword={"filters"} name={value} list={onecollectionData[0].traits[value]} label={'trait_value'} count={'trait_count'}></Properties>)
                                             })
                                         }
                                     </>

@@ -3,6 +3,7 @@ import Checkbox from '@mui/material/Checkbox';
 import { Accordion, AccordionDetails, AccordionSummary, alpha, Box, FormControlLabel, FormGroup, InputBase, styled, Typography } from '@mui/material';
 import { blue } from '@mui/material/colors';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import SignalCellularAltRoundedIcon from '@mui/icons-material/SignalCellularAltRounded';
 
 
 
@@ -50,55 +51,74 @@ const TotalItems = styled(Box)`
     line-height: 18px;
 `
 
-export default function Properties() {
-
-
+export default function Properties(props) {
+    const [expanded, setExpanded] = React.useState(false);
+    const [filter, setFilter] = React.useState(true);
+    const [filteredlist, setFilteredlist] = React.useState([]);
+    const handleChange = (panel) => (event, newExpanded) => {
+        setExpanded((!expanded));
+    };
+    // console.log(props.list)
+    // return <></>
+    if ((props.list).length === 0) {
+        return <></>;
+    }
     return (
-        <Box>
+        <Box sx={{ mt: 2 }}>
 
-            <StyleAccordion>
-                <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel1a-content"
-                    id="panel1a-header"
-                >
-                    <Typography>Background</Typography>
-                </AccordionSummary>
-                <AccordionDetails sx={{ mt: 0 }}>
-                    <Box>
-                        <StyledInputBase placeholder='Search'></StyledInputBase>
+            <StyleAccordion expanded={expanded} onChange={handleChange(true)} >
+                {<Box sx={{ p: '12px', pl: '16px', pr: '16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }} id="panel1a-header" aria-controls="panel1a-content">
+                    {!expanded ? <Box onClick={handleChange(true)} sx={{ width: '100%' }}>
+                        <Typography>{props.name}</Typography>
+                    </Box> :
+                        <Box>
+                            <StyledInputBase placeholder='Search'></StyledInputBase>
+                        </Box>}
+                    <Box sx={{ display: 'flex' }}>
+                        {expanded === true && <SignalCellularAltRoundedIcon onClick={() => setFilter(!filter)}
+                            sx={{ cursor: 'pointer', transform: filter ? 'scaleX(1)' : 'scaleX(-1)' }} />}
+                        <ExpandMoreIcon onClick={handleChange(true)} sx={{ transform: !expanded ? 'rotate(0)' : 'rotate(180deg)' }} />
                     </Box>
-                    <FormGroup>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                            <FormControlLabel control={<CheckboxComponents
-                                sx={{
-                                    color: blue[800],
-                                    '&.Mui-checked': {
-                                        color: blue[600],
-                                    },
-                                }}
-                            />} label="Purple" />
-                            <Box sx={{ display: 'flex', gap: '2px' }}>
-                                <TotalItems>1290</TotalItems>
-                                <TotalItems>(12.90%)</TotalItems>
-                            </Box>
-                        </Box>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                            <FormControlLabel control={<CheckboxComponents
-                                sx={{
-                                    color: blue[800],
-                                    '&.Mui-checked': {
-                                        color: blue[600],
-                                    },
-                                }}
-                            />} label="Yellow" />
-                            <Box sx={{ display: 'flex', gap: '2px' }}>
-                                <TotalItems>1283</TotalItems>
-                                <TotalItems>(12.83%)</TotalItems>
-                            </Box>
-                        </Box>
-                    </FormGroup>
+                </Box>}
+                <AccordionDetails sx={{ mt: 0, maxHeight: '300px', overflow: 'auto' }}>
+                    <Typography >
 
+                        <FormGroup>
+                            {(props.list).map((item) => {
+
+                                return (<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <FormControlLabel control={<CheckboxComponents onChange={e => {
+                                        if (e.target.checked === true) {
+                                            filteredlist.push(item[props.label])
+                                            props.setApiFilter({ ...(props.apifilter), [props.keyword]: { ...(props.apifilter.filters), "traits": { ...(props.apifilter.filters.traits), [props.name]: filteredlist } } })
+                                        } else {
+                                            let arr = filteredlist.filter((val) => {
+                                                return val !== item[props.label] && item[props.label];
+                                            });
+                                            setFilteredlist(arr);
+                                            (filteredlist.length === 0) ?
+                                            props.setApiFilter({ ...(props.apifilter), [props.keyword]: { ...(props.apifilter.filters), "traits": { ...(props.apifilter.filters.traits), [props.name]: arr } } })
+                                            :
+                                            props.setApiFilter({ ...(props.apifilter), [props.keyword]: { ...(props.apifilter.filters), "traits": { } } })
+                                        }
+                                    }}
+                                        sx={{
+                                            color: blue[800],
+                                            '&.Mui-checked': {
+                                                color: blue[600],
+                                            },
+                                        }}
+                                    />} label={item[props.label] ? item[props.label] : 0} />
+
+                                    <Box sx={{ display: 'flex', gap: '2px', overflow: 'hidden' }}>
+                                        <TotalItems>{item[props.count]}</TotalItems>
+                                        <TotalItems>({item[props.count] / 100}%)</TotalItems>
+                                    </Box>
+                                </Box>)
+                            })}
+
+                        </FormGroup>
+                    </Typography>
                 </AccordionDetails>
             </StyleAccordion>
 

@@ -15,8 +15,8 @@ import { useWeb3React } from '@web3-react/core'
 //     supportedChainIds: [1, 3, 4, 5, 42, 97],
 // });
 
-const walletConnect = new WalletConnectConnector({
-    rpcUrl: `https://data-seed-prebsc-1-s1.binance.org:8545`,
+const walletConnectOption = new WalletConnectConnector({
+    rpcUrl: "https://data-seed-prebsc-1-s1.binance.org:8545",
     bridge: "https://bridge.walletconnect.org",
     qrcode: true,
 });
@@ -31,19 +31,19 @@ export default function ConnectionModal(props) {
     const walletConnect = async () => {
         const reqChainId = "0x61";
         if (window.ethereum) {
-    
-          const chainId = await window.ethereum.request({ method: 'eth_chainId' });
-          if (chainId != reqChainId) {
-            await window.ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: reqChainId}] });
-          }
-          activate(Injected);
+
+            const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+            if (chainId != reqChainId) {
+                await window.ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: reqChainId }] });
+            }
+            activate(Injected);
         }
         else {
-          alert("Metamask is not Installed");
+            alert("Metamask is not Installed");
         }
-    
-    
-      }
+
+
+    }
     async function chainSwitch() {
         try {
             // debugger;
@@ -141,7 +141,7 @@ export default function ConnectionModal(props) {
                             </IconButton>
                         </ListItem>
                         <Divider />
-                        <ListItem button divider sx={{ py: 3 }} onClick={() => { activate(walletConnect, err => console.log(err)); }}>
+                        <ListItem button divider sx={{ py: 3 }} onClick={() => { activate(walletConnectOption, err => console.log(err)); }}>
                             <img src={walletconnectlogo} alt='wallect connect' width={32} height={30} />
                             <Typography sx={WalletConnect}>WalletConnect</Typography>
                         </ListItem>
