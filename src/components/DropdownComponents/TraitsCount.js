@@ -51,7 +51,7 @@ const TotalItems = styled(Box)`
     line-height: 18px;
 `
 
-export default function Properties(props) {
+export default function TraitsCount(props) {
     const [expanded, setExpanded] = React.useState(false);
     const [filter, setFilter] = React.useState(true);
     const [filteredlist, setFilteredlist] = React.useState([]);
@@ -87,18 +87,18 @@ export default function Properties(props) {
                                 return (<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                     <FormControlLabel control={<CheckboxComponents onChange={e => {
                                         if (e.target.checked === true) {
-                                            filteredlist.push(item[props.label])
-                                            props.setApiFilter({ ...(props.apifilter), [props.keyword]: { ...(props.apifilter.filters), "traits": { ...(props.apifilter.filters.traits), [props.name]: filteredlist } } })
+                                            filteredlist.push(item[props.label] ? item[props.label] : 0)
+                                            props.setApiFilter({ ...(props.apifilter), [props.keyword]: { ...(props.apifilter.filters), "traitCounts": filteredlist } })
                                         } else {
                                             let arr = filteredlist.filter((val) => {
-                                                return val !== item[props.label] && item[props.label];
+                                                return val !== ((item[props.label] !== null) ? item[props.label] : 0);
                                             });
                                             setFilteredlist(arr);
                                             if (filteredlist.length !== 1) {
-                                                props.setApiFilter({ ...(props.apifilter), [props.keyword]: { ...(props.apifilter.filters), "traits": { ...(props.apifilter.filters.traits), [props.name]: arr } } })
+                                                props.setApiFilter({ ...(props.apifilter), [props.keyword]: { ...(props.apifilter.filters), "traitCounts": arr } })
                                             } else {
-                                                delete (props.apifilter.filters.traits)[[props.name]];
-                                                props.setApiFilter({ ...(props.apifilter), [props.keyword]: { ...(props.apifilter.filters), "traits": { ...(props.apifilter.filters.traits) } } })
+                                                delete (props.apifilter.filters)[["traitCounts"]];
+                                                props.setApiFilter({ ...(props.apifilter), [props.keyword]: { ...(props.apifilter.filters) } })
                                             }
                                         }
                                     }}

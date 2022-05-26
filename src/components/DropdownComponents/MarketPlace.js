@@ -57,8 +57,6 @@ export default function MarketPlace(props) {
     const handleChange = (panel) => (event, newExpanded) => {
         setExpanded((!expanded));
     };
-    // console.log(props.list)
-    // return <></>
     if ((props.list).length === 0) {
         return <></>;
     }

@@ -1,5 +1,5 @@
 import { Box, Button, Divider, FormControl, MenuItem, Select, Skeleton, styled } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import vectorCorrect from '../assets/images/vectorCorrect.svg'
 import PriceRange from './CollectionPageComponents/PriceRange'
 import { Search, SearchIconWrapper, StyledInputBase } from './CustomStyles'
@@ -21,6 +21,14 @@ export default function CollectionData(props) {
     const [rowfilter, setRowFilter] = React.useState({
         label: '24h', option: 0
     });
+
+    const [nftsearch, setNFTSearch] = useState("");
+
+    // const NFTcollectionSearch = (val) => {
+    //     props.setApiFilter({ ...(props.apifilter), "filters": { ...(props.apifilter.filters), "searchText": val } })
+    //     // setNFTSearch(e.target.value)
+    //     // console.log(nftsearch);
+    // }
 
     const handleChange = (event) => {
         setDropdown(event.target.value);
@@ -73,7 +81,7 @@ export default function CollectionData(props) {
 
                     <PriceRange apidata={props.apidata}></PriceRange>
                 </> : <>
-                    <Skeleton animation="wave" sx={{width : '100%', maxWidth : '400px', height: '60px'}}/>
+                    <Skeleton animation="wave" sx={{ width: '100%', maxWidth: '400px', height: '60px' }} />
                 </>
                 }
                 <Box sx={{ display: { md: 'none', lg: 'none' } }}>
@@ -97,7 +105,8 @@ export default function CollectionData(props) {
                             placeholder="Search collections by name or address "
                             inputProps={{ 'aria-label': 'search' }}
                             sx={{ width: { xs: '100%', sm: '350px', md: '400px', lg: '500px' } }}
-                        // onChange={requestSearch}
+                            value={nftsearch}
+                            onChange={ (e) => {setNFTSearch(e.target.value)}}
                         />
                     </Search>
                     <Box sx={{ display: 'flex', gap: 1, justifyContent: 'right', mt: { xs: 2, sm: 0, md: 0, lg: 0 } }}>

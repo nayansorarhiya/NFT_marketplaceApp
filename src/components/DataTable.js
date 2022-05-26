@@ -193,7 +193,7 @@ export default function DataTable() {
     const localrows = rows.data.data.map((v) => ({
       imgurl: v.imageUrl,
       name: v.name,
-      slug : v.slug,
+      slug: v.slug,
       isVerified: v.isVerified,
       floorprice: v.stats.floor_price ? v.stats.floor_price : -1,
 
@@ -374,7 +374,7 @@ export default function DataTable() {
                     const labelId = `enhanced-table-checkbox-${index}`;
                     return (
                       <TableRow
-                        style={{ width: "100vw" }}
+                        sx={{ width: "100vw", cursor: 'pointer' }}
                         hover
                         tabIndex={-1}
                         key={row.name}

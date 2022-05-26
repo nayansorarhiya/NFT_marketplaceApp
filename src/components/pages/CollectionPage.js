@@ -12,6 +12,7 @@ import { Avatar, Badge, Button, FormControl, Grid, InputBase, MenuItem, Select, 
 import eth from '../../assets/images/eth.svg';
 import MarketPlace from '../DropdownComponents/MarketPlace';
 import Properties from '../DropdownComponents/Properties';
+import TraitsCount from '../DropdownComponents/TraitsCount';
 import CollectionData from '../CollectionData';
 import NFTCollection from '../CollectionPageComponents/NFTCollection';
 import menu from '../../assets/images/menu.svg'
@@ -58,19 +59,21 @@ export default function CollectionPage() {
     const [topdrawerwidth, setTopDrawerwidth] = React.useState(280);
     const [rarityinput, setRarityInput] = React.useState(false);
     const [offset, setOffset] = React.useState(0);
+    // const [searchInputtext, setSearchInputtext] = React.useState("");
     const [apifilter, setApiFilter] = React.useState({
         "filters": {
-            "traits": {  },
+            "traits": {},
             "traitsRange": {},
             "slug": slug,
             "rankRange": {},
+            "searchText": '',
             "price": {}
         },
         "limit": 30,
         "markets": [],
         "offset": offset,
         "sort": { "currentEthPrice": "asc" },
-        "status": [""]
+        "status": ["all"]
     });
     const [onecollectionData, setoneCollectionData] = React.useState([{
         name: "",
@@ -193,12 +196,12 @@ export default function CollectionPage() {
             market: v.market,
             imageurl: v.imageUrl,
             rarityscore: v.rarityScore,
-            price: v.currentBasePrice.toLocaleString('fullwide', { useGrouping: false }),
+            price: v.currentBasePrice != null ? v.currentBasePrice.toLocaleString('fullwide', { useGrouping: false }) : "0",
         }));
         // localassetsrows[0].traits = groupBy(localassetsrows[0].traits, 'trait_type');
         // localassetsrows[0].traitslist = Object.keys(localassetsrows[0].traits)
         setAssetsdata(localassetsrows);
-        console.log(assetsdata);
+        // console.log(assetsdata);
     }
 
     React.useEffect(() => {
@@ -224,7 +227,7 @@ export default function CollectionPage() {
                     >
                         <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <circle cx="21" cy="21" r="20.5" stroke="#40434E" />
-                            <path d="M13 15.6667H29M16 21H26M18 26.3333H24" stroke={alpha(theme.palette.primary.font, 1)} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M13 15.6667H29M16 21H26M18 26.3333H24" stroke={alpha(theme.palette.primary.font, 1)} stroke-width="2" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
 
                         {/* <Box>Filter</Box> */}
@@ -258,8 +261,8 @@ export default function CollectionPage() {
                             }}>
                                 <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <rect x="0.5" y="0.5" width="43" height="43" rx="21.5" stroke="#40434E" />
-                                    <path d="M21.3125 16.5L15.8125 22L21.3125 27.5" stroke={alpha(theme.palette.primary.font, 1)} stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                    <path d="M15.8125 22L27.5 22" stroke={alpha(theme.palette.primary.font, 1)} stroke-width="1.5" stroke-linecap="round" />
+                                    <path d="M21.3125 16.5L15.8125 22L21.3125 27.5" stroke={alpha(theme.palette.primary.font, 1)} stroke-width="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                    <path d="M15.8125 22L27.5 22" stroke={alpha(theme.palette.primary.font, 1)} stroke-width="1.5" strokeLinecap="round" />
                                 </svg>
 
                             </Box>
@@ -356,7 +359,8 @@ export default function CollectionPage() {
                                         <Box sx={{ mt: 3, mb: 2, color: '#91939B' }}>
                                             Trait Count
                                         </Box>
-                                        <MarketPlace name={"Trait Count"} list={onecollectionData[0].traitcounts} label={'_id'} count={'count'}></MarketPlace>
+                                        <TraitsCount setApiFilter={setApiFilter} apifilter={apifilter} keyword={"filters"} name={"Trait Count"} list={onecollectionData[0].traitcounts} label={'_id'} count={'count'}></TraitsCount>
+                                        {/* <MarketPlace name={"Trait Count"} list={onecollectionData[0].traitcounts} label={'_id'} count={'count'}></MarketPlace> */}
                                     </>}
                                 {onecollectionData[0].traitslist.length !== 0 &&
                                     <>
@@ -376,7 +380,7 @@ export default function CollectionPage() {
                 </Drawer>
                 <Main open={open} sx={{ p: 0 }}>
                     <Box>
-                        <CollectionData drawerCall={handleDrawerOpen} apidata={onecollectionData[0]}></CollectionData>
+                        <CollectionData  drawerCall={handleDrawerOpen} apidata={onecollectionData[0]}></CollectionData>
                         <NFTCollection assetsdata={assetsdata} rarityinput={rarityinput}></NFTCollection>
                     </Box>
                 </Main>

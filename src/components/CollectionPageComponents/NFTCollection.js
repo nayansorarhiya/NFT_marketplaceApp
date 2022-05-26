@@ -15,13 +15,19 @@ export default function NFTCollection(props) {
         <>
 
             <Box sx={{ p: '32px 20px 20px 20px', height: '100vh', maxHeight: '100vh', overflow: 'auto' }}>
-                <Grid container spacing={2}>
-                    <Suspense fallback={<div>Loading...</div>}>
-                        {
-                            (props.assetsdata).map((value) => <NFTCard apidata={value} rarityinput={props.rarityinput}></NFTCard>)
-                        }
-                    </Suspense>
-                </Grid>
+                {props.assetsdata.length !== 0 ?
+                    <Grid container spacing={2}>
+                        <Suspense fallback={<div>Loading...</div>}>
+                            {
+                                (props.assetsdata).map((value) => <NFTCard apidata={value} rarityinput={props.rarityinput}></NFTCard>)
+                            }
+                        </Suspense>
+                    </Grid>
+                    :
+                    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                        No Data Found
+                    </Box>
+                }
             </Box>
         </>
     )
