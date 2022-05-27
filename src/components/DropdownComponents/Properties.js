@@ -88,17 +88,17 @@ export default function Properties(props) {
                                     <FormControlLabel control={<CheckboxComponents onChange={e => {
                                         if (e.target.checked === true) {
                                             filteredlist.push(item[props.label])
-                                            props.setApiFilter({ ...(props.apifilter), [props.keyword]: { ...(props.apifilter.filters), "traits": { ...(props.apifilter.filters.traits), [props.name]: filteredlist } } })
+                                            props.setApiFilter({ ...(props.apifilter), "offset": 0, [props.keyword]: { ...(props.apifilter.filters), "traits": { ...(props.apifilter.filters.traits), [props.name]: filteredlist } } })
                                         } else {
                                             let arr = filteredlist.filter((val) => {
                                                 return val !== item[props.label] && item[props.label];
                                             });
                                             setFilteredlist(arr);
                                             if (filteredlist.length !== 1) {
-                                                props.setApiFilter({ ...(props.apifilter), [props.keyword]: { ...(props.apifilter.filters), "traits": { ...(props.apifilter.filters.traits), [props.name]: arr } } })
+                                                props.setApiFilter({ ...(props.apifilter), "offset": 0, [props.keyword]: { ...(props.apifilter.filters), "traits": { ...(props.apifilter.filters.traits), [props.name]: arr } } })
                                             } else {
                                                 delete (props.apifilter.filters.traits)[[props.name]];
-                                                props.setApiFilter({ ...(props.apifilter), [props.keyword]: { ...(props.apifilter.filters), "traits": { ...(props.apifilter.filters.traits) } } })
+                                                props.setApiFilter({ ...(props.apifilter), "offset": 0, [props.keyword]: { ...(props.apifilter.filters), "traits": { ...(props.apifilter.filters.traits) } } })
                                             }
                                         }
                                     }}

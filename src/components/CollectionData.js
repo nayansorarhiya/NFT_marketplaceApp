@@ -1,5 +1,5 @@
 import { Box, Button, Divider, FormControl, MenuItem, Select, Skeleton, styled } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import vectorCorrect from '../assets/images/vectorCorrect.svg'
 import PriceRange from './CollectionPageComponents/PriceRange'
 import { Search, SearchIconWrapper, StyledInputBase } from './CustomStyles'
@@ -23,6 +23,12 @@ export default function CollectionData(props) {
     });
 
     const [nftsearch, setNFTSearch] = useState("");
+
+    useEffect(() => {
+        if (nftsearch !== "") {
+            props.setApiFilter({ ...(props.apifilter), "filters": { ...(props.apifilter.filters), "searchText": nftsearch } })
+        }
+    }, [nftsearch]);
 
     // const NFTcollectionSearch = (val) => {
     //     props.setApiFilter({ ...(props.apifilter), "filters": { ...(props.apifilter.filters), "searchText": val } })
@@ -75,7 +81,7 @@ export default function CollectionData(props) {
                         }}>
                         <CollectionName>
                             {props.apidata.name}
-                            {props.apidata.isvarified && <img src={vectorCorrect} alt='verified' style={{ marginLeft: '10px' }} />}
+                            {props.apidata.isverified && <img src={vectorCorrect} alt='verified' style={{ marginLeft: '10px' }} />}
                         </CollectionName>
                     </Box>
 
@@ -105,8 +111,8 @@ export default function CollectionData(props) {
                             placeholder="Search collections by name or address "
                             inputProps={{ 'aria-label': 'search' }}
                             sx={{ width: { xs: '100%', sm: '350px', md: '400px', lg: '500px' } }}
-                            value={nftsearch}
-                            onChange={ (e) => {setNFTSearch(e.target.value)}}
+                            // value={nftsearch}
+                            onChange={(e) => { setNFTSearch(e.target.value) }}
                         />
                     </Search>
                     <Box sx={{ display: 'flex', gap: 1, justifyContent: 'right', mt: { xs: 2, sm: 0, md: 0, lg: 0 } }}>

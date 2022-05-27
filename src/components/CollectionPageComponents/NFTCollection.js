@@ -1,16 +1,18 @@
-import { Box, Grid } from '@mui/material'
+import { Box, Button, Grid } from '@mui/material'
 import React, { Suspense } from 'react'
-import card_img1 from '../../assets/images/card_img1.svg'
-import card_img2 from '../../assets/images/card_img2.svg'
-import card_img3 from '../../assets/images/card_img3.svg'
-import card_img4 from '../../assets/images/card_img4.svg'
-import card_img5 from '../../assets/images/card_img5.svg'
 // import NFTCard from '../card/NFTCard';
+import { styled, alpha, useTheme } from '@mui/material/styles';
 const NFTCard = React.lazy(() => import('../card/NFTCard'));
 
 
 
 export default function NFTCollection(props) {
+    const theme = useTheme();
+    const showMoredata = () => {
+        if (props.totalNFT.hasNext === true) {
+            props.setApiFilter({ ...(props.apifilter), "offset": (props.apifilter.offset) + 30 })
+        }
+    }
     return (
         <>
 
@@ -19,7 +21,7 @@ export default function NFTCollection(props) {
                     <Grid container spacing={2}>
                         <Suspense fallback={<div>Loading...</div>}>
                             {
-                                (props.assetsdata).map((value) => <NFTCard apidata={value} rarityinput={props.rarityinput}></NFTCard>)
+                                (props.assetsdata).map((value, index) => <NFTCard key={index} apidata={value} rarityinput={props.rarityinput} buynowinput={props.buynowinput}></NFTCard>)
                             }
                         </Suspense>
                     </Grid>
@@ -28,6 +30,15 @@ export default function NFTCollection(props) {
                         No Data Found
                     </Box>
                 }
+                {props.totalNFT.hasNext === true && <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+                    <Button variant="contained" sx={{
+                        '&:hover,&:focus': {
+                            backgroundColor: alpha(theme.palette.primary.main, 1),
+                        }, color: '#485FE6', fontWeight: 700, fontSize: '18px', my: 4
+                    }} onClick={showMoredata}>
+                        Show More
+                    </Button>
+                </Box>}
             </Box>
         </>
     )

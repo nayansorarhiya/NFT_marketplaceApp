@@ -40,13 +40,13 @@ export default function NFTCard(props) {
     } else if (props.apidata.market == "opensea") {
         svgpath = opensea;
     }
-    else {
+    else if (props.apidata.market == "nftx") {
         svgpath = nftx;
     }
     return (<>
         {props.apidata.name !== '' &&
             <Grid item lg={2.4} sm={6} xs={12} md={4}  >
-                <Card sx={{ mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1) }}>
+                <Card sx={{ ...(props.buynowinput ? { cursor: 'pointer' } : { cursor: 'not-allowed' }), mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1) }}>
                     <Box sx={{ position: 'relative' }}>
                         {svgpath !== '' && <BadgeImage src={svgpath}></BadgeImage>}
                         <CardMedia

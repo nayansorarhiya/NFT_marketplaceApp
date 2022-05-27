@@ -58,7 +58,14 @@ export default function CollectionPage() {
     });
     const [topdrawerwidth, setTopDrawerwidth] = React.useState(280);
     const [rarityinput, setRarityInput] = React.useState(false);
-    const [offset, setOffset] = React.useState(0);
+    const [buynowinput, setBuyNowInput] = React.useState(false);
+
+    // const [offset, setOffset] = React.useState(0);
+    const [totalNFT, setTotalNFT] = React.useState({
+        total: 0,
+        hasNext: false,
+    });
+    console.log(totalNFT);
     // const [searchInputtext, setSearchInputtext] = React.useState("");
     const [apifilter, setApiFilter] = React.useState({
         "filters": {
@@ -71,7 +78,7 @@ export default function CollectionPage() {
         },
         "limit": 30,
         "markets": [],
-        "offset": offset,
+        "offset": 0,
         "sort": { "currentEthPrice": "asc" },
         "status": ["all"]
     });
@@ -190,6 +197,7 @@ export default function CollectionPage() {
             }
         );
         const assetsrows = await assetresp.json();
+        setTotalNFT({ ...totalNFT, total: assetsrows.data.total, hasNext: assetsrows.data.hasNext })
         // console.log(assetsrows.data.data);
         const localassetsrows = assetsrows.data.data.map((v) => ({
             name: v.name,
@@ -198,18 +206,21 @@ export default function CollectionPage() {
             rarityscore: v.rarityScore,
             price: v.currentBasePrice != null ? v.currentBasePrice.toLocaleString('fullwide', { useGrouping: false }) : "0",
         }));
-        // localassetsrows[0].traits = groupBy(localassetsrows[0].traits, 'trait_type');
-        // localassetsrows[0].traitslist = Object.keys(localassetsrows[0].traits)
-        setAssetsdata(localassetsrows);
-        // console.log(assetsdata);
+        if (apifilter.offset === 0) {
+            setAssetsdata(localassetsrows);
+        } else {
+            setAssetsdata([...assetsdata, ...localassetsrows]);
+        }
     }
 
+    React.useEffect(() => {
+        setApiFilter({ ...apifilter, "status": buynowinput ? ["buy_now"] : ["all"] });
+    }, [buynowinput]);
     React.useEffect(() => {
         apiCallforAssetData();
     }, [apifilter]);
     React.useEffect(() => {
         apiCallforCollectionData();
-        apiCallforAssetData();
     }, []);
 
     return (
@@ -283,7 +294,7 @@ export default function CollectionPage() {
                         <Box sx={{ maxHeight: '100vh', overflow: 'auto' }}>
                             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#91939B', fontWeight: 500, fontSize: '16px', lineHeight: '21px', mt: 1, mb: 1 }}>
                                 <Box>Buy Now</Box>
-                                <CustomeSwitch></CustomeSwitch>
+                                <CustomeSwitch onChange={() => setBuyNowInput(!buynowinput)}></CustomeSwitch>
                             </Box>
                             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#91939B', fontWeight: 500, fontSize: '16px', lineHeight: '21px', mt: 1, mb: 1 }}>
                                 <Box>Rarity Ranking</Box>
@@ -380,8 +391,8 @@ export default function CollectionPage() {
                 </Drawer>
                 <Main open={open} sx={{ p: 0 }}>
                     <Box>
-                        <CollectionData  drawerCall={handleDrawerOpen} apidata={onecollectionData[0]}></CollectionData>
-                        <NFTCollection assetsdata={assetsdata} rarityinput={rarityinput}></NFTCollection>
+                        <CollectionData setApiFilter={setApiFilter} apifilter={apifilter} drawerCall={handleDrawerOpen} apidata={onecollectionData[0]}></CollectionData>
+                        <NFTCollection totalNFT={totalNFT} setApiFilter={setApiFilter} apifilter={apifilter} assetsdata={assetsdata} rarityinput={rarityinput} buynowinput={buynowinput}></NFTCollection>
                     </Box>
                 </Main>
             </Box>

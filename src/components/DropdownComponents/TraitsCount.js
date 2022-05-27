@@ -95,10 +95,10 @@ export default function TraitsCount(props) {
                                             });
                                             setFilteredlist(arr);
                                             if (filteredlist.length !== 1) {
-                                                props.setApiFilter({ ...(props.apifilter), [props.keyword]: { ...(props.apifilter.filters), "traitCounts": arr } })
+                                                props.setApiFilter({ ...(props.apifilter), "offset": 0, [props.keyword]: { ...(props.apifilter.filters), "traitCounts": arr } })
                                             } else {
                                                 delete (props.apifilter.filters)[["traitCounts"]];
-                                                props.setApiFilter({ ...(props.apifilter), [props.keyword]: { ...(props.apifilter.filters) } })
+                                                props.setApiFilter({ ...(props.apifilter), "offset": 0, [props.keyword]: { ...(props.apifilter.filters) } })
                                             }
                                         }
                                     }}
