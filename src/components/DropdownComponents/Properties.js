@@ -79,46 +79,45 @@ export default function Properties(props) {
                     </Box>
                 </Box>}
                 <AccordionDetails sx={{ mt: 0, maxHeight: '300px', overflow: 'auto' }}>
-                    <Typography >
 
-                        <FormGroup>
-                            {(props.list).map((item) => {
 
-                                return (<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <FormControlLabel control={<CheckboxComponents onChange={e => {
-                                        if (e.target.checked === true) {
-                                            filteredlist.push(item[props.label])
-                                            props.setApiFilter({ ...(props.apifilter), "offset": 0, [props.keyword]: { ...(props.apifilter.filters), "traits": { ...(props.apifilter.filters.traits), [props.name]: filteredlist } } })
+                    <FormGroup>
+                        {(props.list).map((item, index) => {
+
+                            return (<Box key={index} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <FormControlLabel control={<CheckboxComponents onChange={e => {
+                                    if (e.target.checked === true) {
+                                        filteredlist.push(item[props.label])
+                                        props.setApiFilter({ ...(props.apifilter), "offset": 0, [props.keyword]: { ...(props.apifilter.filters), "traits": { ...(props.apifilter.filters.traits), [props.name]: filteredlist } } })
+                                    } else {
+                                        let arr = filteredlist.filter((val) => {
+                                            return val !== item[props.label] && item[props.label];
+                                        });
+                                        setFilteredlist(arr);
+                                        if (filteredlist.length !== 1) {
+                                            props.setApiFilter({ ...(props.apifilter), "offset": 0, [props.keyword]: { ...(props.apifilter.filters), "traits": { ...(props.apifilter.filters.traits), [props.name]: arr } } })
                                         } else {
-                                            let arr = filteredlist.filter((val) => {
-                                                return val !== item[props.label] && item[props.label];
-                                            });
-                                            setFilteredlist(arr);
-                                            if (filteredlist.length !== 1) {
-                                                props.setApiFilter({ ...(props.apifilter), "offset": 0, [props.keyword]: { ...(props.apifilter.filters), "traits": { ...(props.apifilter.filters.traits), [props.name]: arr } } })
-                                            } else {
-                                                delete (props.apifilter.filters.traits)[[props.name]];
-                                                props.setApiFilter({ ...(props.apifilter), "offset": 0, [props.keyword]: { ...(props.apifilter.filters), "traits": { ...(props.apifilter.filters.traits) } } })
-                                            }
+                                            delete (props.apifilter.filters.traits)[[props.name]];
+                                            props.setApiFilter({ ...(props.apifilter), "offset": 0, [props.keyword]: { ...(props.apifilter.filters), "traits": { ...(props.apifilter.filters.traits) } } })
                                         }
+                                    }
+                                }}
+                                    sx={{
+                                        color: blue[800],
+                                        '&.Mui-checked': {
+                                            color: blue[600],
+                                        },
                                     }}
-                                        sx={{
-                                            color: blue[800],
-                                            '&.Mui-checked': {
-                                                color: blue[600],
-                                            },
-                                        }}
-                                    />} label={item[props.label] ? item[props.label] : 0} />
+                                />} label={item[props.label] ? item[props.label] : 0} />
 
-                                    <Box sx={{ display: 'flex', gap: '2px', overflow: 'hidden' }}>
-                                        <TotalItems>{item[props.count]}</TotalItems>
-                                        <TotalItems>({item[props.count] / 100}%)</TotalItems>
-                                    </Box>
-                                </Box>)
-                            })}
+                                <Box sx={{ display: 'flex', gap: '2px', overflow: 'hidden' }}>
+                                    <TotalItems>{item[props.count]}</TotalItems>
+                                    <TotalItems>({item[props.count] / 100}%)</TotalItems>
+                                </Box>
+                            </Box>)
+                        })}
 
-                        </FormGroup>
-                    </Typography>
+                    </FormGroup>
                 </AccordionDetails>
             </StyleAccordion>
 

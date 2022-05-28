@@ -184,13 +184,13 @@ const CustomeSwitch = styled(Switch)(({ theme }) => ({
 // }
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
-    ({ theme, open, cartWidth }) => ({
+    ({ theme, open, cartwidth }) => ({
         flexGrow: 1,
         transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
-        marginRight: `${cartWidth}px`,
+        marginRight: `${cartwidth}px`,
         ...(open && {
             transition: theme.transitions.create('margin', {
                 easing: theme.transitions.easing.easeOut,

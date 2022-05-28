@@ -79,12 +79,12 @@ export default function TraitsCount(props) {
                     </Box>
                 </Box>}
                 <AccordionDetails sx={{ mt: 0, maxHeight: '300px', overflow: 'auto' }}>
-                    <Typography >
+                 
 
                         <FormGroup>
-                            {(props.list).map((item) => {
+                            {(props.list).map((item,index) => {
 
-                                return (<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                return (<Box key={index} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                     <FormControlLabel control={<CheckboxComponents onChange={e => {
                                         if (e.target.checked === true) {
                                             filteredlist.push(item[props.label] ? item[props.label] : 0)
@@ -118,7 +118,6 @@ export default function TraitsCount(props) {
                             })}
 
                         </FormGroup>
-                    </Typography>
                 </AccordionDetails>
             </StyleAccordion>
 

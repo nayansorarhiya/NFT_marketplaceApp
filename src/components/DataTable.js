@@ -377,7 +377,7 @@ export default function DataTable() {
                         sx={{ width: "100vw", cursor: 'pointer' }}
                         hover
                         tabIndex={-1}
-                        key={row.name}
+                        key={index}
                         onClick={() => collectionNavigation(row.slug)}
                       >
                         <TableCell

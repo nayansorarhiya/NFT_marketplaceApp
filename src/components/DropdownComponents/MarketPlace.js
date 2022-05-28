@@ -78,39 +78,38 @@ export default function MarketPlace(props) {
                     </Box>
                 </Box>}
                 <AccordionDetails sx={{ mt: 0, maxHeight: '300px', overflow: 'auto' }}>
-                    <Typography >
 
-                        <FormGroup>
-                            {(props.list).map((item) => {
 
-                                return (<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <FormControlLabel control={<CheckboxComponents onChange={e => {
-                                        if (e.target.checked === true) {
-                                            props.setApiFilter({ ...(props.apifilter), "offset": 0, [props.keyword]: [...props.apifilter.markets, item[props.label]] })
-                                        } else {
-                                            let arr = (props.apifilter.markets).filter((val) => {
-                                                return val !== item[props.label] && item[props.label];
-                                            });
-                                            props.setApiFilter({ ...(props.apifilter), "offset": 0, [props.keyword]: arr, })
-                                        }
+                    <FormGroup>
+                        {(props.list).map((item, index) => {
+
+                            return (<Box key={index} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <FormControlLabel control={<CheckboxComponents onChange={e => {
+                                    if (e.target.checked === true) {
+                                        props.setApiFilter({ ...(props.apifilter), "offset": 0, [props.keyword]: [...props.apifilter.markets, item[props.label]] })
+                                    } else {
+                                        let arr = (props.apifilter.markets).filter((val) => {
+                                            return val !== item[props.label] && item[props.label];
+                                        });
+                                        props.setApiFilter({ ...(props.apifilter), "offset": 0, [props.keyword]: arr, })
+                                    }
+                                }}
+                                    sx={{
+                                        color: blue[800],
+                                        '&.Mui-checked': {
+                                            color: blue[600],
+                                        },
                                     }}
-                                        sx={{
-                                            color: blue[800],
-                                            '&.Mui-checked': {
-                                                color: blue[600],
-                                            },
-                                        }}
-                                    />} label={item[props.label] ? item[props.label] : 0} />
+                                />} label={item[props.label] ? item[props.label] : 0} />
 
-                                    <Box sx={{ display: 'flex', gap: '2px', overflow: 'hidden' }}>
-                                        <TotalItems>{item[props.count]}</TotalItems>
-                                        <TotalItems>({item[props.count] / 100}%)</TotalItems>
-                                    </Box>
-                                </Box>)
-                            })}
+                                <Box sx={{ display: 'flex', gap: '2px', overflow: 'hidden' }}>
+                                    <TotalItems>{item[props.count]}</TotalItems>
+                                    <TotalItems>({item[props.count] / 100}%)</TotalItems>
+                                </Box>
+                            </Box>)
+                        })}
 
-                        </FormGroup>
-                    </Typography>
+                    </FormGroup>
                 </AccordionDetails>
             </StyleAccordion>
 

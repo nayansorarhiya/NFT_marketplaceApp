@@ -65,14 +65,14 @@ function App() {
       fontFamily: 'DMSans',
     }
   });
-  const [cartWidth, setcartWidth] = useState(0);
+  const [cartwidth, setcartWidth] = useState(0);
 
   return (<>
-    <BrowserRouter>
-      <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
-        <Paper sx={{ background: darkMode ? '#040404' : '#F8F8F8', pt: '60px' }}>
+    <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
+      <Paper sx={{ background: darkMode ? '#040404' : '#F8F8F8', pt: '60px' }}>
+        <BrowserRouter>
           <Header onClickTheme={modeChange} setcartWidth={setcartWidth}></Header>
-          <Main cartWidth={cartWidth}>
+          <Main cartwidth={cartwidth}>
             <ScrollToTop />
             <Routes>
               <Route path='/*' element={<Body />} />
@@ -81,9 +81,9 @@ function App() {
             </Routes>
             <Footer />
           </Main>
-        </Paper>
-      </ThemeProvider>
-    </BrowserRouter>
+        </BrowserRouter>
+      </Paper>
+    </ThemeProvider>
 
   </>
   );

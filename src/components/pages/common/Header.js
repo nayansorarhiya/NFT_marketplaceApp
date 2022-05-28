@@ -86,12 +86,12 @@ export default function Header(props) {
     const [cartopen, setCartOpen] = React.useState(false);
 
     const [cartvariant, setCartVariant] = React.useState({
-        view: '', width: '', direction: ''
+        view: 'persistent', width: '', direction: 'right'
     });
 
     const isMobile = useMediaQuery(theme.breakpoints.between('xs', 'md'));
     React.useEffect(() => {
-        setCartVariant({ view: isMobile ? 'persistent' : 'persistent', width: isMobile ? 0 : 300, direction: isMobile ? 'bottom' : 'right' })
+        setCartVariant({ view: 'persistent', width: isMobile ? 0 : 300, direction: isMobile ? 'bottom' : 'right' })
         setTopDrawerwidth(isMobile ? '100%' : 300);
         props.setcartWidth(0);
     }, [isMobile])
