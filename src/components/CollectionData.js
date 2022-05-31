@@ -27,6 +27,8 @@ export default function CollectionData(props) {
     useEffect(() => {
         if (nftsearch !== "") {
             props.setApiFilter({ ...(props.apifilter), "filters": { ...(props.apifilter.filters), "searchText": nftsearch } })
+        } else {
+            props.setApiFilter({ ...(props.apifilter), "filters": { ...(props.apifilter.filters), "searchText": "" } })
         }
     }, [nftsearch]);
 
@@ -111,7 +113,7 @@ export default function CollectionData(props) {
                             placeholder="Search collections by name or address "
                             inputProps={{ 'aria-label': 'search' }}
                             sx={{ width: { xs: '100%', sm: '350px', md: '400px', lg: '500px' } }}
-                            // value={nftsearch}
+                            value={nftsearch}
                             onChange={(e) => { setNFTSearch(e.target.value) }}
                         />
                     </Search>

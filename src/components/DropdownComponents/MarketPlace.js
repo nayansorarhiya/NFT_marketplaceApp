@@ -100,9 +100,9 @@ export default function MarketPlace(props) {
                                             color: blue[600],
                                         },
                                     }}
-                                />} label={item[props.label] ? item[props.label] : 0} />
+                                />} label={item[props.label] ? item[props.label] : 0}  sx={{ overflow: 'hidden' }}/>
 
-                                <Box sx={{ display: 'flex', gap: '2px', overflow: 'hidden' }}>
+                                <Box sx={{ display: 'flex', gap: '2px' }}>
                                     <TotalItems>{item[props.count]}</TotalItems>
                                     <TotalItems>({item[props.count] / 100}%)</TotalItems>
                                 </Box>

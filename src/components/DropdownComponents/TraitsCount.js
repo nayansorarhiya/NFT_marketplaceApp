@@ -79,45 +79,45 @@ export default function TraitsCount(props) {
                     </Box>
                 </Box>}
                 <AccordionDetails sx={{ mt: 0, maxHeight: '300px', overflow: 'auto' }}>
-                 
 
-                        <FormGroup>
-                            {(props.list).map((item,index) => {
 
-                                return (<Box key={index} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <FormControlLabel control={<CheckboxComponents onChange={e => {
-                                        if (e.target.checked === true) {
-                                            filteredlist.push(item[props.label] ? item[props.label] : 0)
-                                            props.setApiFilter({ ...(props.apifilter), [props.keyword]: { ...(props.apifilter.filters), "traitCounts": filteredlist } })
+                    <FormGroup>
+                        {(props.list).map((item, index) => {
+
+                            return (<Box key={index} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <FormControlLabel control={<CheckboxComponents onChange={e => {
+                                    if (e.target.checked === true) {
+                                        filteredlist.push(item[props.label] ? item[props.label] : 0)
+                                        props.setApiFilter({ ...(props.apifilter), [props.keyword]: { ...(props.apifilter.filters), "traitCounts": filteredlist } })
+                                    } else {
+                                        let arr = filteredlist.filter((val) => {
+                                            return val !== ((item[props.label] !== null) ? item[props.label] : 0);
+                                        });
+                                        setFilteredlist(arr);
+                                        if (filteredlist.length !== 1) {
+                                            props.setApiFilter({ ...(props.apifilter), "offset": 0, [props.keyword]: { ...(props.apifilter.filters), "traitCounts": arr } })
                                         } else {
-                                            let arr = filteredlist.filter((val) => {
-                                                return val !== ((item[props.label] !== null) ? item[props.label] : 0);
-                                            });
-                                            setFilteredlist(arr);
-                                            if (filteredlist.length !== 1) {
-                                                props.setApiFilter({ ...(props.apifilter), "offset": 0, [props.keyword]: { ...(props.apifilter.filters), "traitCounts": arr } })
-                                            } else {
-                                                delete (props.apifilter.filters)[["traitCounts"]];
-                                                props.setApiFilter({ ...(props.apifilter), "offset": 0, [props.keyword]: { ...(props.apifilter.filters) } })
-                                            }
+                                            delete (props.apifilter.filters)[["traitCounts"]];
+                                            props.setApiFilter({ ...(props.apifilter), "offset": 0, [props.keyword]: { ...(props.apifilter.filters) } })
                                         }
+                                    }
+                                }}
+                                    sx={{
+                                        color: blue[800],
+                                        '&.Mui-checked': {
+                                            color: blue[600],
+                                        },
                                     }}
-                                        sx={{
-                                            color: blue[800],
-                                            '&.Mui-checked': {
-                                                color: blue[600],
-                                            },
-                                        }}
-                                    />} label={item[props.label] ? item[props.label] : 0} />
+                                />} label={item[props.label] ? item[props.label] : 0} sx={{ overflow: 'hidden' }} />
 
-                                    <Box sx={{ display: 'flex', gap: '2px', overflow: 'hidden' }}>
-                                        <TotalItems>{item[props.count]}</TotalItems>
-                                        <TotalItems>({item[props.count] / 100}%)</TotalItems>
-                                    </Box>
-                                </Box>)
-                            })}
+                                <Box sx={{ display: 'flex', gap: '2px' }}>
+                                    <TotalItems>{item[props.count]}</TotalItems>
+                                    <TotalItems>({item[props.count] / 100}%)</TotalItems>
+                                </Box>
+                            </Box>)
+                        })}
 
-                        </FormGroup>
+                    </FormGroup>
                 </AccordionDetails>
             </StyleAccordion>
 

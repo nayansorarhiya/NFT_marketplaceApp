@@ -44,7 +44,7 @@ export default function NFTCard(props) {
         svgpath = nftx;
     }
     return (<>
-        {props.apidata.name !== '' &&
+        {props.apidata.id !== '' &&
             <Grid item lg={2.4} sm={6} xs={12} md={4}  >
                 <Card sx={{ ...(props.buynowinput ? { cursor: 'pointer' } : { cursor: 'not-allowed' }), mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1) }}>
                     <Box sx={{ position: 'relative' }}>
@@ -59,13 +59,14 @@ export default function NFTCard(props) {
                     </Box>
                     <CardContent sx={{ display: 'flex', justifyContent: 'space-between' }}>
                         <Box>
-                            {props.apidata.name}
+                            {props.apidata.name !== '' && props.apidata.name !== null ? props.apidata.name : props.apidata.id}
+                            {/* {props.apidata.id} */}
                         </Box>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '7px' }}>
-                            <Box sx={{ color: 'rgba(145, 147, 155, 1)' }}>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '7px', height: '21px' }}>
+                            {props.buynowinput && <><Box sx={{ color: 'rgba(145, 147, 155, 1)' }}>
                                 {parseFloat(ethers.utils.formatEther((props.apidata.price).toString())).toFixed(3)}
                             </Box>
-                            <img src={eth} alt="eth" height={'21px'} />
+                                <img src={eth} alt="eth" height={'21px'} /></>}
                         </Box>
                     </CardContent>
                 </Card>

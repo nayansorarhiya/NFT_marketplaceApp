@@ -84,7 +84,7 @@ export default function Properties(props) {
                     <FormGroup>
                         {(props.list).map((item, index) => {
 
-                            return (<Box key={index} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            return (<Box key={index} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', maxWidth: '206px' }}>
                                 <FormControlLabel control={<CheckboxComponents onChange={e => {
                                     if (e.target.checked === true) {
                                         filteredlist.push(item[props.label])
@@ -108,9 +108,9 @@ export default function Properties(props) {
                                             color: blue[600],
                                         },
                                     }}
-                                />} label={item[props.label] ? item[props.label] : 0} />
+                                />} label={item[props.label] ? item[props.label] : 0} sx={{ overflow: 'hidden' }} />
 
-                                <Box sx={{ display: 'flex', gap: '2px', overflow: 'hidden' }}>
+                                <Box sx={{ display: 'flex', gap: '2px'}}>
                                     <TotalItems>{item[props.count]}</TotalItems>
                                     <TotalItems>({item[props.count] / 100}%)</TotalItems>
                                 </Box>

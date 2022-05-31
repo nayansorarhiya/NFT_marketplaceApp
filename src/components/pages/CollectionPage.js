@@ -10,6 +10,7 @@ import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 import { CustomeSwitch } from '../CustomStyles';
 import { Avatar, Badge, Button, FormControl, Grid, InputBase, MenuItem, Select, useMediaQuery } from '@mui/material';
 import eth from '../../assets/images/eth.svg';
+import usd from '../../assets/images/usdc.svg';
 import MarketPlace from '../DropdownComponents/MarketPlace';
 import Properties from '../DropdownComponents/Properties';
 import TraitsCount from '../DropdownComponents/TraitsCount';
@@ -17,7 +18,7 @@ import CollectionData from '../CollectionData';
 import NFTCollection from '../CollectionPageComponents/NFTCollection';
 import menu from '../../assets/images/menu.svg'
 import { useParams } from 'react-router-dom';
-import { BigNumber } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: 'inherit',
@@ -73,6 +74,236 @@ const DropSelect = styled(Select)(({ theme }) => ({
     padding: '0'
 }));
 
+export const CustomDrawer = ({ topdrawerwidth, variant, open, setApiFilter, apifilter, handleDrawerClose, onecollectionData, setBuyNowInput, buynowinput, setRarityInput, rarityinput, dropdown, handleChange }) => {
+    const theme = useTheme();
+    const [minrarity, setMinRarity] = React.useState('')
+    const [maxrarity, setMaxRarity] = React.useState('')
+    const [rarityValidation, setRarityValidation] = React.useState('')
+    const [minprice, setMinPrice] = React.useState('')
+    const [maxprice, setMaxPrice] = React.useState('')
+    const [priceValidation, setPriceValidation] = React.useState('')
+
+    function minmaxValidateRar() {
+        if (Number(minrarity) >= Number(maxrarity)) {
+            setRarityValidation('The maximum must be greater than the minimum.')
+            return false;
+        } else {
+            setRarityValidation('')
+            return true;
+        }
+    }
+    React.useEffect(() => {
+        minmaxValidateRar();
+        if (minrarity == '' || maxrarity == '') {
+            setRarityValidation('')
+        }
+    }, [minrarity, maxrarity]);
+    React.useEffect(() => {
+        if (!rarityinput) {
+            setApiFilter({ ...(apifilter), "offset": 0, "filters": { ...(apifilter.filters), "rankRange": {} } })
+        }
+    }, [rarityinput]);
+
+    const rarityFilterApply = () => {
+        const flag = minmaxValidateRar();
+        flag && setApiFilter({ ...(apifilter), "offset": 0, "filters": { ...(apifilter.filters), "rankRange": { min: minrarity, max: maxrarity } } })
+
+    }
+
+
+
+    function minmaxValidatePrice() {
+        if (Number(minprice) >= Number(maxprice)) {
+            setPriceValidation('The maximum must be greater than the minimum.')
+            return false;
+        } else {
+            setPriceValidation('')
+            return true;
+        }
+    }
+    React.useEffect(() => {
+        minmaxValidatePrice();
+        if (minprice == '' || maxprice == '') {
+            setPriceValidation('')
+        }
+    }, [minprice, maxprice]);
+    React.useEffect(() => {
+        if (!buynowinput) {
+            setApiFilter({ ...(apifilter), "offset": 0, "filters": { ...(apifilter.filters), "price": {} } })
+        }
+    }, [buynowinput]);
+
+    const priceFilterApply = () => {
+        const flag = minmaxValidatePrice();
+        if (flag) {
+            if (dropdown == 0) {
+                setApiFilter({ ...(apifilter), "offset": 0, "filters": { ...(apifilter.filters), "price": { symbol: 'ETH', low: (ethers.utils.parseEther(minprice.toString())).toString(), high: (ethers.utils.parseEther(maxprice.toString())).toString() } } })
+            } else {
+                setApiFilter({ ...(apifilter), "offset": 0, "filters": { ...(apifilter.filters), "price": { symbol: 'USD', low: minprice.toString(), high: maxprice.toString() } } })
+            }
+        }
+
+    }
+
+    return (
+        <Drawer
+            sx={{
+                width: { xs: '0', sm: '0', md: topdrawerwidth, lg: topdrawerwidth },
+                flexShrink: 0,
+                '& .MuiDrawer-paper': {
+                    width: topdrawerwidth,
+                    boxSizing: 'border-box',
+                    mt: { xs: 8.1, sm: 8.1, md: '0px', lg: '0px' },
+                    pb: { xs: 8.1, sm: 8.1, md: '0px', lg: '0px' },
+                    background: alpha(theme.palette.primary.main, 1),
+                    position: { xs: 'fixed', sm: 'fixed', md: 'relative', lg: 'relative' },
+                    maxHeight: '100%',
+                    zIndex: 1,
+                },
+            }}
+            variant={variant.view}
+            anchor={variant.direction}
+            open={open}>
+
+            <Box sx={{ padding: '0 20px 20px 20px' }}>
+                <DrawerHeader sx={{ justifyContent: 'start', display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex' } }}>
+
+                    <Box onClick={handleDrawerClose} sx={{
+                        width: '22px', height: '22px', cursor: 'pointer', pb: 1
+                    }}>
+                        <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="0.5" y="0.5" width="43" height="43" rx="21.5" stroke="#40434E" />
+                            <path d="M21.3125 16.5L15.8125 22L21.3125 27.5" stroke={alpha(theme.palette.primary.font, 1)} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                            <path d="M15.8125 22L27.5 22" stroke={alpha(theme.palette.primary.font, 1)} strokeidth="1.5" strokeLinecap="round" />
+                        </svg>
+
+                    </Box>
+                </DrawerHeader>
+                <Box sx={{ fontWeight: 600, fontSize: '22px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: { xs: 3, sm: 3, md: 0, lg: 0 }, pt: 2 }}>
+                    <Box> Filter </Box>
+                    <Button variant='outlined' onClick={handleDrawerClose} sx={{
+                        display: { xs: 'flex', sm: 'flex', md: 'none', lg: 'none' },
+                        flex: 'end',
+                        width: '80%', color: 'inherit', border: '1px solid #485FE6',
+                        fontWeight: '500',
+                        fontSize: '16px', textTransform: 'capitalize',
+                        '&:hover,&:focus': {
+                            border: '1px solid #485FE6',
+                        },
+                    }}>Done</Button>
+                </Box>
+                <Box sx={{ maxHeight: '100vh', overflow: 'auto' }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#91939B', fontWeight: 500, fontSize: '16px', lineHeight: '21px', mt: 1, mb: 1 }}>
+                        <Box>Buy Now</Box>
+                        <CustomeSwitch checked={buynowinput} onChange={() => setBuyNowInput(!buynowinput)}></CustomeSwitch>
+                    </Box>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#91939B', fontWeight: 500, fontSize: '16px', lineHeight: '21px', mt: 1, mb: 1 }}>
+                        <Box>Rarity Ranking</Box>
+                        <CustomeSwitch onChange={() => setRarityInput(!rarityinput)}></CustomeSwitch>
+                    </Box>
+                    {rarityinput && <>
+                        <Box sx={{ display: 'flex', alignItems: 'center', color: '#91939B', fontWeight: 500, fontSize: '16px', lineHeight: '21px', minHeight: '38px' }}>
+                            Rarity Ranking Range
+                        </Box>
+
+                        <Grid container spacing={1} sx={{ display: 'flex' }}>
+                            <Grid item xs={6}>
+                                <StyledInputBase placeholder='Min' type='number' value={minrarity} onChange={(e) => setMinRarity(parseInt(e.target.value))}></StyledInputBase>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <StyledInputBase placeholder='Max' type='number' value={maxrarity} onChange={(e) => setMaxRarity(parseInt(e.target.value))}></StyledInputBase>
+                            </Grid>
+                            <Grid item xs={12} sx={{ color: '#EF4676', fontSize: '12px' }}>
+                                {rarityValidation}
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Button variant='outlined' sx={{
+                                    width: '100%', color: 'inherit', border: '1px solid #485FE6',
+                                    fontWeight: '500',
+                                    fontSize: '16px', textTransform: 'capitalize',
+                                    '&:hover,&:focus': {
+                                        border: '1px solid #485FE6',
+                                    },
+                                }} onClick={() => rarityFilterApply()}>Apply</Button>
+                            </Grid>
+                        </Grid>
+                    </>}
+                    <Box sx={{ display: 'flex', alignItems: 'center', color: '#91939B', fontWeight: 500, fontSize: '16px', lineHeight: '21px', minHeight: '38px', mt: 3 }}>
+                        Price Range
+                    </Box>
+
+                    <Grid container spacing={1} sx={{ display: 'flex' }}>
+                        <Grid item xs={4}>
+                            <StyledInputBase placeholder='Min' type='number' value={minprice} onChange={(e) => setMinPrice(parseInt(e.target.value))}></StyledInputBase>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <StyledInputBase placeholder='Max' type='number' value={maxprice} onChange={(e) => setMaxPrice(parseInt(e.target.value))}></StyledInputBase>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <FormControl sx={{ maxWidth: '100%', width: '100%' }} size="small">
+                                <DropSelect
+                                    sx={{
+                                        border: '1px solid rgba(145, 147, 155, 0.3)',
+                                        '&:hover,&:outfocus': {
+                                            border: '1px solid #485FE6',
+                                        },
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center'
+                                    }}
+                                    value={dropdown}
+                                    onChange={handleChange}
+                                >
+                                    <MenuItem value={0}><img src={eth} alt="ethicon" /></MenuItem>
+                                    <MenuItem value={1}><img src={usd} alt="usdicon" /></MenuItem>
+                                </DropSelect>
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={12} sx={{ color: '#EF4676', fontSize: '12px' }}>
+                            {priceValidation}
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Button variant='outlined' sx={{
+                                width: '100%', color: 'inherit', border: '1px solid #485FE6',
+                                fontWeight: '500',
+                                fontSize: '16px', textTransform: 'capitalize',
+                                '&:hover,&:focus': {
+                                    border: '1px solid #485FE6',
+                                },
+                            }} onClick={priceFilterApply}>Apply</Button>
+                        </Grid>
+                    </Grid>
+                    <Box sx={{ mt: 4 }}>
+                        <MarketPlace setApiFilter={setApiFilter} apifilter={apifilter} keyword={"markets"} name={"MarketPlace"} list={onecollectionData[0].marketstats} label={'_id'} count={'count'}></MarketPlace>
+                        {onecollectionData[0].traitcounts.length !== 0 &&
+                            <>
+                                <Box sx={{ mt: 3, mb: 2, color: '#91939B' }}>
+                                    Trait Count
+                                </Box>
+                                <TraitsCount setApiFilter={setApiFilter} apifilter={apifilter} keyword={"filters"} name={"Trait Count"} list={onecollectionData[0].traitcounts} label={'_id'} count={'count'}></TraitsCount>
+
+                            </>}
+                        {onecollectionData[0].traitslist.length !== 0 &&
+                            <>
+                                <Box sx={{ mt: 3, mb: 2, color: '#91939B' }}>
+                                    Properties
+                                </Box>
+                                {
+                                    onecollectionData[0].traitslist.map((value, index) => {
+                                        return (<Properties key={index} setApiFilter={setApiFilter} apifilter={apifilter} keyword={"filters"} name={value} list={onecollectionData[0].traits[value]} label={'trait_value'} count={'trait_count'}></Properties>)
+                                    })
+                                }
+                            </>
+                        }
+                    </Box>
+                </Box>
+            </Box>
+        </Drawer>
+    );
+}
+
+
+
 export default function CollectionPage() {
 
     const theme = useTheme();
@@ -84,14 +315,14 @@ export default function CollectionPage() {
     });
     const [topdrawerwidth, setTopDrawerwidth] = React.useState(280);
     const [rarityinput, setRarityInput] = React.useState(false);
-    const [buynowinput, setBuyNowInput] = React.useState(false);
+    const [buynowinput, setBuyNowInput] = React.useState(true);
 
     // const [offset, setOffset] = React.useState(0);
     const [totalNFT, setTotalNFT] = React.useState({
         total: 0,
         hasNext: false,
     });
-    console.log(totalNFT);
+    // console.log(totalNFT);
     // const [searchInputtext, setSearchInputtext] = React.useState("");
     const [apifilter, setApiFilter] = React.useState({
         "filters": {
@@ -106,7 +337,7 @@ export default function CollectionPage() {
         "markets": [],
         "offset": 0,
         "sort": { "currentEthPrice": "asc" },
-        "status": ["all"]
+        "status": ["buy_now"]
     });
     const [onecollectionData, setoneCollectionData] = React.useState([{
         name: "",
@@ -126,6 +357,7 @@ export default function CollectionPage() {
         imageUrl: '',
         rarityscore: 0,
         price: "0",
+        id: ''
 
     }])
 
@@ -204,6 +436,7 @@ export default function CollectionPage() {
             imageurl: v.imageUrl,
             rarityscore: v.rarityScore,
             price: v.currentBasePrice != null ? v.currentBasePrice.toLocaleString('fullwide', { useGrouping: false }) : "0",
+            id  : v.id
         }));
         if (apifilter.offset === 0) {
             setAssetsdata(localassetsrows);
@@ -213,7 +446,7 @@ export default function CollectionPage() {
     }
 
     React.useEffect(() => {
-        setApiFilter({ ...apifilter, "status": buynowinput ? ["buy_now"] : ["all"] });
+        setApiFilter({ ...apifilter, "offset": 0, "status": buynowinput ? ["buy_now"] : ["all"] });
     }, [buynowinput]);
     React.useEffect(() => {
         apiCallforAssetData();
@@ -248,150 +481,7 @@ export default function CollectionPage() {
                         {/* <MenuIcon /> */}
                     </Box>
                 </Box>
-                <Drawer
-                    sx={{
-                        width: { xs: '0', sm: '0', md: topdrawerwidth, lg: topdrawerwidth },
-                        flexShrink: 0,
-                        '& .MuiDrawer-paper': {
-                            width: topdrawerwidth,
-                            boxSizing: 'border-box',
-                            mt: { xs: 8.1, sm: 8.1, md: '0px', lg: '0px' },
-                            pb: { xs: 8.1, sm: 8.1, md: '0px', lg: '0px' },
-                            background: alpha(theme.palette.primary.main, 1),
-                            position: { xs: 'fixed', sm: 'fixed', md: 'relative', lg: 'relative' },
-                            maxHeight: '100%',
-                            zIndex: 1,
-                        },
-                    }}
-                    variant={variant.view}
-                    anchor={variant.direction}
-                    open={open}>
-
-                    <Box sx={{ padding: '0 20px 20px 20px' }}>
-                        <DrawerHeader sx={{ justifyContent: 'start', display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex' } }}>
-                            {/* <img src={backarrow} /> */}
-                            <Box onClick={handleDrawerClose} sx={{
-                                width: '22px', height: '22px', cursor: 'pointer', pb: 1
-                            }}>
-                                <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <rect x="0.5" y="0.5" width="43" height="43" rx="21.5" stroke="#40434E" />
-                                    <path d="M21.3125 16.5L15.8125 22L21.3125 27.5" stroke={alpha(theme.palette.primary.font, 1)} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                    <path d="M15.8125 22L27.5 22" stroke={alpha(theme.palette.primary.font, 1)} strokeidth="1.5" strokeLinecap="round" />
-                                </svg>
-
-                            </Box>
-                        </DrawerHeader>
-                        <Box sx={{ fontWeight: 600, fontSize: '22px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: { xs: 3, sm: 3, md: 0, lg: 0 }, pt: 2 }}>
-                            <Box> Filter </Box>
-                            <Button variant='outlined' onClick={handleDrawerClose} sx={{
-                                display: { xs: 'flex', sm: 'flex', md: 'none', lg: 'none' },
-                                flex: 'end',
-                                width: '80%', color: 'inherit', border: '1px solid #485FE6',
-                                fontWeight: '500',
-                                fontSize: '16px', textTransform: 'capitalize',
-                                '&:hover,&:focus': {
-                                    border: '1px solid #485FE6',
-                                },
-                            }}>Done</Button>
-                        </Box>
-                        <Box sx={{ maxHeight: '100vh', overflow: 'auto' }}>
-                            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#91939B', fontWeight: 500, fontSize: '16px', lineHeight: '21px', mt: 1, mb: 1 }}>
-                                <Box>Buy Now</Box>
-                                <CustomeSwitch onChange={() => setBuyNowInput(!buynowinput)}></CustomeSwitch>
-                            </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#91939B', fontWeight: 500, fontSize: '16px', lineHeight: '21px', mt: 1, mb: 1 }}>
-                                <Box>Rarity Ranking</Box>
-                                <CustomeSwitch onChange={() => setRarityInput(!rarityinput)}></CustomeSwitch>
-                            </Box>
-                            {rarityinput && <>
-                                <Box sx={{ display: 'flex', alignItems: 'center', color: '#91939B', fontWeight: 500, fontSize: '16px', lineHeight: '21px', minHeight: '38px' }}>
-                                    Rarity Ranking Range
-                                </Box>
-
-                                <Grid container spacing={1} sx={{ display: 'flex' }}>
-                                    <Grid item xs={6}>
-                                        <StyledInputBase placeholder='Min'></StyledInputBase>
-                                    </Grid>
-                                    <Grid item xs={6}>
-                                        <StyledInputBase placeholder='Max'></StyledInputBase>
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <Button variant='outlined' sx={{
-                                            width: '100%', color: 'inherit', border: '1px solid #485FE6',
-                                            fontWeight: '500',
-                                            fontSize: '16px', textTransform: 'capitalize',
-                                            '&:hover,&:focus': {
-                                                border: '1px solid #485FE6',
-                                            },
-                                        }}>Apply</Button>
-                                    </Grid>
-                                </Grid>
-                            </>}
-                            <Box sx={{ display: 'flex', alignItems: 'center', color: '#91939B', fontWeight: 500, fontSize: '16px', lineHeight: '21px', minHeight: '38px', mt: 3 }}>
-                                Price Range
-                            </Box>
-
-                            <Grid container spacing={1} sx={{ display: 'flex' }}>
-                                <Grid item xs={4}>
-                                    <StyledInputBase placeholder='Min'></StyledInputBase>
-                                </Grid>
-                                <Grid item xs={4}>
-                                    <StyledInputBase placeholder='Max'></StyledInputBase>
-                                </Grid>
-                                <Grid item xs={4}>
-                                    <FormControl sx={{ maxWidth: '100%', width: '100%' }} size="small">
-                                        <DropSelect
-                                            sx={{
-                                                border: '1px solid rgba(145, 147, 155, 0.3)',
-                                                '&:hover,&:outfocus': {
-                                                    border: '1px solid #485FE6',
-                                                },
-                                            }}
-                                            value={dropdown}
-                                            onChange={handleChange}
-                                        >
-                                            <MenuItem value={0}><img src={eth} alt="ethicon" /></MenuItem>
-                                            <MenuItem value={1}>2</MenuItem>
-                                        </DropSelect>
-                                    </FormControl>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <Button variant='outlined' sx={{
-                                        width: '100%', color: 'inherit', border: '1px solid #485FE6',
-                                        fontWeight: '500',
-                                        fontSize: '16px', textTransform: 'capitalize',
-                                        '&:hover,&:focus': {
-                                            border: '1px solid #485FE6',
-                                        },
-                                    }}>Apply</Button>
-                                </Grid>
-                            </Grid>
-                            <Box sx={{ mt: 4 }}>
-                                <MarketPlace setApiFilter={setApiFilter} apifilter={apifilter} keyword={"markets"} name={"MarketPlace"} list={onecollectionData[0].marketstats} label={'_id'} count={'count'}></MarketPlace>
-                                {onecollectionData[0].traitcounts.length !== 0 &&
-                                    <>
-                                        <Box sx={{ mt: 3, mb: 2, color: '#91939B' }}>
-                                            Trait Count
-                                        </Box>
-                                        <TraitsCount setApiFilter={setApiFilter} apifilter={apifilter} keyword={"filters"} name={"Trait Count"} list={onecollectionData[0].traitcounts} label={'_id'} count={'count'}></TraitsCount>
-                                        {/* <MarketPlace name={"Trait Count"} list={onecollectionData[0].traitcounts} label={'_id'} count={'count'}></MarketPlace> */}
-                                    </>}
-                                {onecollectionData[0].traitslist.length !== 0 &&
-                                    <>
-                                        <Box sx={{ mt: 3, mb: 2, color: '#91939B' }}>
-                                            Properties
-                                        </Box>
-                                        {
-                                            onecollectionData[0].traitslist.map((value, index) => {
-                                                return (<Properties key={index} setApiFilter={setApiFilter} apifilter={apifilter} keyword={"filters"} name={value} list={onecollectionData[0].traits[value]} label={'trait_value'} count={'trait_count'}></Properties>)
-                                            })
-                                        }
-                                    </>
-                                }
-                            </Box>
-                        </Box>
-                    </Box>
-                </Drawer>
+                <CustomDrawer topdrawerwidth={topdrawerwidth} variant={variant} open={open} setApiFilter={setApiFilter} apifilter={apifilter} onecollectionData={onecollectionData} setBuyNowInput={setBuyNowInput} buynowinput={buynowinput} setRarityInput={setRarityInput} rarityinput={rarityinput} dropdown={dropdown} handleChange={handleChange} handleDrawerClose={handleDrawerClose} />
                 <Main open={open} sx={{ p: 0 }} width={variant.width}>
                     <Box>
                         <CollectionData setApiFilter={setApiFilter} apifilter={apifilter} drawerCall={handleDrawerOpen} apidata={onecollectionData[0]}></CollectionData>
