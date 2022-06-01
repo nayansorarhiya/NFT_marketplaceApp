@@ -21,7 +21,7 @@ export default function NFTCollection(props) {
                     <Grid container spacing={2}>
                         <Suspense fallback={<div>Loading...</div>}>
                             {
-                                (props.assetsdata).map((value, index) => <NFTCard key={index} apidata={value} rarityinput={props.rarityinput} buynowinput={props.buynowinput}></NFTCard>)
+                                (props.assetsdata).map((value, index) => <NFTCard key={value.id} apidata={value} rarityinput={props.rarityinput} buynowinput={props.buynowinput}></NFTCard>)
                             }
                         </Suspense>
                     </Grid>

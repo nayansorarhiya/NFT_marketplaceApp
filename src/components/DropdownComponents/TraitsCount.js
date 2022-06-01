@@ -55,8 +55,12 @@ export default function TraitsCount(props) {
     const [expanded, setExpanded] = React.useState(false);
     const [filter, setFilter] = React.useState(true);
     const [filteredlist, setFilteredlist] = React.useState([]);
+    const [searchRow, setSearchRow] = React.useState('');
     const handleChange = (panel) => (event, newExpanded) => {
         setExpanded((!expanded));
+    };
+    const requestSearch = (event) => {
+        setSearchRow(event.target.value);
     };
     if ((props.list).length === 0) {
         return <></>;
@@ -70,7 +74,7 @@ export default function TraitsCount(props) {
                         <Typography>{props.name}</Typography>
                     </Box> :
                         <Box>
-                            <StyledInputBase placeholder='Search'></StyledInputBase>
+                            <StyledInputBase placeholder='Search' onChange={requestSearch}></StyledInputBase>
                         </Box>}
                     <Box sx={{ display: 'flex' }}>
                         {expanded === true && <SignalCellularAltRoundedIcon onClick={() => setFilter(!filter)}
@@ -82,7 +86,15 @@ export default function TraitsCount(props) {
 
 
                     <FormGroup>
-                        {(props.list).map((item, index) => {
+                        {(props.list).sort((a, b) => {
+                            if (a._id < b._id) {
+                                return filter ? -1 : 1;
+                            }
+                            if (a._id > b._id) {
+                                return filter ? 1 : -1;
+                            }
+                            return 0;
+                        }).filter((row) => { return (row._id.toString()).toLowerCase().includes((searchRow).toLowerCase()); }).map((item, index) => {
 
                             return (<Box key={index} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <FormControlLabel control={<CheckboxComponents onChange={e => {

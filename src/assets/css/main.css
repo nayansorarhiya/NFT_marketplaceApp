@@ -97,6 +97,10 @@ body {
     font-size: 18px !important;
 }
 
+.NFTCard :hover .addicon {
+    opacity: 1;
+}
+
 @media only screen and (max-width: 600px) {
     .mobileCells {
         display: none !important;

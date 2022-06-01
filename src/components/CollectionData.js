@@ -26,9 +26,9 @@ export default function CollectionData(props) {
 
     useEffect(() => {
         if (nftsearch !== "") {
-            props.setApiFilter({ ...(props.apifilter), "filters": { ...(props.apifilter.filters), "searchText": nftsearch } })
+            props.setApiFilter({ ...(props.apifilter),"offset" : 0, "filters": { ...(props.apifilter.filters), "searchText": nftsearch } })
         } else {
-            props.setApiFilter({ ...(props.apifilter), "filters": { ...(props.apifilter.filters), "searchText": "" } })
+            props.setApiFilter({ ...(props.apifilter),"offset" : 0, "filters": { ...(props.apifilter.filters), "searchText": "" } })
         }
     }, [nftsearch]);
 

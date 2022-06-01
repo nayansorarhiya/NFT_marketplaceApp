@@ -56,7 +56,7 @@ export default function ProfilePage() {
 
     return (
         <>
-            <Box sx={{ p: 3 }}>
+            <Box sx={{ p: 3, }}>
                 {active ?
                     <Box>
                         <Box sx={{
@@ -131,7 +131,10 @@ export default function ProfilePage() {
                 </Box>
             </Box>
             <Divider />
-            <NFTCollection></NFTCollection>
+            <Box sx={{minHeight : '100vh'}}>
+
+            </Box>
+            {/* <NFTCollection></NFTCollection> */}
         </>
     )
 }

@@ -3,9 +3,19 @@ import React from 'react';
 import { alpha, useTheme, styled } from '@mui/material/styles';
 import eth from '../../assets/images/eth.svg';
 import CartItems from './CartItems';
+import { useDispatch, useSelector } from "react-redux";
+import { getIdx, setCartIdx } from "../../store/IndexSlice";
 
-export default function CartDrawer({topdrawerwidth,cartvariant,cartopen}) {
+export default function CartDrawer({ topdrawerwidth, cartvariant, cartopen }) {
     const theme = useTheme();
+    const dispatch = useDispatch();
+    const CartData = (useSelector((state) => state.Index.cartdata))
+    const popCartData = (popvalue) => {
+        const popCart = CartData.filter((value) => {
+            return value.uid !== popvalue;
+        });
+        dispatch(setCartIdx(popCart));
+    }
     return (
         <>
             <Drawer
@@ -38,10 +48,6 @@ export default function CartDrawer({topdrawerwidth,cartvariant,cartopen}) {
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
                         <Box sx={{ display: 'flex', gap: '10px' }}>
                             <Box sx={{ fontSize: '22px', lineHeight: '120%' }}>My Cart</Box>
-                            {/* <MenuItem sx={{ mt: 0.4 }} >
-                                    <Badge badgeContent={1} sx={{backgroundColor: '#485FE6'}}>
-                                    </Badge>
-                                </MenuItem> */}
                             <Box sx={{ border: '1px solid', width: '1.5rem', display: 'flex', justifyContent: 'center', borderRadius: '50%', backgroundColor: '#485FE6', borderColor: '#485FE6', color: '#ffffff' }}>
                                 1
                             </Box>
@@ -52,7 +58,9 @@ export default function CartDrawer({topdrawerwidth,cartvariant,cartopen}) {
                     <Box sx={{
                         width: '100%', py: 0.5, maxHeight: '32vh', overflow: 'auto',
                     }}>
-                        <CartItems></CartItems>
+                        {CartData.map((value) => {
+                            return (<CartItems key={value.uid} cartItem={value} popCartData={popCartData}></CartItems>)
+                        })}
                     </Box>
 
                     <Divider sx={{ borderBottomWidth: 1.5, color: '#D9DADC' }} />
@@ -72,10 +80,7 @@ export default function CartDrawer({topdrawerwidth,cartvariant,cartopen}) {
                             </Box>
                         </Box>
                     </Box>
-                    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3, alignItems: 'center' }}>
-
-                    </Box>
-                    <Box>
+                    <Box sx={{ mt: 3 }}>
                         <Button sx={{
                             background: 'linear-gradient(90deg, #E875D2 0%, #642CC8 100%)', borderRadius: '3px', padding: '11px 22px', color: '#ffffff', width: '100%', textTransform: 'none', '&:hover,&:focus': {
                                 opacity: 0.8,

@@ -101,6 +101,8 @@ export const CustomDrawer = ({ topdrawerwidth, variant, open, setApiFilter, apif
     React.useEffect(() => {
         if (!rarityinput) {
             setApiFilter({ ...(apifilter), "offset": 0, "filters": { ...(apifilter.filters), "rankRange": {} } })
+            setMinRarity('');
+            setMaxRarity('');
         }
     }, [rarityinput]);
 
@@ -274,7 +276,7 @@ export const CustomDrawer = ({ topdrawerwidth, variant, open, setApiFilter, apif
                         </Grid>
                     </Grid>
                     <Box sx={{ mt: 4 }}>
-                        <MarketPlace setApiFilter={setApiFilter} apifilter={apifilter} keyword={"markets"} name={"MarketPlace"} list={onecollectionData[0].marketstats} label={'_id'} count={'count'}></MarketPlace>
+                        <MarketPlace setApiFilter={setApiFilter} apifilter={apifilter} keyword={"markets"} name={"MarketPlace"} list={(onecollectionData[0].marketstats)} label={'_id'} count={'count'}></MarketPlace>
                         {onecollectionData[0].traitcounts.length !== 0 &&
                             <>
                                 <Box sx={{ mt: 3, mb: 2, color: '#91939B' }}>
@@ -357,7 +359,9 @@ export default function CollectionPage() {
         imageUrl: '',
         rarityscore: 0,
         price: "0",
-        id: ''
+        id: '',
+        uid: '',
+        collection: ''
 
     }])
 
@@ -436,7 +440,9 @@ export default function CollectionPage() {
             imageurl: v.imageUrl,
             rarityscore: v.rarityScore,
             price: v.currentBasePrice != null ? v.currentBasePrice.toLocaleString('fullwide', { useGrouping: false }) : "0",
-            id  : v.id
+            id: v.id,
+            uid: v._id,
+            collection: v.collectionName,
         }));
         if (apifilter.offset === 0) {
             setAssetsdata(localassetsrows);
@@ -444,20 +450,18 @@ export default function CollectionPage() {
             setAssetsdata([...assetsdata, ...localassetsrows]);
         }
     }
-
+    React.useEffect(() => {
+        apiCallforCollectionData();
+    }, []);
     React.useEffect(() => {
         setApiFilter({ ...apifilter, "offset": 0, "status": buynowinput ? ["buy_now"] : ["all"] });
     }, [buynowinput]);
     React.useEffect(() => {
         apiCallforAssetData();
     }, [apifilter]);
-    React.useEffect(() => {
-        apiCallforCollectionData();
-    }, []);
+
 
     // const drawerWidth = variant.width;
-
-
 
     return (
         <>

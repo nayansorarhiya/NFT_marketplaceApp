@@ -55,8 +55,12 @@ export default function Properties(props) {
     const [expanded, setExpanded] = React.useState(false);
     const [filter, setFilter] = React.useState(true);
     const [filteredlist, setFilteredlist] = React.useState([]);
+    const [searchRow, setSearchRow] = React.useState('');
     const handleChange = (panel) => (event, newExpanded) => {
         setExpanded((!expanded));
+    };
+    const requestSearch = (event) => {
+        setSearchRow(event.target.value);
     };
     if ((props.list).length === 0) {
         return <></>;
@@ -70,7 +74,7 @@ export default function Properties(props) {
                         <Typography>{props.name}</Typography>
                     </Box> :
                         <Box>
-                            <StyledInputBase placeholder='Search'></StyledInputBase>
+                            <StyledInputBase placeholder='Search' onChange={requestSearch}></StyledInputBase>
                         </Box>}
                     <Box sx={{ display: 'flex' }}>
                         {expanded === true && <SignalCellularAltRoundedIcon onClick={() => setFilter(!filter)}
@@ -82,7 +86,15 @@ export default function Properties(props) {
 
 
                     <FormGroup>
-                        {(props.list).map((item, index) => {
+                        {(props.list).sort((a, b) => {
+                            if (a.trait_value < b.trait_value) {
+                                return filter ? -1 : 1;
+                            }
+                            if (a.trait_value > b.trait_value) {
+                                return filter ? 1 : -1;
+                            }
+                            return 0;
+                        }).filter((row) => { return (row.trait_value.toString()).toLowerCase().includes((searchRow).toLowerCase()); }).map((item, index) => {
 
                             return (<Box key={index} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', maxWidth: '206px' }}>
                                 <FormControlLabel control={<CheckboxComponents onChange={e => {
@@ -110,7 +122,7 @@ export default function Properties(props) {
                                     }}
                                 />} label={item[props.label] ? item[props.label] : 0} sx={{ overflow: 'hidden' }} />
 
-                                <Box sx={{ display: 'flex', gap: '2px'}}>
+                                <Box sx={{ display: 'flex', gap: '2px' }}>
                                     <TotalItems>{item[props.count]}</TotalItems>
                                     <TotalItems>({item[props.count] / 100}%)</TotalItems>
                                 </Box>
