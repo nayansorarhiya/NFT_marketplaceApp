@@ -201,7 +201,7 @@ export const CustomDrawer = ({ topdrawerwidth, variant, open, setApiFilter, apif
                     </Box>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#91939B', fontWeight: 500, fontSize: '16px', lineHeight: '21px', mt: 1, mb: 1 }}>
                         <Box>Rarity Ranking</Box>
-                        <CustomeSwitch onChange={() => setRarityInput(!rarityinput)}></CustomeSwitch>
+                        <CustomeSwitch checked={rarityinput} onChange={() => setRarityInput(!rarityinput)}></CustomeSwitch>
                     </Box>
                     {rarityinput && <>
                         <Box sx={{ display: 'flex', alignItems: 'center', color: '#91939B', fontWeight: 500, fontSize: '16px', lineHeight: '21px', minHeight: '38px' }}>
@@ -316,7 +316,7 @@ export default function CollectionPage() {
         view: 'persistent', width: '280', direction: 'left'
     });
     const [topdrawerwidth, setTopDrawerwidth] = React.useState(280);
-    const [rarityinput, setRarityInput] = React.useState(false);
+    const [rarityinput, setRarityInput] = React.useState(true);
     const [buynowinput, setBuyNowInput] = React.useState(true);
 
     // const [offset, setOffset] = React.useState(0);

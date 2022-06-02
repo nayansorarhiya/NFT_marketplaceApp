@@ -27,6 +27,7 @@ import eth from '../../../assets/images/eth.svg';
 import { useNavigate } from 'react-router-dom';
 import CartItems from '../../cart/CartItems';
 import CartDrawer from '../../cart/CartDrawer';
+import { useSelector } from 'react-redux';
 
 
 const drawerWidth = 300;
@@ -59,7 +60,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 export default function Header(props) {
-
+    const CartData = (useSelector((state) => state.Index.cartdata))
     const navigate = useNavigate();
     const profile = () => {
 
@@ -84,6 +85,9 @@ export default function Header(props) {
     const [open, setOpen] = React.useState(false);
 
     const [cartopen, setCartOpen] = React.useState(false);
+    React.useEffect(() => {
+        (CartData.length > 0) && handleDrawerOpen();
+    }, [CartData])
 
     const [cartvariant, setCartVariant] = React.useState({
         view: 'persistent', width: '', direction: 'right'
@@ -251,7 +255,7 @@ export default function Header(props) {
                         </Box>
                         <Box sx={{ display: 'flex' }}>
                             <MenuItem sx={{ padding: 0, }} onClick={!cartopen ? handleDrawerOpen : handleDrawerClose}>
-                                <Badge badgeContent={1} color="error">
+                                <Badge badgeContent={CartData.length} color="error">
                                     <ShoppingCartOutlinedIcon sx={{ fontSize: 32 }} />
                                 </Badge>
                             </MenuItem>
@@ -272,7 +276,7 @@ export default function Header(props) {
                 </AppBar>
                 {renderMobileMenu}
                 <ConnectionModal open={open && !active} onClose={handleClose}></ConnectionModal>
-                <CartDrawer topdrawerwidth={topdrawerwidth} cartvariant={cartvariant} cartopen={cartopen}></CartDrawer>
+                <CartDrawer topdrawerwidth={topdrawerwidth} cartvariant={cartvariant} cartopen={cartopen} ConnectModal={ConnectModal}></CartDrawer>
             </Box>
 
         </>

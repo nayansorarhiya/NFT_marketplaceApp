@@ -62,7 +62,7 @@ export default function TraitsCount(props) {
     const requestSearch = (event) => {
         setSearchRow(event.target.value);
     };
-    if ((props.list).length === 0) {
+    if ((props.list).length === 0 ||  props.list === null) {
         return <></>;
     }
     return (
@@ -83,10 +83,8 @@ export default function TraitsCount(props) {
                     </Box>
                 </Box>}
                 <AccordionDetails sx={{ mt: 0, maxHeight: '300px', overflow: 'auto' }}>
-
-
                     <FormGroup>
-                        {(props.list).sort((a, b) => {
+                        { (props.list).sort((a, b) => {
                             if (a._id < b._id) {
                                 return filter ? -1 : 1;
                             }
@@ -94,7 +92,7 @@ export default function TraitsCount(props) {
                                 return filter ? 1 : -1;
                             }
                             return 0;
-                        }).filter((row) => { return (row._id.toString()).toLowerCase().includes((searchRow).toLowerCase()); }).map((item, index) => {
+                        }).filter((row) => { return  ( row._id ? row._id.toString() : '0').toLowerCase().includes((searchRow).toLowerCase()); }).map((item, index) => {
 
                             return (<Box key={index} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <FormControlLabel control={<CheckboxComponents onChange={e => {

@@ -428,14 +428,8 @@ export default function DataTable() {
                         >
                           <Box sx={{ display: "flex", alignItems: "center" }}>
                             <Box sx={{ display: "flex", alignItems: "center" }}>
-                              <Avatar variant="rounded">
-                                <img
-                                  src={
-                                    row.imgurl ? row.imgurl : placeholderImage
-                                  }
-                                  width="46px"
-                                  height="46px"
-                                />
+                              <Avatar variant="rounded" src={row.imgurl && row.imgurl} sx={{ width: '46px', height: '46px' }}>
+                                {(row.name).substring(0,1)}
                               </Avatar>
                             </Box>
                             {row.name !== undefined && (

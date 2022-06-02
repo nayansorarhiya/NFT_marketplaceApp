@@ -6,6 +6,7 @@ import opensea from '../../assets/images/opensea.svg';
 import looksrare from '../../assets/images/looksrare.svg';
 import x2y2 from '../../assets/images/x2y2.svg';
 import nftx from '../../assets/images/nftx.svg';
+import xmarket from '../../assets/images/xmarket.svg';
 import addcarticon from '../../assets/images/addcarticon.svg';
 import verifiedtick from '../../assets/images/verifiedtick.svg';
 import { SportsRugbySharp } from '@mui/icons-material';
@@ -40,42 +41,66 @@ const AddCheckbox = styled(Checkbox)`
     width: 32px;
     opacity : 0;
 `
-export function AddItem() {
-    const [itemList, setItemList] = useState([]);
-    return itemList;
-}
 
 export default function NFTCard(props) {
     const theme = useTheme();
     const dispatch = useDispatch();
     const [addcartCheck, setaddcartCheck] = useState(false);
     let svgpath = '';
-    if (props.apidata.market == "looksrare") {
-        svgpath = looksrare;
-    } else if (props.apidata.market == "x2y2") {
-        svgpath = x2y2;
-    } else if (props.apidata.market == "opensea") {
-        svgpath = opensea;
-    }
-    else if (props.apidata.market == "nftx") {
-        svgpath = nftx;
+    switch (props.apidata.market) {
+        case "looksrare":
+            svgpath = looksrare;
+            break;
+        case "x2y2":
+            svgpath = x2y2;
+            break;
+        case "opensea":
+            svgpath = opensea;
+            break;
+        case "nftx":
+            svgpath = nftx;
+            break;
+        case "xMarket":
+            svgpath = xmarket;
+            break;
     }
 
-    const CartData = (useSelector((state) => state.Index.cartdata))
+    let CartData = (useSelector((state) => state.Index.cartdata))
     const setReduxCartData = (data) => {
         dispatch(setCartIdx(data))
     }
+
+    const cartListManage = () => {
+        for (let item of CartData) {
+            if (item.uid === props.apidata.uid) {
+                setaddcartCheck(true)
+                break;
+            }
+            else {
+                setaddcartCheck(false)
+            }
+        }
+    }
+
+    useEffect(() => {
+        if (CartData.length === 0) {
+            setaddcartCheck(false);
+            return;
+        }
+        cartListManage();
+    }, [CartData])
+
     const AddtoCart = () => {
         if (svgpath !== '') {
-            setaddcartCheck(!addcartCheck);
-        }
-        if (!addcartCheck) {
-            setReduxCartData([...CartData, props.apidata]);
-        } else {
-            const popCart = CartData.filter((value) => {
-                return value.uid !== props.apidata.uid
-            });
-            setReduxCartData(popCart);
+
+            if (!addcartCheck) {
+                setReduxCartData([...CartData, props.apidata]);
+            } else {
+                const popCart = CartData.filter((value) => {
+                    return value.uid !== props.apidata.uid
+                });
+                setReduxCartData(popCart);
+            }
         }
     }
 

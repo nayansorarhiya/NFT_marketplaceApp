@@ -101,6 +101,9 @@ body {
     opacity: 1;
 }
 
+.cartitem span {
+    padding : 0;
+}
 @media only screen and (max-width: 600px) {
     .mobileCells {
         display: none !important;
