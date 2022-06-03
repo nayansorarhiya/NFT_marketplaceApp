@@ -2,9 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 let initialCartState = {
     cartdata: [],
-    filtertiles: [{ id: 0, name: 'price', value: '05 - 30 ETH' },
-    { id: 1, name: 'rarity', value: '15 - 30' },
-    { id: 2, name: 'marketplace', value: 'loosrare' },]
+    filtertiles: []
 }
 const slice = createSlice({
     name: 'Index',

@@ -94,7 +94,7 @@ export default function Properties(props) {
                                 return filter ? 1 : -1;
                             }
                             return 0;
-                        }).filter((row) => { return (row.trait_value.toString()).toLowerCase().includes((searchRow).toLowerCase()); }).map((item, index) => {
+                        }).filter((row) => { return (row.trait_value? row.trait_value.toString() : '0').toLowerCase().includes((searchRow).toLowerCase()); }).map((item, index) => {
 
                             return (<Box key={index} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', maxWidth: '206px' }}>
                                 <FormControlLabel control={<CheckboxComponents onChange={e => {

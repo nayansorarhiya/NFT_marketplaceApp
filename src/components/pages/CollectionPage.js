@@ -19,6 +19,8 @@ import NFTCollection from '../CollectionPageComponents/NFTCollection';
 import menu from '../../assets/images/menu.svg'
 import { useParams } from 'react-router-dom';
 import { BigNumber, ethers } from 'ethers';
+import { useDispatch, useSelector } from "react-redux";
+import { setFilterTiles } from "../../store/IndexSlice";
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: 'inherit',
@@ -83,6 +85,11 @@ export const CustomDrawer = ({ topdrawerwidth, variant, open, setApiFilter, apif
     const [maxprice, setMaxPrice] = React.useState('')
     const [priceValidation, setPriceValidation] = React.useState('')
 
+    const dispatch = useDispatch();
+    const FilterTiles = (useSelector((state) => state.Index.filtertiles));
+    const setReduxFilterData = (data) => {
+        dispatch(setFilterTiles(data))
+    }
     function minmaxValidateRar() {
         if (Number(minrarity) >= Number(maxrarity)) {
             setRarityValidation('The maximum must be greater than the minimum.')
@@ -101,6 +108,8 @@ export const CustomDrawer = ({ topdrawerwidth, variant, open, setApiFilter, apif
     React.useEffect(() => {
         if (!rarityinput) {
             setApiFilter({ ...(apifilter), "offset": 0, "filters": { ...(apifilter.filters), "rankRange": {} } })
+            const popfilter = FilterTiles.filter((v) => { return v.id !== 1 });
+            setReduxFilterData(popfilter);
             setMinRarity('');
             setMaxRarity('');
         }
@@ -109,7 +118,7 @@ export const CustomDrawer = ({ topdrawerwidth, variant, open, setApiFilter, apif
     const rarityFilterApply = () => {
         const flag = minmaxValidateRar();
         flag && setApiFilter({ ...(apifilter), "offset": 0, "filters": { ...(apifilter.filters), "rankRange": { min: minrarity, max: maxrarity } } })
-
+        flag && setReduxFilterData([...FilterTiles, { id: 1, name: 'Rarity', value: `${minrarity} - ${maxrarity}` }])
     }
 
 
@@ -129,22 +138,29 @@ export const CustomDrawer = ({ topdrawerwidth, variant, open, setApiFilter, apif
             setPriceValidation('')
         }
     }, [minprice, maxprice]);
-    React.useEffect(() => {
-        if (!buynowinput) {
-            setApiFilter({ ...(apifilter), "offset": 0, "filters": { ...(apifilter.filters), "price": {} } })
-        }
-    }, [buynowinput]);
+
+    // React.useEffect(() => {
+    //     if (!buynowinput) {
+    //         setApiFilter({ ...(apifilter), "offset": 0, "filters": { ...(apifilter.filters), "price": {} } })
+    //     }
+    // }, [buynowinput]);
 
     const priceFilterApply = () => {
         const flag = minmaxValidatePrice();
         if (flag) {
             if (dropdown == 0) {
                 setApiFilter({ ...(apifilter), "offset": 0, "filters": { ...(apifilter.filters), "price": { symbol: 'ETH', low: (ethers.utils.parseEther(minprice.toString())).toString(), high: (ethers.utils.parseEther(maxprice.toString())).toString() } } })
+                setReduxFilterData([...FilterTiles, { id: 2, name: 'Price', value: `${(minprice.toString())} - ${(maxprice.toString())} ETH` }])
             } else {
                 setApiFilter({ ...(apifilter), "offset": 0, "filters": { ...(apifilter.filters), "price": { symbol: 'USD', low: minprice.toString(), high: maxprice.toString() } } })
+                setReduxFilterData([...FilterTiles, { id: 3, name: 'Price', value: `${minprice.toString()} - ${maxprice.toString()} USD` }])
             }
         }
 
+    }
+
+    const clearAllfilterData = () => {
+        dispatch(setFilterTiles([]))
     }
 
     return (
@@ -183,6 +199,7 @@ export const CustomDrawer = ({ topdrawerwidth, variant, open, setApiFilter, apif
                 </DrawerHeader>
                 <Box sx={{ fontWeight: 600, fontSize: '22px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: { xs: 3, sm: 3, md: 0, lg: 0 }, pt: 2 }}>
                     <Box> Filter </Box>
+                    {FilterTiles.length !== 0 && <Box onClick={clearAllfilterData} sx={{ cursor: 'pointer', display: 'flex', alignItems: 'center', fontSize: '14px', fontWeight: 700, color: theme.palette.primary.dark }}>Clear all</Box>}
                     <Button variant='outlined' onClick={handleDrawerClose} sx={{
                         display: { xs: 'flex', sm: 'flex', md: 'none', lg: 'none' },
                         flex: 'end',
@@ -300,14 +317,18 @@ export const CustomDrawer = ({ topdrawerwidth, variant, open, setApiFilter, apif
                     </Box>
                 </Box>
             </Box>
-        </Drawer>
+        </Drawer >
     );
 }
 
 
 
 export default function CollectionPage() {
-
+    const dispatch = useDispatch();
+    const FilterTiles = (useSelector((state) => state.Index.filtertiles));
+    const setReduxFilterData = (data) => {
+        dispatch(setFilterTiles(data))
+    }
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
     const [dropdown, setDropdown] = React.useState(0);
@@ -455,12 +476,20 @@ export default function CollectionPage() {
     }, []);
     React.useEffect(() => {
         setApiFilter({ ...apifilter, "offset": 0, "status": buynowinput ? ["buy_now"] : ["all"] });
+        if (buynowinput) {
+            const popfilter = FilterTiles.filter((v) => { return v.id !== 4 });
+            setReduxFilterData(popfilter);
+        } else {
+            setReduxFilterData([...FilterTiles, { id: 4, name: 'All', value: 'all' }])
+        }
     }, [buynowinput]);
     React.useEffect(() => {
         apiCallforAssetData();
     }, [apifilter]);
 
-
+    React.useEffect(() => {
+        console.log(FilterTiles);
+    }, [FilterTiles]);
     // const drawerWidth = variant.width;
 
     return (
