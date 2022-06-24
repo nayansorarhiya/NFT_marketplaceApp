@@ -66,7 +66,8 @@ export default function NFTCard(props) {
         case "x2y2":
             svgpath = x2y2;
             break;
-        case "opensea":
+        // case "opensea":
+        case "seaport":
             svgpath = opensea;
             break;
         case "nftx":
@@ -78,6 +79,7 @@ export default function NFTCard(props) {
     }
 
     let CartData = (useSelector((state) => state.Index.cartdata))
+    console.log(CartData);
     const setReduxCartData = (data) => {
         dispatch(setCartIdx(data))
     }
@@ -103,7 +105,7 @@ export default function NFTCard(props) {
     }, [CartData])
 
     const AddtoCart = () => {
-        if (svgpath !== '') {
+        if (props.buynowinput) {
 
             if (!addcartCheck) {
                 setReduxCartData([...CartData, props.apidata]);

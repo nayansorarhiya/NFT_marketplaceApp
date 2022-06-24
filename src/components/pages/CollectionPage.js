@@ -317,7 +317,7 @@ export const CustomDrawer = ({ topdrawerwidth, variant, open, setApiFilter, apif
                     </Box>
                 </Box>
             </Box>
-        </Drawer >
+        </Drawer>
     );
 }
 
@@ -376,6 +376,8 @@ export default function CollectionPage() {
     }]);
     const [assetsdata, setAssetsdata] = React.useState([{
         name: '',
+        address: '',
+        tokenType: '',
         market: '',
         imageUrl: '',
         rarityscore: 0,
@@ -431,10 +433,10 @@ export default function CollectionPage() {
             onedayvolume: v.stats.one_day_volume ? v.stats.one_day_volume : 0,
             floorprice: v.stats.floor_price ? v.stats.floor_price : -1,
             revealpercentage: v.revealPercentage ? v.revealPercentage : 100,
-            marketstats: (v.marketStats).length !== 0 ? v.marketStats : [],
-            traits: (v.traits).length !== 0 ? v.traits : [],
+            marketstats: (v.marketStats) && (v.marketStats).length !== 0 ? v.marketStats : [],
+            traits: (v.traits) && (v.traits).length !== 0 ? v.traits : [],
             traitslist: [],
-            traitcounts: (v.traitCounts).length !== 0 ? v.traitCounts : [],
+            traitcounts: (v.traitCounts) && (v.traitCounts).length !== 0 ? v.traitCounts : [],
         }));
         localrows[0].traits = groupBy(localrows[0].traits, 'trait_type');
         localrows[0].traitslist = Object.keys(localrows[0].traits)
@@ -457,6 +459,8 @@ export default function CollectionPage() {
         // console.log(assetsrows.data.data);
         const localassetsrows = assetsrows.data.data.map((v) => ({
             name: v.name,
+            address: v.address,
+            tokenType: v.tokenType,
             market: v.market,
             imageurl: v.imageUrl,
             rarityscore: v.rarityScore,
@@ -487,9 +491,9 @@ export default function CollectionPage() {
         apiCallforAssetData();
     }, [apifilter]);
 
-    React.useEffect(() => {
-        console.log(FilterTiles);
-    }, [FilterTiles]);
+    // React.useEffect(() => {
+    //     console.log(FilterTiles);
+    // }, [FilterTiles]);
     // const drawerWidth = variant.width;
 
     return (
