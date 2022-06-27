@@ -14,6 +14,7 @@ export default function CartDrawer({ topdrawerwidth, cartvariant, cartopen, Conn
     const dispatch = useDispatch();
     const { active, account, library } = useWeb3React();
     const [balance, setBalance] = React.useState(BigNumber.from("0"));
+    const [loading, setLoading] = React.useState(false);
     useEffect(() => {
         let getBalance = async () => {
             if (active) {
@@ -22,14 +23,14 @@ export default function CartDrawer({ topdrawerwidth, cartvariant, cartopen, Conn
         }
         getBalance();
     }, [active])
-    const [totalamount, setTotalAmount] = useState(0);
+    const [totalamount, setTotalAmount] = React.useState(BigNumber.from("0"));
     const CartData = (useSelector((state) => state.Index.cartdata))
     useEffect(() => {
         // if (CartData.length !== 0) {
         const total = CartData.reduce((acc, item) => {
             return acc += parseFloat(ethers.utils.formatEther(item.price))
         }, 0)
-        setTotalAmount(total.toFixed(2))
+        setTotalAmount(ethers.utils.parseEther(total.toString()))
         // }
     }, [CartData]);
     const popCartData = (popuid) => {
@@ -40,6 +41,53 @@ export default function CartDrawer({ topdrawerwidth, cartvariant, cartopen, Conn
     }
     const clearAllCartData = () => {
         dispatch(setCartIdx([]))
+    }
+    const buyNow = async () => {
+        setLoading(true);
+        let buylist = CartData.map((item) => {
+            return {
+                "address": item.address,
+                "amount": parseFloat(ethers.utils.formatEther(item.price)),
+                "standard": item.tokenType,
+                "tokenId": item.tokenId,
+            }
+
+        })
+        let apifilter = {
+            "balanceToken": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+            "buy": buylist,
+            "sell": []
+        }
+        try {
+            const initRsp = await fetch(
+                `https://dh-backend.vercel.app/api/initTransaction`,
+                {
+                    method: "POST",
+                    body: JSON.stringify(apifilter),
+                    headers: {
+                        "Content-type": "application/json; charset=UTF-8"
+                    }
+                }
+            );
+            const initRspData = (await initRsp.json());
+            const buylistCode = initRspData.data.transaction;
+            const txnvalue = initRspData.data.value.hex;
+            // console.log(initRspData);
+            // console.log(buylistCode +" "+ txnvalue.toString());
+            const nTx = {
+                from: account,
+                to: "0xc96B202089CAe5BC50d535fb0abdc123383E8580",
+                value: txnvalue,
+                data: buylistCode,
+                // gasLimit : 466965,
+            };
+
+            const tx = await library.getSigner().sendTransaction(nTx);
+            tx.wait();
+            setLoading(false);
+        } catch (err) {
+            setLoading(false);
+        }
     }
     return (
         <>
@@ -100,7 +148,7 @@ export default function CartDrawer({ topdrawerwidth, cartvariant, cartopen, Conn
                             <Box>
                                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, gap: '6px' }}>
                                     <Box sx={{ fontSize: '14px' }}>
-                                        {totalamount}
+                                        {ethers.utils.formatEther(totalamount.toString())}
                                     </Box>
                                     <img src={eth} />
                                 </Box>
@@ -112,7 +160,7 @@ export default function CartDrawer({ topdrawerwidth, cartvariant, cartopen, Conn
                     </>
                     }
                     {!active && <CustomButton onClick={() => !active && ConnectModal()} sx={{ mt: 3, whiteSpace: 'nowrap', width: '100%', lineHeight: '40px' }} variant="contained">Connect Wallet </CustomButton>}
-                    {active && CartData.length !== 0 && (balance < totalamount) && <Button onClick={() => !active && ConnectModal()}
+                    {active && CartData.length !== 0 && (balance.lt(totalamount)) && <Button onClick={() => !active && ConnectModal()}
                         sx={{
                             mt: 3,
                             backgroundColor: alpha(theme.palette.primary.searchIcon, 1),
@@ -120,13 +168,13 @@ export default function CartDrawer({ topdrawerwidth, cartvariant, cartopen, Conn
                                 backgroundColor: alpha(theme.palette.primary.searchIcon, 1),
                             }, whiteSpace: 'nowrap', width: '100%', lineHeight: '40px', color: '#ffffff', textTransform: 'none', fontSize: '16px', fontWeight: 500,
                         }} variant="contained" disabled>Insufficient Balance </Button>}
-                    {active && CartData.length !== 0 && (balance >= totalamount) && <>
+                    {active && CartData.length !== 0 && (balance.gte(totalamount)) && <>
                         <Box sx={{ mt: 3 }}>
                             <Button sx={{
                                 background: 'linear-gradient(90deg, #E875D2 0%, #642CC8 100%)', borderRadius: '3px', padding: '11px 22px', color: '#ffffff', width: '100%', textTransform: 'none', '&:hover,&:focus': {
                                     opacity: 0.8,
                                 }
-                            }}>Buy Now</Button>
+                            }} disabled={loading} onClick={buyNow}>Buy Now</Button>
                         </Box>
                         <Box sx={{ mt: 1.5 }}>
                             <Button sx={{

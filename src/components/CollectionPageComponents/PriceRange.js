@@ -20,7 +20,7 @@ export default function PriceRange(props) {
                     <img style={{ marginLeft: '5px' }} src={eth} alt='eth' />
                 </Price>
                 <Box sx={{ ...(props.apidata.onedaychange > 0 ? { color: '#27AE60' } : {color: '#EB5757'}) }}>
-                    {props.apidata.onedaychange.toFixed(2)}%
+                {props.apidata.onedaychange > 0 && '+'}{(props.apidata.onedaychange*100).toFixed(2)}%
                 </Box>
             </Box>
             <Box sx={{ display: { xs: 'block', sm: 'flex', md: 'flex', lg: 'flex' }, gap: '10px' }}>

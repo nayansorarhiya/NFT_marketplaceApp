@@ -15,6 +15,14 @@ import { useWeb3React } from '@web3-react/core'
 //     supportedChainIds: [1, 3, 4, 5, 42, 97],
 // });
 
+const reqChainId = "0x539";
+const myrpcUrl = ['http://192.168.105:8545'];
+// const reqChainId = "0x145B7E";
+// const myrpcUrl = ['http://64.52.80.186:8545'];
+
+// const myrpcUrl = ['https://speedy-nodes-nyc.moralis.io/f4821cc9723d2edb79055d15/bsc/testnet'];
+// const reqChainId = "0x61";
+
 const walletConnectOption = new WalletConnectConnector({
     rpcUrl: "https://data-seed-prebsc-1-s1.binance.org:8545",
     bridge: "https://bridge.walletconnect.org",
@@ -22,14 +30,15 @@ const walletConnectOption = new WalletConnectConnector({
 });
 
 const Injected = new InjectedConnector({
-    supportedChainIds: [1, 3, 4, 5, 42, 97]
+    supportedChainIds: [97,1337, 1334142]
+    // supportedChainIds: [1, 3, 4, 5, 42, 97, 1334142]
 });
 
 export default function ConnectionModal(props) {
     const { activate, chainId } = useWeb3React();
     const theme = useTheme();
     const walletConnect = async () => {
-        const reqChainId = "0x61";
+
         if (window.ethereum) {
 
             const chainId = await window.ethereum.request({ method: 'eth_chainId' });
@@ -47,7 +56,7 @@ export default function ConnectionModal(props) {
     async function chainSwitch() {
         try {
             // debugger;
-            const result = await window.ethereum.request('wallet_switchEthereumChain', [{ chainId: `0x61` }])
+            const result = await window.ethereum.request('wallet_switchEthereumChain', [{ chainId: reqChainId }])
             // activate(Injected)
         } catch (switchError) {
             // 4902 indicates that the client does not recognize the Harmony One network
@@ -55,12 +64,12 @@ export default function ConnectionModal(props) {
                 await window.ethereum.request({
                     method: 'wallet_addEthereumChain',
                     params: [{
-                        chainId: '0x61',
-                        rpcUrls: ['https://speedy-nodes-nyc.moralis.io/f4821cc9723d2edb79055d15/bsc/testnet'],
-                        chainName: 'Binance Smart Chain Testnet',
-                        nativeCurrency: { name: 'ONE', decimals: 18, symbol: 'ONE' },
+                        chainId: reqChainId,
+                        rpcUrls: myrpcUrl,
+                        chainName: 'Ethereum Fork',
+                        // chainName: 'Binance Smart Chain Testnet',
+                        nativeCurrency: { name: 'ETH', decimals: 18, symbol: 'ETH' },
                         blockExplorerUrls: ['https://explorer.harmony.one'],
-                        // iconUrls: ['https://harmonynews.one/wp-content/uploads/2019/11/slfdjs.png'],
                     }],
                 })
             }

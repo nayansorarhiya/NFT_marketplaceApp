@@ -35,7 +35,7 @@ export default function CartItems({ cartItem, popCartData }) {
                         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', mb: 1 }}>
                             <span style={{ display: 'flex', alignItems: 'center' }}>
                                 <Box sx={{ marginRight: '0.5rem', fontSize: '14px' }}>
-                                    {cartItem.id}
+                                    {cartItem.tokenId}
                                 </Box>
                                 <span style={{ display: 'flex' }}>
                                     <InfoRoundedIcon sx={{ color: '#EB5757', width: '18px' }} />

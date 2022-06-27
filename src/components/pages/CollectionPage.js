@@ -382,7 +382,7 @@ export default function CollectionPage() {
         imageUrl: '',
         rarityscore: 0,
         price: "0",
-        id: '',
+        tokenId: '',
         uid: '',
         collection: ''
 
@@ -465,7 +465,7 @@ export default function CollectionPage() {
             imageurl: v.imageUrl,
             rarityscore: v.rarityScore,
             price: v.currentBasePrice != null ? v.currentBasePrice.toLocaleString('fullwide', { useGrouping: false }) : "0",
-            id: v.id,
+            tokenId: v.tokenId,
             uid: v._id,
             collection: v.collectionName,
         }));
