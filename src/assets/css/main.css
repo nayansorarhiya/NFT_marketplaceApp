@@ -8,6 +8,30 @@
     src: url('../fonts/Work_Sans/WorkSans-Regular.ttf');
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+  }
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+
 body {
     /* font-family: 'DMSans' !important;
     font-style : normal !important; */
@@ -18,7 +42,7 @@ body {
 .headerlogo {
     font-weight: 700 !important;
     /* font-size     : 32px !important; */
-    line-height: 42px !important;
+    line-height: 20px !important;
     text-transform: capitalize !important;
 }
 
@@ -26,9 +50,9 @@ body {
     height: 33px;
     width: 42px;
 }
-.logo_name{
+/* .logo_name{
     margin-left: 15px;
-}
+} */
 
 .menulist {
     font-weight: 500 !important;
@@ -73,6 +97,13 @@ body {
     font-size: 18px !important;
 }
 
+.NFTCard :hover .addicon {
+    opacity: 1;
+}
+
+.cartitem span {
+    padding : 0;
+}
 @media only screen and (max-width: 600px) {
     .mobileCells {
         display: none !important;

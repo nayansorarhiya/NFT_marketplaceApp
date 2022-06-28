@@ -1,67 +1,63 @@
-import { alpha, Avatar, Box, Button, Card, CardContent, CardMedia, Grid, styled, Typography, useTheme } from '@mui/material'
-import React from 'react'
-import card_img1 from '../../assets/images/card_img1.svg'
-import eth from '../../assets/images/eth.svg'
-import opensea from '../../assets/images/opensea.svg'
-
-const CountButton = styled(Button)`
-    background: #485FE6;
-    border: 2px solid #FFFFFF;
-    border-radius: 3px;
-    padding: 2px 6px;
-    color: #FFFFFF;
-    width: 60px;
-    height: 22px;
-    position: relative;
-    /* right: 100px;
-    bottom: 45px; */
-    bottom: 90px;
-    left: 15px;
-
-`
-const BadgeImage = styled(Avatar)`
-    position: relative;
-    bottom: 300px;
-    /* right: 160px; */
-    left: 15px;
-    height: 32px;
-    width: 32px;
+import { Box, Button, Grid, Skeleton } from '@mui/material'
+import React, { Suspense } from 'react'
+// import NFTCard from '../card/NFTCard';
+import FilterTilesCard from '../card/FilterTilesCard';
+import { useDispatch, useSelector } from "react-redux";
+import { setFilterTiles } from "../../store/IndexSlice";
+import { styled, alpha, useTheme } from '@mui/material/styles';
+// import NFTCard from '../card/NFTCard';
+const NFTCard = React.lazy(() => import('../card/NFTCard'));
 
 
-`
+export default function NFTCollection(props) {
+	const theme = useTheme();
+	const dispatch = useDispatch();
+	const FilterTiles = (useSelector((state) => state.Index.filtertiles));
+	const showMoredata = () => {
+		if (props.totalNFT.hasNext === true) {
+			props.setApiFilter({ ...(props.apifilter), "offset": (props.apifilter.offset) + 30 })
+		}
+	}
+	const clearAllfilterData = () => {
+		dispatch(setFilterTiles([]))
+	}
+	return (
+		<Box sx={{ p: '20px 20px 20px 20px', height: '100vh', maxHeight: '100vh', overflow: 'auto' }}>
+			{/* {FilterTiles.length !== 0 && <><Box sx={{ display: 'flex', justifyContent: 'start', flexWrap: 'wrap', flexDirection: 'row' }}>
+                    {
+                        FilterTiles.map((value, index) => <FilterTilesCard key={index} data={value}></FilterTilesCard>)
+                    }
+                    <Box onClick={clearAllfilterData} sx={{ cursor : 'pointer', display: 'flex',alignItems : 'center', mt: 1, ml: 1, fontSize : '14px',fontWeight : 700 ,color : theme.palette.primary.dark}}>Clear all</Box>
+                </Box>
+                </>
+                } */}
+			{props.assetsdata.length !== 0 ?
+				<Grid container spacing={2}>
 
-export default function NFTCollection() {
-    const theme = useTheme();
-    return (
-        <>
-            <Box>
-                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                    <Grid item xs={3} md={3} sm={5} lg={2} xl={2}  >
-                        <Card sx={{ minWidth: 240, maxHeight: '295px', mt: 6, borderRadius: '10px', background: alpha(theme.palette.primary.main, 1)
-                        }}>
-                            <CardMedia
-                                component="img"
-                                image={card_img1}
-                                alt="NFT image"
-                            />
-                            <CardContent sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                                <Box>
-                                    34.91
-                                </Box>
-                                <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '7px' }}>
-                                    <Box sx={{ color: 'rgba(145, 147, 155, 1)' }}>
-                                        38.51
-                                    </Box>
-                                    <img src={eth} alt="eth" height={'21px'} />
-                                </Box>
-                            </CardContent>
-                            <CountButton># 7258</CountButton>
-                            <BadgeImage src={opensea}></BadgeImage>
-
-                        </Card>
-                    </Grid>
-                </Grid>
-            </Box>
-        </>
-    )
+					{
+						(props.assetsdata).map((value, index) =>
+							<>
+								<Suspense fallback={<Box  sx={{ display: 'flex', justifyContent: 'center' }}>Loading...</Box>}>
+									<NFTCard key={value.uid} apidata={value} rarityinput={props.rarityinput} buynowinput={props.buynowinput}></NFTCard>
+								</Suspense>
+							</>
+						)
+					}
+				</Grid>
+				:
+				<Box sx={{ display: 'flex', justifyContent: 'center' }}>
+					No Data Found
+				</Box>
+			}
+			{props.totalNFT.hasNext === true && <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+				<Button variant="contained" sx={{
+					'&:hover,&:focus': {
+						backgroundColor: alpha(theme.palette.primary.main, 1),
+					}, color: '#485FE6', fontWeight: 700, fontSize: '18px', my: 4
+				}} onClick={showMoredata}>
+					Show More
+				</Button>
+			</Box>}
+		</Box>
+	)
 }

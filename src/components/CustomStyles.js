@@ -1,10 +1,25 @@
-import { Box } from '@mui/material';
+import { Avatar, Box, Divider } from '@mui/material';
 import InputBase from '@mui/material/InputBase';
 import { styled, alpha, useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import logo from '../assets/images/logo.svg';
-import logo_name from '../assets/images/logo_name.svg';
+import eth from '../assets/images/eth.svg';
+import profileimage from '../assets/images/profileimage.svg';
+// import logo_name from '../assets/images/logo_name.svg';
+// import blacklogo_name from '../assets/images/blacklogo_name.svg';
 import { Switch } from '@mui/material';
+import { useWeb3React } from '@web3-react/core';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import * as React from 'react';
+import Button from '@mui/material/Button';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Fade from '@mui/material/Fade';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import RedeemIcon from '@mui/icons-material/Redeem';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { BigNumber, ethers } from 'ethers';
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -29,6 +44,62 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
     justifyContent: 'center',
 }));
 
+
+
+const Connected = () => {
+    const { account, active, deactivate, library } = useWeb3React();
+    const [balance, setBalance] = React.useState(BigNumber.from("0"));
+    useEffect(() => {
+        let getBalance = async () => {
+            if (active) {
+                setBalance(await library.getBalance(account));
+            }
+        }
+        getBalance();
+    }, [active,account])
+    const navigate = useNavigate();
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+    return (<>
+
+        <Search onClick={handleClick} aria-expanded={open ? 'true' : undefined} sx={{ display: 'flex', alignItems: 'center', borderRadius: '25px', height: '44px', pr: 1.5, border: '1px solid rgba(145, 147, 155, 0.3)' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', ml: 0.25 }}>
+                <Avatar src={profileimage}></Avatar>
+                <Box sx={{ ml: 1 }}>{account.substring(0, 6) + "..." + account.substring(account.length - 4)}</Box>
+            </Box>
+        </Search>
+        <Menu
+            transformOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+            }}
+            id="primary-search-account-menu-mobile"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+        >
+            <MenuItem sx={{
+                width: '200px', display: 'block', fontSize: '18px', fontWeight: 700
+            }}>
+                {account.substring(0, 6) + "..." + account.substring(account.length - 4)}
+                <Box sx={{ display: 'flex', alignItems: 'center', fontSize: '16px', fontWeight: 700, gap: '5px', }}> {parseFloat((ethers.utils.formatEther(balance.toString())).toString()).toFixed(4)}<img src={eth} /></Box>
+            </MenuItem>
+            <Divider />
+            <MenuItem onClick={() => { navigate("/profile"); handleClose() }} sx={{ fontWeight: 700, fontSize: '14px', }}><PersonOutlineIcon sx={{ mr: 1 }} />My Profile</MenuItem>
+            <Divider />
+            <MenuItem onClick={() => { navigate("/rewards"); handleClose() }} sx={{ fontWeight: 700, fontSize: '14px', }}><RedeemIcon sx={{ mr: 1 }} />My Rewards</MenuItem>
+            <Divider />
+            <MenuItem onClick={() => { deactivate(); handleClose(); }} sx={{ fontWeight: 700, fontSize: '14px', }}><LogoutIcon sx={{ mr: 1, transform: 'rotate(180deg)' }} />Disconnected</MenuItem>
+        </Menu>
+    </>);
+}
+
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: 'inherit',
     '& .MuiInputBase-input': {
@@ -51,13 +122,14 @@ const LogoTypography = () => {
                 variant="h6"
                 noWrap
                 component="div"
-                sx={{ fontSize: { xs: '22px', sm: '32px' }, display: 'flex', color: alpha(theme.palette.primary.logo, 1), marginLeft: { xs: theme.spacing(0), sm: theme.spacing(0) } }}
+                sx={{ cursor: 'pointer', fontSize: '20px', display: 'flex', color: alpha(theme.palette.primary.footerIcon, 1), marginLeft: { xs: theme.spacing(0), sm: theme.spacing(0) } }}
                 className="headerlogo"
             >
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <img src={logo} alt='header logo' className='logo' />
-                    <Box sx={{ display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex' } }}>
-                        <img src={logo_name} alt='logo name' className='logo_name' />
+                    <Box sx={{ display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex' }, ml: '15px' }}>
+                        {/* <img src={theme.palette.mode == "dark" ? logo_name : blacklogo_name} alt='logo name' className='logo_name' /> */}
+                        DiamondHands
                     </Box>
                 </Box>
             </Typography>
@@ -86,6 +158,9 @@ const CustomeSwitch = styled(Switch)(({ theme }) => ({
         backgroundColor: 'rgba(255,255,255,1)',
     },
     '& .MuiSwitch-switchBase': {
+        '&.css-1fmfuzp-MuiButtonBase-root-MuiSwitch-switchBase:hover': {
+            backgroundColor: 'rgba(255, 255, 255,0.03)',
+        },
         '&.Mui-checked': {
             '& + .MuiSwitch-track': {
                 opacity: 1,
@@ -97,15 +172,43 @@ const CustomeSwitch = styled(Switch)(({ theme }) => ({
 
 }));
 
-const ToggleButton = (props) => {
-    return (
-        <>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#91939B', fontWeight: 500, fontSize: '16px', lineHeight: '21px' }}>
-                <Box>{props.label}</Box>
-                <CustomeSwitch></CustomeSwitch>
-            </Box>
-        </>
-    );
+// const ToggleButton = (props) => {
+//     return (
+//         <>
+//             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#91939B', fontWeight: 500, fontSize: '16px', lineHeight: '21px', mt: 1, mb: 1 }}>
+//                 <Box>{props.label}</Box>
+//                 {/* <CustomeSwitch onChange={()=> props.setRarityInput(!props.rarityinput)}></CustomeSwitch> */}
+//             </Box>
+//         </>
+//     );
+// }
+
+const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
+    ({ theme, open, cartwidth }) => ({
+        flexGrow: 1,
+        transition: theme.transitions.create('margin', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+        marginRight: `${cartwidth}px`,
+        ...(open && {
+            transition: theme.transitions.create('margin', {
+                easing: theme.transitions.easing.easeOut,
+                duration: theme.transitions.duration.enteringScreen,
+            }),
+            marginRight: '0px',
+        }),
+    }),
+);
+
+export function ScrollToTop() {
+    const { pathname } = useLocation();
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [pathname]);
+
+    return null;
 }
 
-export { Search, SearchIconWrapper, StyledInputBase, LogoTypography, ToggleButton };
+export { Search, SearchIconWrapper, StyledInputBase, LogoTypography, Main, Connected,CustomeSwitch};

@@ -51,7 +51,7 @@ const TotalItems = styled(Box)`
     line-height: 18px;
 `
 
-export default function Properties(props) {
+export default function TraitsCount(props) {
     const [expanded, setExpanded] = React.useState(false);
     const [filter, setFilter] = React.useState(true);
     const [filteredlist, setFilteredlist] = React.useState([]);
@@ -62,7 +62,7 @@ export default function Properties(props) {
     const requestSearch = (event) => {
         setSearchRow(event.target.value);
     };
-    if ((props.list).length === 0) {
+    if ((props.list).length === 0 ||  props.list === null) {
         return <></>;
     }
     return (
@@ -83,34 +83,32 @@ export default function Properties(props) {
                     </Box>
                 </Box>}
                 <AccordionDetails sx={{ mt: 0, maxHeight: '300px', overflow: 'auto' }}>
-
-
                     <FormGroup>
-                        {(props.list).sort((a, b) => {
-                            if (a.trait_value < b.trait_value) {
+                        { (props.list).sort((a, b) => {
+                            if (a._id < b._id) {
                                 return filter ? -1 : 1;
                             }
-                            if (a.trait_value > b.trait_value) {
+                            if (a._id > b._id) {
                                 return filter ? 1 : -1;
                             }
                             return 0;
-                        }).filter((row) => { return (row.trait_value? row.trait_value.toString() : '0').toLowerCase().includes((searchRow).toLowerCase()); }).map((item, index) => {
+                        }).filter((row) => { return  ( row._id ? row._id.toString() : '0').toLowerCase().includes((searchRow).toLowerCase()); }).map((item, index) => {
 
-                            return (<Box key={index} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', maxWidth: '206px' }}>
+                            return (<Box key={index} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <FormControlLabel control={<CheckboxComponents onChange={e => {
                                     if (e.target.checked === true) {
-                                        filteredlist.push(item[props.label])
-                                        props.setApiFilter({ ...(props.apifilter), "offset": 0, [props.keyword]: { ...(props.apifilter.filters), "traits": { ...(props.apifilter.filters.traits), [props.name]: filteredlist } } })
+                                        filteredlist.push(item[props.label] ? item[props.label] : 0)
+                                        props.setApiFilter({ ...(props.apifilter), [props.keyword]: { ...(props.apifilter.filters), "traitCounts": filteredlist } })
                                     } else {
                                         let arr = filteredlist.filter((val) => {
-                                            return val !== item[props.label] && item[props.label];
+                                            return val !== ((item[props.label] !== null) ? item[props.label] : 0);
                                         });
                                         setFilteredlist(arr);
                                         if (filteredlist.length !== 1) {
-                                            props.setApiFilter({ ...(props.apifilter), "offset": 0, [props.keyword]: { ...(props.apifilter.filters), "traits": { ...(props.apifilter.filters.traits), [props.name]: arr } } })
+                                            props.setApiFilter({ ...(props.apifilter), "offset": 0, [props.keyword]: { ...(props.apifilter.filters), "traitCounts": arr } })
                                         } else {
-                                            delete (props.apifilter.filters.traits)[[props.name]];
-                                            props.setApiFilter({ ...(props.apifilter), "offset": 0, [props.keyword]: { ...(props.apifilter.filters), "traits": { ...(props.apifilter.filters.traits) } } })
+                                            delete (props.apifilter.filters)[["traitCounts"]];
+                                            props.setApiFilter({ ...(props.apifilter), "offset": 0, [props.keyword]: { ...(props.apifilter.filters) } })
                                         }
                                     }
                                 }}

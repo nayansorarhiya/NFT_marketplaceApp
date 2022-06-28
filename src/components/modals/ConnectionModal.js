@@ -15,19 +15,70 @@ import { useWeb3React } from '@web3-react/core'
 //     supportedChainIds: [1, 3, 4, 5, 42, 97],
 // });
 
-const walletConnect = new WalletConnectConnector({
-    rpcUrl: `https://data-seed-prebsc-1-s1.binance.org:8545`,
+// const reqChainId = "0x539";
+// const myrpcUrl = ['http://192.168.105:8545'];
+const reqChainId = "0x145B7E";
+const myrpcUrl = ['http://64.52.80.186:8545'];
+
+// const myrpcUrl = ['https://speedy-nodes-nyc.moralis.io/f4821cc9723d2edb79055d15/bsc/testnet'];
+// const reqChainId = "0x61";
+
+const walletConnectOption = new WalletConnectConnector({
+    rpcUrl: "https://data-seed-prebsc-1-s1.binance.org:8545",
     bridge: "https://bridge.walletconnect.org",
     qrcode: true,
 });
 
 const Injected = new InjectedConnector({
-    supportedChainIds: [1, 3, 4, 5, 42, 97]
+    supportedChainIds: [97,1337, 1334142]
+    // supportedChainIds: [1, 3, 4, 5, 42, 97, 1334142]
 });
 
 export default function ConnectionModal(props) {
-    const { activate } = useWeb3React();
+    const { activate, chainId } = useWeb3React();
     const theme = useTheme();
+    const walletConnect = async () => {
+
+        if (window.ethereum) {
+
+            const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+            if (chainId != reqChainId) {
+                await window.ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: reqChainId }] });
+            }
+            activate(Injected);
+        }
+        else {
+            alert("Metamask is not Installed");
+        }
+
+
+    }
+    async function chainSwitch() {
+        try {
+            // debugger;
+            const result = await window.ethereum.request('wallet_switchEthereumChain', [{ chainId: reqChainId }])
+            // activate(Injected)
+        } catch (switchError) {
+            // 4902 indicates that the client does not recognize the Harmony One network
+            if (switchError.code === 4902) {
+                await window.ethereum.request({
+                    method: 'wallet_addEthereumChain',
+                    params: [{
+                        chainId: reqChainId,
+                        rpcUrls: myrpcUrl,
+                        chainName: 'Ethereum Fork',
+                        // chainName: 'Binance Smart Chain Testnet',
+                        nativeCurrency: { name: 'ETH', decimals: 18, symbol: 'ETH' },
+                        blockExplorerUrls: ['https://explorer.harmony.one'],
+                    }],
+                })
+            }
+        }
+    }
+    React.useEffect(() => {
+        chainSwitch();
+    }, [chainId])
+
     const style = {
         position: 'absolute',
         top: '50%',
@@ -89,7 +140,7 @@ export default function ConnectionModal(props) {
                     </Typography>
                     <List sx={{ pt: 6 }}>
                         <Divider />
-                        <ListItem button sx={{ py: 3 }} onClick={() => { activate(Injected); }}>
+                        <ListItem button sx={{ py: 3 }} onClick={() => { walletConnect() }}>
                             <img src={metamask} alt='metamask' />
                             <Typography sx={WalletConnect}>
                                 Metamask
@@ -99,7 +150,7 @@ export default function ConnectionModal(props) {
                             </IconButton>
                         </ListItem>
                         <Divider />
-                        <ListItem button divider sx={{ py: 3 }} onClick={() => { activate(walletConnect, err => console.log(err)); }}>
+                        <ListItem button divider sx={{ py: 3 }} onClick={() => { activate(walletConnectOption, err => console.log(err)); }}>
                             <img src={walletconnectlogo} alt='wallect connect' width={32} height={30} />
                             <Typography sx={WalletConnect}>WalletConnect</Typography>
                         </ListItem>

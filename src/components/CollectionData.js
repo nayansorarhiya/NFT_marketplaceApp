@@ -1,9 +1,10 @@
-import { Box, Button, Divider, FormControl, MenuItem, Select, styled } from '@mui/material'
-import React from 'react'
+import { Box, Button, Divider, FormControl, MenuItem, Select, Skeleton, styled } from '@mui/material'
+import React, { useEffect, useState } from 'react'
 import vectorCorrect from '../assets/images/vectorCorrect.svg'
 import PriceRange from './CollectionPageComponents/PriceRange'
 import { Search, SearchIconWrapper, StyledInputBase } from './CustomStyles'
 import SearchIcon from '@mui/icons-material/Search';
+import mob_broom from '../assets/images/mob_broom.svg'
 
 const CollectionName = styled(Box)`
     font-family: 'WorkSans';
@@ -20,6 +21,22 @@ export default function CollectionData(props) {
     const [rowfilter, setRowFilter] = React.useState({
         label: '24h', option: 0
     });
+
+    const [nftsearch, setNFTSearch] = useState("");
+
+    useEffect(() => {
+        if (nftsearch !== "") {
+            props.setApiFilter({ ...(props.apifilter),"offset" : 0, "filters": { ...(props.apifilter.filters), "searchText": nftsearch } })
+        } else {
+            props.setApiFilter({ ...(props.apifilter),"offset" : 0, "filters": { ...(props.apifilter.filters), "searchText": "" } })
+        }
+    }, [nftsearch]);
+
+    // const NFTcollectionSearch = (val) => {
+    //     props.setApiFilter({ ...(props.apifilter), "filters": { ...(props.apifilter.filters), "searchText": val } })
+    //     // setNFTSearch(e.target.value)
+    //     // console.log(nftsearch);
+    // }
 
     const handleChange = (event) => {
         setDropdown(event.target.value);
@@ -56,64 +73,78 @@ export default function CollectionData(props) {
     };
     return (
         <>
-            <Box
-                sx={{
-                    display: 'flex',
-                    gap: '13px',
-                    mb: 1.5
-                }}>
-                <CollectionName>
-                    Mutant Ape Yacht club
-                    <img src={vectorCorrect} alt='verified' style={{ marginLeft: '10px' }} />
-                </CollectionName>
-            </Box>
+            <Box sx={{ p: '32px 20px 20px 20px' }}>
+                {props.apidata.name ? <>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            gap: '13px',
+                            mb: 1.5
+                        }}>
+                        <CollectionName>
+                            {props.apidata.name}
+                            {props.apidata.isverified && <img src={vectorCorrect} alt='verified' style={{ marginLeft: '10px' }} />}
+                        </CollectionName>
+                    </Box>
 
-            <PriceRange></PriceRange>
-            <Box sx={{ display: { md: 'none', lg: 'none' } }}>
-                <Button variant='outlined' sx={{
-                    width: '100%', color: 'inherit', border: '1px solid #485FE6',
-                    fontWeight: '500',
-                    fontSize: '16px', textTransform: 'capitalize',
-                    '&:hover,&:focus': {
-                        border: '1px solid #485FE6',
-                    },
-                    mt: 3,
-                }} onClick={props.drawerCall}>Filter</Button>
-            </Box>
+                    <PriceRange apidata={props.apidata}></PriceRange>
+                </> : <>
+                    <Skeleton animation="wave" sx={{ width: '100%', maxWidth: '400px', height: '60px' }} />
+                </>
+                }
+                <Box sx={{ display: { md: 'none', lg: 'none' } }}>
+                    <Button variant='outlined' sx={{
+                        width: '100%', color: 'inherit', border: '1px solid #485FE6',
+                        fontWeight: '500',
+                        fontSize: '16px', textTransform: 'capitalize',
+                        '&:hover,&:focus': {
+                            border: '1px solid #485FE6',
+                        },
+                        mt: 3,
+                    }} onClick={props.drawerCall}>Filter</Button>
+                </Box>
 
-            <Box sx={{ display: 'flex', mt: 3, justifyContent: 'space-between' }}>
-                <Search sx={{ display: 'flex' }}>
-                    <SearchIconWrapper >
-                        <SearchIcon />
-                    </SearchIconWrapper>
-                    <StyledInputBase
-                        placeholder="Search collections by name or address "
-                        inputProps={{ 'aria-label': 'search' }}
-                        sx={{ width: { xs: '100%', sm: '100%', md: '400px', lg: '500px' } }}
-                    // onChange={requestSearch}
-                    />
-                </Search>
-                <Box sx={{ minWidth: 100, display: { xs: 'none', sm: 'flex', md: 'flex', lg: 'flex' } }} >
-                    <FormControl>
-                        <Select
-                            value={dropdown}
-                            onChange={handleChange}
-                            sx={{
-                                '&:hover,&:focus': {
-                                    border: '1px solid #485FE6',
-                                },
-                                height: '38px'
-                            }}
-                        >
-                            <MenuItem value={0}>Last 24h</MenuItem>
-                            <MenuItem value={1}>Last 7 days</MenuItem>
-                            <MenuItem value={2}>Last 30 days</MenuItem>
-                            <MenuItem value={3}>All Time</MenuItem>
-                        </Select>
-                    </FormControl>
+                <Box sx={{ display: { xs: 'block', sm: 'flex', md: 'flex', lg: 'flex' }, gap: 1, mt: 2, justifyContent: 'space-between' }}>
+                    <Search sx={{ display: 'flex' }}>
+                        <SearchIconWrapper >
+                            <SearchIcon />
+                        </SearchIconWrapper>
+                        <StyledInputBase
+                            placeholder="Search collections by name or address "
+                            inputProps={{ 'aria-label': 'search' }}
+                            sx={{ width: { xs: '100%', sm: '350px', md: '400px', lg: '500px' } }}
+                            value={nftsearch}
+                            onChange={(e) => { setNFTSearch(e.target.value) }}
+                        />
+                    </Search>
+                    <Box sx={{ display: 'flex', gap: 1, justifyContent: 'right', mt: { xs: 2, sm: 0, md: 0, lg: 0 } }}>
+                        <Box sx={{ minWidth: 100 }} >
+                            {/* <FormControl> */}
+                            <Select
+                                value={dropdown}
+                                onChange={handleChange}
+                                sx={{
+                                    border: '1px solid rgba(145, 147, 155, 0.3)',
+                                    '&:active,&:hover,&:focus': {
+                                        border: '1px solid rgba(145, 147, 155, 0.3)',
+                                    },
+                                    height: '40px',
+                                }}
+                            >
+                                <MenuItem value={0} sx={{ width: '100%' }}>Last 24h</MenuItem>
+                                <MenuItem value={1}>Last 7 days</MenuItem>
+                                <MenuItem value={2}>Last 30 days</MenuItem>
+                                <MenuItem value={3}>All Time</MenuItem>
+                            </Select>
+                            {/* </FormControl> */}
+                        </Box>
+                        <Box sx={{ border: '1px solid rgba(145, 147, 155, 0.3)', borderRadius: '3px', cursor: 'pointer', width: '40px', height: '40px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            <Box sx={{ width: "24px", height: "24px", }}><img src={mob_broom}></img></Box>
+                        </Box>
+                    </Box>
                 </Box>
             </Box>
-            {/* <Divider /> */}
+            <Divider />
         </>
     )
 }

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { alpha, useTheme } from '@mui/material/styles';
+import { alpha, useTheme, styled } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -15,11 +15,58 @@ import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import Divider from '@mui/material/Divider/Divider';
 import CustomButton from '../../CustomButton';
-import { Search, SearchIconWrapper, StyledInputBase, LogoTypography } from '../../CustomStyles';
+import { Search, SearchIconWrapper, StyledInputBase, LogoTypography, Connected } from '../../CustomStyles';
 import ConnectionModal from '../../modals/ConnectionModal';
 import { useWeb3React } from '@web3-react/core';
+import { Button, CssBaseline, Drawer, List, ListItem, ListItemIcon, ListItemText, Typography, useMediaQuery } from '@mui/material';
+import card_img from '../../../assets/images/cart_image.svg'
+import close from '../../../assets/images/close.svg'
+import vector from '../../../assets/images/vector.svg'
+import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
+import eth from '../../../assets/images/eth.svg';
+import { useNavigate } from 'react-router-dom';
+import CartItems from '../../cart/CartItems';
+import CartDrawer from '../../cart/CartDrawer';
+import { useSelector } from 'react-redux';
+
+
+const drawerWidth = 300;
+const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
+    ({ theme, open }) => ({
+        flexGrow: 1,
+        padding: theme.spacing(3),
+        transition: theme.transitions.create('margin', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+        marginRight: `-${drawerWidth}px`,
+        ...(open && {
+            transition: theme.transitions.create('margin', {
+                easing: theme.transitions.easing.easeOut,
+                duration: theme.transitions.duration.enteringScreen,
+            }),
+            marginRight: '0px',
+        }),
+    }),
+);
+
+const DrawerHeader = styled('div')(({ theme }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+    justifyContent: 'flex-end',
+}));
 
 export default function Header(props) {
+    const CartData = (useSelector((state) => state.Index.cartdata))
+    const navigate = useNavigate();
+    const profile = () => {
+
+        navigate(`/profile`);
+
+    }
     const { active, account, deactivate } = useWeb3React();
     const theme = useTheme();
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -32,16 +79,45 @@ export default function Header(props) {
     const handleMobileMenuOpen = (event) => {
         setMobileMoreAnchorEl(event.currentTarget);
     };
+
+    const [topdrawerwidth, setTopDrawerwidth] = React.useState(300);
+
     const [open, setOpen] = React.useState(false);
+
+    const [cartopen, setCartOpen] = React.useState(false);
+    React.useEffect(() => {
+        (CartData.length > 0) && handleDrawerOpen();
+    }, [CartData])
+
+    const [cartvariant, setCartVariant] = React.useState({
+        view: 'persistent', width: '', direction: 'right'
+    });
+
+    const isMobile = useMediaQuery(theme.breakpoints.between('xs', 'md'));
+    React.useEffect(() => {
+        setCartVariant({ view: 'persistent', width: isMobile ? 0 : 300, direction: isMobile ? 'bottom' : 'right' })
+        setTopDrawerwidth(isMobile ? '100%' : 300);
+        props.setcartWidth(0);
+    }, [isMobile])
+
+    const handleDrawerOpen = () => {
+        setCartOpen(true);
+        !isMobile && props.setcartWidth(300);
+    };
+    const handleDrawerClose = () => {
+        setCartOpen(false);
+        props.setcartWidth(0);
+    };
 
     const ConnectModal = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    React.useEffect(()=>{
-        if(active) {
+    React.useEffect(() => {
+        if (active) {
             setOpen(false);
         }
         // console.log(open, active)
-    },[active])
+    }, [active])
+
 
 
     const mobileMenuId = 'primary-search-account-menu-mobile';
@@ -81,18 +157,31 @@ export default function Header(props) {
                 sell
             </MenuItem>
             <Divider />
-            <MenuItem>
-                <CustomButton variant="contained" onClick={() => active ? deactivate() : ConnectModal()}>{active ? account.substring(0, 4) + "..." + account.substring(account.length - 4) : "Connect Wallet"}</CustomButton>
+            <MenuItem onClick={() => !active && ConnectModal()}>
+                {active ? <Connected > </Connected> :
+                    <CustomButton sx={{ whiteSpace: 'nowrap' }} variant="contained">Connect Wallet </CustomButton>
+                }
             </MenuItem>
         </Menu>
     );
 
     return (
         <>
-            <Box sx={{ flexGrow: 1 }}>
-                <AppBar position="fixed" sx={{ background: alpha(theme.palette.primary.main, 1), minHeight: '64px', justifyContent: 'center' }}>
+            <Box sx={{ flexGrow: 1, mb: '5px' }}>
+                <CssBaseline />
+                <Box sx={{ boxShadow: `1px 0px 0px  ${theme.palette.primary.borderDrawer}`, background: alpha(theme.palette.primary.main, 1), display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex' } }}>
+                    {/* <DoubleArrowOutlinedIcon
+                        color="inherit"
+                        aria-label="open drawer"
+                        onClick={handleDrawerOpen}
+                        sx={{ m: 2, ...(open && { display: 'none' }) }}
+                    >
+                        <MenuIcon />
+                    </DoubleArrowOutlinedIcon> */}
+                </Box>
+                <AppBar position="fixed" sx={{ boxShadow: theme.palette.mode === 'dark' ? '0px 1px 0px #343742' : '0px 1px 0px rgba(0, 0, 0, 0.1)', background: alpha(theme.palette.primary.main, 1), minHeight: '64px', justifyContent: 'center' }}>
                     <Toolbar>
-                        <Box>
+                        <Box onClick={() => navigate(`/`)}>
                             <LogoTypography />
                         </Box>
                         <Box sx={{ flexGrow: 1 }} />
@@ -121,17 +210,17 @@ export default function Header(props) {
                                                 discover
                                             </MenuItem>
                                         </Box>
-                                        <Box sx={{ ml: 5 }}>
+                                        <Box sx={{ ml: 3.8 }}>
                                             <MenuItem>
                                                 states
                                             </MenuItem>
                                         </Box>
-                                        <Box sx={{ ml: 5 }}>
+                                        <Box sx={{ ml: 3.8 }}>
                                             <MenuItem>
                                                 staking
                                             </MenuItem>
                                         </Box>
-                                        <Box sx={{ ml: 5 }}>
+                                        <Box sx={{ ml: 3.8 }}>
                                             <MenuItem>
                                                 sell
                                             </MenuItem>
@@ -142,20 +231,31 @@ export default function Header(props) {
                         </Container>
                         <Box sx={{ flexGrow: 1 }} />
                         <Box sx={{ display: { xs: 'none', md: 'flex', lg: 'flex' } }}>
-                            <MenuItem onClick={props.onClickTheme}>
-                                {theme.palette.mode === 'dark' ? <LightModeOutlinedIcon sx={{ fontSize: 32 }} /> : <DarkModeOutlinedIcon sx={{ fontSize: 32 }} />}
-                            </MenuItem>
+                            <Box onClick={props.onClickTheme} sx={{
+                                pl: 0, '&:hover,&:focus': {
+                                    backgroundColor: alpha(theme.palette.primary.main, 1),
+                                }, display: 'flex', alignItems: 'center', pr: 2
+                            }}>
+                                {theme.palette.mode === 'dark' ? <LightModeOutlinedIcon sx={{ fontSize: 32, cursor: 'pointer' }} /> : <DarkModeOutlinedIcon sx={{ fontSize: 32, cursor: 'pointer' }} />}
+                            </Box>
                         </Box>
                         <Box sx={{ flexGrow: 1 }} />
 
                         <Box sx={{ display: { lg: 'flex', xs: 'none' } }}>
-                            <MenuItem>
-                                <CustomButton variant="contained" onClick={() => active ? deactivate() : ConnectModal()}>{active ? account.substring(0, 4) + "..." + account.substring(account.length - 4) : "Connect Wallet"} </CustomButton>
-                            </MenuItem>
+                            <Box sx={{
+                                pl: 0,
+                                cursor: 'pointer',
+                                pr: 2,
+                                '&:hover': { backgroundColor: 'none' },
+                            }} onClick={() => !active && ConnectModal()}>
+                                {active ? <Connected > </Connected> :
+                                    <CustomButton sx={{ whiteSpace: 'nowrap' }} variant="contained">Connect Wallet </CustomButton>
+                                }
+                            </Box>
                         </Box>
                         <Box sx={{ display: 'flex' }}>
-                            <MenuItem sx={{ padding: 0 }}>
-                                <Badge badgeContent={1} color="error">
+                            <MenuItem sx={{ padding: 0, }} onClick={!cartopen ? handleDrawerOpen : handleDrawerClose}>
+                                <Badge badgeContent={CartData.length} color="error">
                                     <ShoppingCartOutlinedIcon sx={{ fontSize: 32 }} />
                                 </Badge>
                             </MenuItem>
@@ -175,9 +275,10 @@ export default function Header(props) {
                     </Toolbar>
                 </AppBar>
                 {renderMobileMenu}
+                <ConnectionModal open={open && !active} onClose={handleClose}></ConnectionModal>
+                <CartDrawer topdrawerwidth={topdrawerwidth} cartvariant={cartvariant} cartopen={cartopen} ConnectModal={ConnectModal}></CartDrawer>
             </Box>
 
-            <ConnectionModal open={open && !active} onClose={handleClose}></ConnectionModal>
         </>
     );
 }

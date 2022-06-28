@@ -3,6 +3,7 @@ import Checkbox from '@mui/material/Checkbox';
 import { Accordion, AccordionDetails, AccordionSummary, alpha, Box, FormControlLabel, FormGroup, InputBase, styled, Typography } from '@mui/material';
 import { blue } from '@mui/material/colors';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import SignalCellularAltRoundedIcon from '@mui/icons-material/SignalCellularAltRounded';
 
 
 
@@ -50,61 +51,81 @@ const TotalItems = styled(Box)`
     line-height: 18px;
 `
 
-export default function MarketPlace() {
-
-
+export default function MarketPlace(props) {
+    const [expanded, setExpanded] = React.useState(false);
+    const [filter, setFilter] = React.useState(true);
+    const [searchRow, setSearchRow] = React.useState('');
+    const handleChange = (panel) => (event, newExpanded) => {
+        setExpanded((!expanded));
+    };
+    const requestSearch = (event) => {
+        setSearchRow(event.target.value);
+    };
+    if ((props.list).length === 0) {
+        return <></>;
+    }
     return (
-        <div>
+        <Box sx={{ mt: 2 }}>
 
-            <StyleAccordion>
-                <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel1a-content"
-                    id="panel1a-header"
-                >
-                    <Typography>MarketPlace</Typography>
-                </AccordionSummary>
-                <AccordionDetails sx={{ mt: 0 }}>
-                    <Typography >
+            <StyleAccordion expanded={expanded} onChange={handleChange(true)} >
+                {<Box sx={{ p: '12px', pl: '16px', pr: '16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }} id="panel1a-header" aria-controls="panel1a-content">
+                    {!expanded ? <Box onClick={handleChange(true)} sx={{ width: '100%' }}>
+                        <Typography>{props.name}</Typography>
+                    </Box> :
                         <Box>
-                            <StyledInputBase placeholder='Search'></StyledInputBase>
+                            <StyledInputBase placeholder='Search' onChange={requestSearch}></StyledInputBase>
+                        </Box>}
+                    <Box sx={{ display: 'flex' }}>
+                        {expanded === true && <SignalCellularAltRoundedIcon onClick={() => setFilter(!filter)}
+                            sx={{ cursor: 'pointer', transform: filter ? 'scaleX(1)' : 'scaleX(-1)' }} />}
+                        <ExpandMoreIcon onClick={handleChange(true)} sx={{ transform: !expanded ? 'rotate(0)' : 'rotate(180deg)' }} />
+                    </Box>
+                </Box>}
+                <AccordionDetails sx={{ mt: 0, maxHeight: '300px', overflow: 'auto' }}>
 
-                        </Box>
-                        <FormGroup>
-                            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <FormControlLabel control={<CheckboxComponents
+
+                    <FormGroup>
+                        {(props.list).sort((a, b) => {
+                            if (a._id < b._id) {
+                                return filter ? -1 : 1;
+                            }
+                            if (a._id > b._id) {
+                                return filter ? 1 : -1;
+                            }
+                            return 0;
+                        }).filter((row) => { return (row._id).toLowerCase().includes((searchRow).toLowerCase()); }).map((item, index) => {
+
+                            return (<Box key={index} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <FormControlLabel control={<CheckboxComponents onChange={e => {
+                                    if (e.target.checked === true) {
+                                        props.setApiFilter({ ...(props.apifilter), "offset": 0, [props.keyword]: [...props.apifilter.markets, item[props.label]] })
+                                    } else {
+                                        let arr = (props.apifilter.markets).filter((val) => {
+                                            return val !== item[props.label] && item[props.label];
+                                        });
+                                        props.setApiFilter({ ...(props.apifilter), "offset": 0, [props.keyword]: arr, })
+                                    }
+                                }}
                                     sx={{
                                         color: blue[800],
                                         '&.Mui-checked': {
                                             color: blue[600],
                                         },
                                     }}
-                                />} label="Looksrare" />
+                                />} label={item[props.label] ? item[props.label] : 0} sx={{ overflow: 'hidden' }} />
+
                                 <Box sx={{ display: 'flex', gap: '2px' }}>
-                                    <TotalItems>748</TotalItems>
-                                    <TotalItems>(3.02%)</TotalItems>
+                                    <TotalItems>{item[props.count]}</TotalItems>
+                                    <TotalItems>({item[props.count] / 100}%)</TotalItems>
                                 </Box>
-                            </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <FormControlLabel control={<CheckboxComponents
-                                    sx={{
-                                        color: blue[800],
-                                        '&.Mui-checked': {
-                                            color: blue[600],
-                                        },
-                                    }}
-                                />} label="Opensea" />
-                                <Box sx={{ display: 'flex', gap: '2px' }}>
-                                    <TotalItems>442</TotalItems>
-                                    <TotalItems>(4.42%)</TotalItems>
-                                </Box>
-                            </Box>
-                        </FormGroup>
-                    </Typography>
+                            </Box>)
+                        })}
+
+                    </FormGroup>
                 </AccordionDetails>
             </StyleAccordion>
 
-        </div>
+        </Box>
 
 
     );
