@@ -15,10 +15,10 @@ import { useWeb3React } from '@web3-react/core'
 //     supportedChainIds: [1, 3, 4, 5, 42, 97],
 // });
 
-const reqChainId = "0x539";
-const myrpcUrl = ['http://192.168.105:8545'];
-// const reqChainId = "0x145B7E";
-// const myrpcUrl = ['http://64.52.80.186:8545'];
+// const reqChainId = "0x539";
+// const myrpcUrl = ['http://192.168.105:8545'];
+const reqChainId = "0x145B7E";
+const myrpcUrl = ['http://64.52.80.186:8545'];
 
 // const myrpcUrl = ['https://speedy-nodes-nyc.moralis.io/f4821cc9723d2edb79055d15/bsc/testnet'];
 // const reqChainId = "0x61";

@@ -22,7 +22,7 @@ export default function CartDrawer({ topdrawerwidth, cartvariant, cartopen, Conn
             }
         }
         getBalance();
-    }, [active])
+    }, [active, account])
     const [totalamount, setTotalAmount] = React.useState(BigNumber.from("0"));
     const CartData = (useSelector((state) => state.Index.cartdata))
     useEffect(() => {
@@ -47,7 +47,8 @@ export default function CartDrawer({ topdrawerwidth, cartvariant, cartopen, Conn
         let buylist = CartData.map((item) => {
             return {
                 "address": item.address,
-                "amount": parseFloat(ethers.utils.formatEther(item.price)),
+                // "amount": parseFloat(ethers.utils.formatEther(item.price)),
+                "amount": 1,
                 "standard": item.tokenType,
                 "tokenId": item.tokenId,
             }
@@ -56,7 +57,8 @@ export default function CartDrawer({ topdrawerwidth, cartvariant, cartopen, Conn
         let apifilter = {
             "balanceToken": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
             "buy": buylist,
-            "sell": []
+            "sell": [],
+            "sender": account,
         }
         try {
             const initRsp = await fetch(
@@ -70,22 +72,28 @@ export default function CartDrawer({ topdrawerwidth, cartvariant, cartopen, Conn
                 }
             );
             const initRspData = (await initRsp.json());
-            const buylistCode = initRspData.data.transaction;
             const txnvalue = initRspData.data.value.hex;
+            const buylistCode = initRspData.data.transaction;
+            const contractaddr = (initRspData.data.contractAddress).toLowerCase() == ("0x83c8f28c26bf6aaca652df1dbbe0e1b56F8baba2".toLowerCase()) ? "0x1E1BecdAfF4E90AB09Ef337365f87df679dea2Ed" : initRspData.data.contractAddress;
+            // console.log(initRspData.data.contractAddress);
             // console.log(initRspData);
             // console.log(buylistCode +" "+ txnvalue.toString());
             const nTx = {
                 from: account,
-                to: "0xc96B202089CAe5BC50d535fb0abdc123383E8580",
+                // to: "0x1E1BecdAfF4E90AB09Ef337365f87df679dea2Ed",
+                to: contractaddr,
                 value: txnvalue,
                 data: buylistCode,
-                // gasLimit : 466965,
+                gasLimit: 900000,
             };
 
             const tx = await library.getSigner().sendTransaction(nTx);
-            tx.wait();
+            // console.log(tx);
+            await tx.wait();
+            clearAllCartData();
             setLoading(false);
         } catch (err) {
+            console.log(err)
             setLoading(false);
         }
     }
@@ -148,7 +156,7 @@ export default function CartDrawer({ topdrawerwidth, cartvariant, cartopen, Conn
                             <Box>
                                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, gap: '6px' }}>
                                     <Box sx={{ fontSize: '14px' }}>
-                                        {ethers.utils.formatEther(totalamount.toString())}
+                                        {parseFloat(ethers.utils.formatEther(totalamount.toString())).toFixed(3)}
                                     </Box>
                                     <img src={eth} />
                                 </Box>

@@ -161,6 +161,7 @@ export const CustomDrawer = ({ topdrawerwidth, variant, open, setApiFilter, apif
 
     const clearAllfilterData = () => {
         dispatch(setFilterTiles([]))
+        setBuyNowInput(true);
     }
 
     return (

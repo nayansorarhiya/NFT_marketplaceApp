@@ -56,7 +56,7 @@ const Connected = () => {
             }
         }
         getBalance();
-    }, [active])
+    }, [active,account])
     const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
