@@ -19,7 +19,7 @@ import { useWeb3React } from '@web3-react/core'
 // const myrpcUrl = ['http://192.168.105:8545'];
 // const reqChainId = "0x145B7E";
 // const myrpcUrl = ['http://64.52.80.186:8545'];
-const reqChainId = "0x01";
+const reqChainId = "0x1";
 const myrpcUrl = ['https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161'];
 
 // const myrpcUrl = ['https://speedy-nodes-nyc.moralis.io/f4821cc9723d2edb79055d15/bsc/testnet'];
