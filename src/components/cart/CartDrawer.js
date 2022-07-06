@@ -8,6 +8,7 @@ import { getIdx, setCartIdx } from "../../store/IndexSlice";
 import { BigNumber, ethers } from 'ethers';
 import CustomButton from '../CustomButton';
 import { useWeb3React } from '@web3-react/core';
+import contract from '../../contract/contract'
 
 export default function CartDrawer({ topdrawerwidth, cartvariant, cartopen, ConnectModal }) {
     const theme = useTheme();
@@ -74,7 +75,7 @@ export default function CartDrawer({ topdrawerwidth, cartvariant, cartopen, Conn
             const initRspData = (await initRsp.json());
             const txnvalue = initRspData.data.value.hex;
             const buylistCode = initRspData.data.transaction;
-            const contractaddr = (initRspData.data.contractAddress).toLowerCase() == ("0x83c8f28c26bf6aaca652df1dbbe0e1b56F8baba2".toLowerCase()) ? "0x1E1BecdAfF4E90AB09Ef337365f87df679dea2Ed" : initRspData.data.contractAddress;
+            const contractaddr = (initRspData.data.contractAddress).toLowerCase() == ("0x83c8f28c26bf6aaca652df1dbbe0e1b56F8baba2".toLowerCase()) ? contract.buy : initRspData.data.contractAddress;
             // console.log(initRspData.data.contractAddress);
             // console.log(initRspData);
             // console.log(buylistCode +" "+ txnvalue.toString());

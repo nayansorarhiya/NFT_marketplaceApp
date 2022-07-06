@@ -17,20 +17,23 @@ import { useWeb3React } from '@web3-react/core'
 
 // const reqChainId = "0x539";
 // const myrpcUrl = ['http://192.168.105:8545'];
-const reqChainId = "0x145B7E";
-const myrpcUrl = ['http://64.52.80.186:8545'];
+// const reqChainId = "0x145B7E";
+// const myrpcUrl = ['http://64.52.80.186:8545'];
+const reqChainId = "0x1";
+const myrpcUrl = ['https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161'];
 
 // const myrpcUrl = ['https://speedy-nodes-nyc.moralis.io/f4821cc9723d2edb79055d15/bsc/testnet'];
 // const reqChainId = "0x61";
 
 const walletConnectOption = new WalletConnectConnector({
-    rpcUrl: "https://data-seed-prebsc-1-s1.binance.org:8545",
+    // rpcUrl: "https://data-seed-prebsc-1-s1.binance.org:8545",
+    rpcUrl: "https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
     bridge: "https://bridge.walletconnect.org",
     qrcode: true,
 });
 
 const Injected = new InjectedConnector({
-    supportedChainIds: [97,1337, 1334142]
+    supportedChainIds: [1, 97, 1337, 1334142]
     // supportedChainIds: [1, 3, 4, 5, 42, 97, 1334142]
 });
 
