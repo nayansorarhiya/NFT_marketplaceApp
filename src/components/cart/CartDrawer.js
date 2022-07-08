@@ -75,7 +75,8 @@ export default function CartDrawer({ topdrawerwidth, cartvariant, cartopen, Conn
             const initRspData = (await initRsp.json());
             const txnvalue = initRspData.data.value.hex;
             const buylistCode = initRspData.data.transaction;
-            const contractaddr = (initRspData.data.contractAddress).toLowerCase() == ("0x83c8f28c26bf6aaca652df1dbbe0e1b56F8baba2".toLowerCase()) ? contract.buy : initRspData.data.contractAddress;
+            // const contractaddr = (initRspData.data.contractAddress).toLowerCase() == ("0x83c8f28c26bf6aaca652df1dbbe0e1b56F8baba2".toLowerCase()) ? contract.buy : initRspData.data.contractAddress;
+            const contractaddr = contract.buy;
             // console.log(initRspData.data.contractAddress);
             // console.log(initRspData);
             // console.log(buylistCode +" "+ txnvalue.toString());
