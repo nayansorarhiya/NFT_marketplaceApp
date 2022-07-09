@@ -8,7 +8,8 @@ import { getIdx, setCartIdx } from "../../store/IndexSlice";
 import { BigNumber, ethers } from 'ethers';
 import CustomButton from '../CustomButton';
 import { useWeb3React } from '@web3-react/core';
-import contract from '../../contract/contract'
+import contract, { getDiamondContract } from '../../contract/contract';
+import diamondswapABI from "../../contract/ABI/diamondswapABI.json";
 
 export default function CartDrawer({ topdrawerwidth, cartvariant, cartopen, ConnectModal }) {
     const theme = useTheme();
@@ -75,22 +76,21 @@ export default function CartDrawer({ topdrawerwidth, cartvariant, cartopen, Conn
             const initRspData = (await initRsp.json());
             const txnvalue = initRspData.data.value.hex;
             const buylistCode = initRspData.data.transaction;
+            const signer = await library.getSigner();
             // const contractaddr = (initRspData.data.contractAddress).toLowerCase() == ("0x83c8f28c26bf6aaca652df1dbbe0e1b56F8baba2".toLowerCase()) ? contract.buy : initRspData.data.contractAddress;
-            const contractaddr = contract.buy;
-            // console.log(initRspData.data.contractAddress);
-            // console.log(initRspData);
-            // console.log(buylistCode +" "+ txnvalue.toString());
-            const nTx = {
-                from: account,
-                // to: "0x1E1BecdAfF4E90AB09Ef337365f87df679dea2Ed",
-                to: contractaddr,
-                value: txnvalue,
-                data: buylistCode,
-                gasLimit: 900000,
-            };
+            const contractaddr = contract.diamondSwap;
+            const diamondContract = await getDiamondContract(contractaddr, diamondswapABI, signer)
+            const tx = await diamondContract.buyNFT(contract.gemSwap, buylistCode, { value: txnvalue });
 
-            const tx = await library.getSigner().sendTransaction(nTx);
-            // console.log(tx);
+            // const nTx = {
+            //     from: account,
+            //     to: contractaddr,
+            //     value: txnvalue,
+            //     data: buylistCode,
+            //     gasLimit: 900000,
+            // };
+            // const tx = await library.getSigner().sendTransaction(nTx);
+
             await tx.wait();
             clearAllCartData();
             setLoading(false);
