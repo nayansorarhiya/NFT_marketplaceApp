@@ -70,7 +70,24 @@ export default function Header(props) {
     const { active, account, deactivate } = useWeb3React();
     const theme = useTheme();
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+    const [usdprice, setusdPrice] = React.useState(1);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+    const ethToUsd = async () => {
+        try {
+            const usdPrice = await fetch(
+                `https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd`,
+            );
+            const currentUsdPrice = (await usdPrice.json());
+            // console.log(currentUsdPrice.ethereum.usd);
+            await setusdPrice(currentUsdPrice.ethereum.usd)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    React.useEffect(() => {
+        setInterval(ethToUsd, 20000)
+    }, []);
 
     const handleMobileMenuClose = () => {
         setMobileMoreAnchorEl(null);
@@ -276,7 +293,7 @@ export default function Header(props) {
                 </AppBar>
                 {renderMobileMenu}
                 <ConnectionModal open={open && !active} onClose={handleClose}></ConnectionModal>
-                <CartDrawer topdrawerwidth={topdrawerwidth} cartvariant={cartvariant} cartopen={cartopen} ConnectModal={ConnectModal}></CartDrawer>
+                <CartDrawer usdprice={usdprice} topdrawerwidth={topdrawerwidth} cartvariant={cartvariant} cartopen={cartopen} ConnectModal={ConnectModal}></CartDrawer>
             </Box>
 
         </>
