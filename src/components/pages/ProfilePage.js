@@ -1,6 +1,6 @@
 import { alpha, Avatar, Box, Divider, MenuItem, Select, useTheme } from '@mui/material';
 import { useWeb3React } from '@web3-react/core';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Connected, Search, SearchIconWrapper, StyledInputBase } from '../CustomStyles';
 import SearchIcon from '@mui/icons-material/Search';
 import NFTCollection from '../CollectionPageComponents/NFTCollection';
@@ -9,11 +9,13 @@ import profileimage from '../../assets/images/profileimage.svg';
 import copyClip from '../../assets/images/copyClip.svg';
 import DoneIcon from '@mui/icons-material/Done';
 import ContentCopyRoundedIcon from '@mui/icons-material/ContentCopyRounded';
+import UseNFTCollection from '../CollectionPageComponents/UseNFTCollection';
 
 
 export default function ProfilePage() {
     const { active, account, deactivate } = useWeb3React();
     const [dropdown, setDropdown] = React.useState(0);
+    const [usernftlist, setUserNFTList] = React.useState([]);
     const theme = useTheme();
     const [rowfilter, setRowFilter] = React.useState({
         label: '24h', option: 0
@@ -53,6 +55,30 @@ export default function ProfilePage() {
                 break;
         }
     };
+
+    const usenftlist = async () => {
+        if (active) {
+            try {
+                const nfts = await fetch(
+                    `https://dh-backend.vercel.app/api/user/getNft/${account}`,
+                );
+                const nftlist = (await nfts.json());
+                const costomaDatalist = (nftlist["ownedNfts"]).map((value) => {
+                    return {
+                        imageurl: value.metadata.image,
+                        title: value.title,
+                        name: value.metadata.name
+                    }
+                })
+                setUserNFTList(costomaDatalist)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    }
+    useEffect(() => {
+        usenftlist();
+    }, [account])
 
     return (
         <>
@@ -131,8 +157,8 @@ export default function ProfilePage() {
                 </Box>
             </Box>
             <Divider />
-            <Box sx={{minHeight : '100vh'}}>
-
+            <Box sx={{ minHeight: '100vh' }}>
+                <UseNFTCollection usernftlist={usernftlist}></UseNFTCollection>
             </Box>
             {/* <NFTCollection></NFTCollection> */}
         </>

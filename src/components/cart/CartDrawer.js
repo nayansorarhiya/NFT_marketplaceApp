@@ -11,7 +11,7 @@ import { useWeb3React } from '@web3-react/core';
 import contract, { getDiamondContract } from '../../contract/contract';
 import diamondswapABI from "../../contract/ABI/diamondswapABI.json";
 
-export default function CartDrawer({ topdrawerwidth, cartvariant, cartopen, ConnectModal }) {
+export default function CartDrawer({ usdprice, topdrawerwidth, cartvariant, cartopen, ConnectModal }) {
     const theme = useTheme();
     const dispatch = useDispatch();
     const { active, account, library } = useWeb3React();
@@ -32,7 +32,7 @@ export default function CartDrawer({ topdrawerwidth, cartvariant, cartopen, Conn
         const total = CartData.reduce((acc, item) => {
             return acc.add(item.price);
         }, BigNumber.from("0"))
-        setTotalAmount( total.toString())
+        setTotalAmount(total.toString())
         // }
     }, [CartData]);
     const popCartData = (popuid) => {
@@ -87,14 +87,14 @@ export default function CartDrawer({ topdrawerwidth, cartvariant, cartopen, Conn
             let token = apifilter.buy.filter(ele => ele.address.toLowerCase() != "0xb47e3cd837ddf8e4c57f05d70ab865de6e193bbb".toLowerCase())
             let ERC721 = token.filter(ele => "ERC1155" != ele.standard);
             let ERC1155 = token.filter(ele => "ERC1155" == ele.standard);
-            ERC1155 = ERC1155.map(ele=> {
+            ERC1155 = ERC1155.map(ele => {
                 return [
                     ele.address,
                     ele.tokenId,
                     ele.amount
                 ]
             })
-            ERC721 = ERC721.map(ele=> { 
+            ERC721 = ERC721.map(ele => {
                 return [
                     ele.address,
                     ele.tokenId
@@ -119,6 +119,13 @@ export default function CartDrawer({ topdrawerwidth, cartvariant, cartopen, Conn
             setLoading(false);
         }
     }
+    const roundOff = (figure, decimals, unit) => {
+        if (!decimals) decimals = 2;
+        if (!unit) unit = '';
+        var d = Math.pow(10, decimals);
+        return `${(parseInt(figure * d) / d).toFixed(decimals)}${unit}`;
+    }
+
     return (
         <>
             <Drawer
@@ -165,7 +172,7 @@ export default function CartDrawer({ topdrawerwidth, cartvariant, cartopen, Conn
                         width: '100%', maxHeight: '32vh', overflow: 'auto', mt: 2, pt: '5px'
                     }}>
                         {CartData.map((value) => {
-                            return (<CartItems key={value.uid} cartItem={value} popCartData={popCartData}></CartItems>)
+                            return (<CartItems key={value.uid} cartItem={value} usdprice={usdprice} roundOff={roundOff} popCartData={popCartData}></CartItems>)
                         })}
                     </Box>
 
@@ -178,12 +185,12 @@ export default function CartDrawer({ topdrawerwidth, cartvariant, cartopen, Conn
                             <Box>
                                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, gap: '6px' }}>
                                     <Box sx={{ fontSize: '14px' }}>
-                                        {parseFloat(ethers.utils.formatEther(totalamount.toString())).toFixed(3)}
+                                        {roundOff(parseFloat(ethers.utils.formatEther(totalamount.toString())), 4)}
                                     </Box>
                                     <img src={eth} />
                                 </Box>
                                 <Box sx={{ textAlign: 'left', fontSize: '10px', lineHeight: '110%', fontWeight: 400, color: '#91939B' }}>
-                                    $207.55k
+                                    ${(parseFloat(ethers.utils.formatEther(totalamount.toString())) * usdprice) >= 1000000 ? roundOff((parseFloat(ethers.utils.formatEther(totalamount.toString())) * usdprice) / 1000000, 1, 'M') : ((parseFloat(ethers.utils.formatEther(totalamount.toString())) * usdprice) < 1000 ? roundOff(parseFloat(ethers.utils.formatEther(totalamount.toString())) * usdprice, 1) : roundOff((parseFloat(ethers.utils.formatEther(totalamount.toString())) * usdprice) / 1000, 1, 'K'))}
                                 </Box>
                             </Box>
                         </Box>
