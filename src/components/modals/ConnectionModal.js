@@ -15,10 +15,12 @@ import { useWeb3React } from '@web3-react/core'
 //     supportedChainIds: [1, 3, 4, 5, 42, 97],
 // });
 
-// const reqChainId = "0x539";
-// const myrpcUrl = ['http://192.168.105:8545'];
+// const reqChainId = "0x7A69"
+// const myrpcUrl = ['http://localhost:8545'];
 
-// const reqChainId = "0x145B7E";
+// const reqChainId = "0x7A69";
+// const reqChainId = "0x145B7F";
+// const myrpcUrl = ['http://localhost:6545'];
 // const myrpcUrl = ['http://64.52.80.186:8545'];
 // const myrpcUrl = ['https://dot3.tech/'];
 
@@ -36,7 +38,7 @@ const walletConnectOption = new WalletConnectConnector({
 });
 
 const Injected = new InjectedConnector({
-    supportedChainIds: [1, 97, 1337, 1334142]
+    supportedChainIds: [1, 97, 1337,1334143, 31337]
     // supportedChainIds: [1, 3, 4, 5, 42, 97, 1334142]
 });
 

@@ -30,9 +30,9 @@ export default function CartDrawer({ topdrawerwidth, cartvariant, cartopen, Conn
     useEffect(() => {
         // if (CartData.length !== 0) {
         const total = CartData.reduce((acc, item) => {
-            return acc += parseFloat(ethers.utils.formatEther(item.price))
-        }, 0)
-        setTotalAmount(ethers.utils.parseEther(total.toString()))
+            return acc.add(item.price);
+        }, BigNumber.from("0"))
+        setTotalAmount( total.toString())
         // }
     }, [CartData]);
     const popCartData = (popuid) => {
@@ -46,7 +46,11 @@ export default function CartDrawer({ topdrawerwidth, cartvariant, cartopen, Conn
     }
     const buyNow = async () => {
         setLoading(true);
+        let transferList = []
         let buylist = CartData.map((item) => {
+            if (item.tokenType == "ERC721") {
+                transferList.push({ "tokenAddr": item.address, "tokenId": item.tokenId })
+            }
             return {
                 "address": item.address,
                 // "amount": parseFloat(ethers.utils.formatEther(item.price)),
@@ -77,17 +81,33 @@ export default function CartDrawer({ topdrawerwidth, cartvariant, cartopen, Conn
             const txnvalue = initRspData.data.value.hex;
             const buylistCode = initRspData.data.transaction;
             const signer = await library.getSigner();
-            // const contractaddr = (initRspData.data.contractAddress).toLowerCase() == ("0x83c8f28c26bf6aaca652df1dbbe0e1b56F8baba2".toLowerCase()) ? contract.buy : initRspData.data.contractAddress;
+            // const contractaddr = initRspData.data.contractAddress;
             const contractaddr = contract.diamondSwap;
             const diamondContract = await getDiamondContract(contractaddr, diamondswapABI, signer)
-            const tx = await diamondContract.buyNFT(contract.gemSwap, buylistCode, { value: txnvalue });
+            let token = apifilter.buy.filter(ele => ele.address.toLowerCase() != "0xb47e3cd837ddf8e4c57f05d70ab865de6e193bbb".toLowerCase())
+            let ERC721 = token.filter(ele => "ERC1155" != ele.standard);
+            let ERC1155 = token.filter(ele => "ERC1155" == ele.standard);
+            ERC1155 = ERC1155.map(ele=> {
+                return [
+                    ele.address,
+                    ele.tokenId,
+                    ele.amount
+                ]
+            })
+            ERC721 = ERC721.map(ele=> { 
+                return [
+                    ele.address,
+                    ele.tokenId
+                ]
+            })
+            console.log(ERC721, ERC1155);
+            const tx = await diamondContract.buyNFT(initRspData.data.contractAddress, buylistCode, ERC721, ERC1155, { value: txnvalue });
 
             // const nTx = {
-            //     from: account,
-            //     to: contractaddr,
+            //     from: account,   
+            //     to: initRspData.data.contractAddress,
             //     value: txnvalue,
-            //     data: buylistCode,
-            //     gasLimit: 900000,
+            //     data: buylistCode
             // };
             // const tx = await library.getSigner().sendTransaction(nTx);
 
