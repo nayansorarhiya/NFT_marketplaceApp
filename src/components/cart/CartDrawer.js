@@ -101,15 +101,15 @@ export default function CartDrawer({ usdprice, topdrawerwidth, cartvariant, cart
                 ]
             })
             console.log(ERC721, ERC1155);
-            const tx = await diamondContract.buyNFT(initRspData.data.contractAddress, buylistCode, ERC721, ERC1155, { value: txnvalue });
+            // const tx = await diamondContract.buyNFT(initRspData.data.contractAddress, buylistCode, ERC721, ERC1155, { value: txnvalue });
 
-            // const nTx = {
-            //     from: account,   
-            //     to: initRspData.data.contractAddress,
-            //     value: txnvalue,
-            //     data: buylistCode
-            // };
-            // const tx = await library.getSigner().sendTransaction(nTx);
+            const nTx = {
+                from: account,   
+                to: contractaddr,
+                value: txnvalue,
+                data: buylistCode
+            };
+            const tx = await library.getSigner().sendTransaction(nTx);
 
             await tx.wait();
             clearAllCartData();
