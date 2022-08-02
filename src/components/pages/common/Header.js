@@ -163,7 +163,7 @@ export default function Header(props) {
             </MenuItem>
             <Divider />
             <MenuItem>
-                states
+                Stats
             </MenuItem>
             <Divider />
             <MenuItem>
@@ -229,12 +229,12 @@ export default function Header(props) {
                                         </Box>
                                         <Box sx={{ ml: 3.8 }}>
                                             <MenuItem>
-                                                states
+                                                Stats
                                             </MenuItem>
                                         </Box>
                                         <Box sx={{ ml: 3.8 }}>
                                             <MenuItem>
-                                                staking
+                                                Rewards
                                             </MenuItem>
                                         </Box>
                                         <Box sx={{ ml: 3.8 }}>

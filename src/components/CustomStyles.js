@@ -129,7 +129,7 @@ const LogoTypography = () => {
                     <img src={logo} alt='header logo' className='logo' />
                     <Box sx={{ display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex' }, ml: '15px' }}>
                         {/* <img src={theme.palette.mode == "dark" ? logo_name : blacklogo_name} alt='logo name' className='logo_name' /> */}
-                        DiamondHands
+                        KOLECT
                     </Box>
                 </Box>
             </Typography>
