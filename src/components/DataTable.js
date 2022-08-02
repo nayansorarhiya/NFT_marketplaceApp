@@ -21,7 +21,7 @@ import Select from "@mui/material/Select";
 import { Avatar, Grid } from "@mui/material";
 import placeholderImage from "../assets/images/placeholderImage.jpg";
 import { TableSkeleton } from "./Skeleton";
-import { useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import apiDataTable from "./allJsons/dataTable.json";
 
 function descendingComparator(a, b, orderBy) {
@@ -374,11 +374,13 @@ export default function DataTable() {
                     const labelId = `enhanced-table-checkbox-${index}`;
                     return (
                       <TableRow
-                        sx={{ width: "100vw", cursor: 'pointer' }}
+                        sx={{ width: "100vw", cursor: 'pointer',textDecoration: 'none' }}
                         hover
                         tabIndex={-1}
                         key={index}
-                        onClick={() => collectionNavigation(row.slug)}
+                        component={NavLink}
+                        to={`/collection/${row.slug}`}
+                        // onClick={() => collectionNavigation(row.slug)}
                       >
                         <TableCell
                           className="padding-0"
@@ -429,7 +431,7 @@ export default function DataTable() {
                           <Box sx={{ display: "flex", alignItems: "center" }}>
                             <Box sx={{ display: "flex", alignItems: "center" }}>
                               <Avatar variant="rounded" src={row.imgurl && row.imgurl} sx={{ width: '46px', height: '46px' }}>
-                                {(row.name).substring(0,1)}
+                                {(row.name).substring(0, 1)}
                               </Avatar>
                             </Box>
                             {row.name !== undefined && (

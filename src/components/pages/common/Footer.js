@@ -21,7 +21,7 @@ export default function Footer() {
     return (
         <>
             <Paper sx={{ background: alpha(theme.palette.primary.main, 1), borderRadius: 0 }}>
-                <Box sx={{ boxShadow: `0px 0px 0px 1px  ${theme.palette.primary.borderDrawer}`,padding: 2,mt : '2px'}}>
+                <Box sx={{ boxShadow: `0px 0px 0px 1px  ${theme.palette.primary.borderDrawer}`, padding: 2, mt: '2px' }}>
                     <Container >
                         <Grid container columns={{ md: 12, lg: 12 }}
                             sx={{
@@ -42,12 +42,12 @@ export default function Footer() {
                                     </Box>
                                     <Box sx={{ ml: { sx: 0, sm: 0, md: 3, lg: 4 } }} >
                                         <MenuItem>
-                                            states
+                                            Stats
                                         </MenuItem>
                                     </Box>
                                     <Box sx={{ ml: { sx: 0, sm: 0, md: 3, lg: 4 } }}>
                                         <MenuItem>
-                                            staking
+                                        Rewards
                                         </MenuItem>
                                     </Box>
                                     <Box sx={{ ml: { sx: 0, sm: 0, md: 3, lg: 4 } }}>
