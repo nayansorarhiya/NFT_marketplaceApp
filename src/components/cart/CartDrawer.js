@@ -103,12 +103,19 @@ export default function CartDrawer({ usdprice, topdrawerwidth, cartvariant, cart
             console.log(ERC721, ERC1155);
             // const tx = await diamondContract.buyNFT(initRspData.data.contractAddress, buylistCode, ERC721, ERC1155, { value: txnvalue });
 
-            const nTx = {
-                from: account,   
+            let nTx = {
+                from: account,
                 to: contractaddr,
                 value: txnvalue,
                 data: buylistCode
             };
+            const estimation = await library.getSigner().estimateGas(nTx)
+            console.log(estimation.toString())
+            // alert(estimation)
+            nTx = {
+                ...nTx,
+                gasLimit: estimation
+            }
             const tx = await library.getSigner().sendTransaction(nTx);
 
             await tx.wait();
