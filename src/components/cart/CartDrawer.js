@@ -135,7 +135,7 @@ export default function CartDrawer({ usdprice, topdrawerwidth, cartvariant, cart
             let gasUsed = simulate.transaction.gas_used;
 
             console.log(`Before: ${gasUsed}`);
-            // gasUsed += Math.ceil(gasUsed*23/100);
+            gasUsed += Math.ceil(gasUsed*23/100);
             // // const limit = await library.getSigner().estimateGas(nTx)
             // console.log(limit.toString());
             console.log(gasUsed);
