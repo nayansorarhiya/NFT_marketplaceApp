@@ -25,10 +25,10 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import apiDataTable from "./allJsons/dataTable.json";
 
 function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
+  if (parseFloat(b[orderBy]) < parseFloat(a[orderBy])) {
     return -1;
   }
-  if (b[orderBy] > a[orderBy]) {
+  if (parseFloat(b[orderBy]) > parseFloat(a[orderBy])) {
     return 1;
   }
   return 0;
