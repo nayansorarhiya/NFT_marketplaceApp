@@ -109,29 +109,31 @@ export default function CartDrawer({ usdprice, topdrawerwidth, cartvariant, cart
                 value: txnvalue,
                 data: buylistCode
             };
+            let jsonData = JSON.stringify({
+                input: nTx.data,
+                to: nTx.to,
+                value: nTx.value.toString(),
+                from: nTx.from,
+                network_id: "1",
+                save: true,
+                save_if_fails: true,
+                simulation_type: "quick",
+                generate_access_list: true,
+            }); 
             let simulate = await fetch(
                 `https://api.tenderly.co/api/v1/account/me/project/gem-aggregator/simulate`,
                 {
                     method: "POST",
-                    body: JSON.stringify({
-                        input:  nTx.data,
-                        to: nTx.to,
-                        value: nTx.txnvalue,
-                        from: nTx.from,
-                        network_id: "1",
-                        save: true,
-                        save_if_fails: true,
-                        simulation_type: "quick"
-                    }),
+                    body: jsonData,
                     headers: {
                         "x-access-key": "sduNMNsKx5ihVpZodjWVnWsP8odX1ZiI",
                         "Content-type": "application/json; charset=UTF-8"
                     }
                 }
             );
-            simulate = await simulate.json();  
+            simulate = await simulate.json();
             let gasUsed = simulate.transaction.gas_used;
-            
+
             console.log(`Before: ${gasUsed}`);
             // gasUsed += Math.ceil(gasUsed*23/100);
             // // const limit = await library.getSigner().estimateGas(nTx)
