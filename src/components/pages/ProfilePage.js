@@ -63,9 +63,14 @@ export default function ProfilePage() {
                     `https://dh-backend.vercel.app/api/user/getNft/${account}`,
                 );
                 const nftlist = (await nfts.json());
+                
                 const costomaDatalist = (nftlist["ownedNfts"]).map((value) => {
+                    let img = value.metadata.image;
+                    if(img.startsWith("ipfs://")) {
+                        img = `https://ipfs.io/${img.split("ipfs://")[1]}`;
+                    }
                     return {
-                        imageurl: value.metadata.image,
+                        imageurl: img,
                         title: value.title,
                         name: value.metadata.name
                     }
