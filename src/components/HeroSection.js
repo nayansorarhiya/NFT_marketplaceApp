@@ -43,17 +43,17 @@ function HeroSection() {
                     lineHeight: { xs: '39px', sm: '39px', md: '57px', lg: '57px' },
                 }}>
                     Discover, Collect, and <br />
-                    Sell Extraordinary NFTs
+                    Sell NFTs Across Marketplaces
                 </Typography>
                 <Typography className="content" sx={{ marginTop: '31px', color: alpha(theme.palette.primary.buttonfont, 1) }}>
-                    Lorem ipsum dolor sit amet, consectetur<br /> adipiscing elit. Proin volutpat.
+                    Kolect saves you money and time
                 </Typography>
                 <Box sx={{ display: 'flex', justifyContent: { xs: 'center', sm: 'center', md: 'center', lg: 'left' }, marginTop: '46px' }}>
                     <CustomButton variant="contained" type="button" sx={{
                         padding: { xs: '18px 24px', md: '18px 24px', lg: '18px 36px' }, mr: '10px', fontWeight: '500',
                         fontSize: '16px',
                         lineHeight: '21px', textTransform: 'capitalize',
-                    }}>call to action</CustomButton>
+                    }}>Explore</CustomButton>
                     <Button variant="outlined" sx={{
                         padding: { xs: '18px 24px', md: '18px 24px', lg: '18px 36px' }, color: alpha(theme.palette.primary.buttonfont, 1),
                         border: '1px solid #485FE6',
@@ -63,7 +63,7 @@ function HeroSection() {
                         '&:hover,&:focus': {
                             border: '1px solid #485FE6',
                         },
-                    }}>call to action #2</Button>
+                    }}>Stats</Button>
                 </Box>
             </Grid>
             <Grid item md={3} lg={6} sx={{ display: { xs: 'none', sm: 'none', md: 'none', lg: 'flex' }, justifyContent: 'flex-end', alignItems: 'flex-end', marginTop: '33px' }}>
