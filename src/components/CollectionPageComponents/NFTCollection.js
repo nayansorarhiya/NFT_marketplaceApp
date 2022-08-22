@@ -22,7 +22,7 @@ export default function NFTCollection(props) {
 		dispatch(setFilterTiles([]))
 	}
 	return (
-		<Box sx={{ p: '20px 20px 20px 20px', height: '100vh', maxHeight: '100vh', overflow: 'auto' }}>
+		<Box sx={{ p: '20px 20px 20px 20px', height: { md: '100vh', lg: '100vh' }, maxHeight: { md: '100vh', lg: '100vh' }, overflow: 'auto' }}>
 			{/* {FilterTiles.length !== 0 && <><Box sx={{ display: 'flex', justifyContent: 'start', flexWrap: 'wrap', flexDirection: 'row' }}>
                     {
                         FilterTiles.map((value, index) => <FilterTilesCard key={index} data={value}></FilterTilesCard>)
@@ -37,7 +37,7 @@ export default function NFTCollection(props) {
 					{
 						(props.assetsdata).map((value, index) =>
 							<>
-								<Suspense fallback={<Box  sx={{ display: 'flex', justifyContent: 'center' }}>Loading...</Box>}>
+								<Suspense fallback={<Box sx={{ display: 'flex', justifyContent: 'center' }}>Loading...</Box>}>
 									<NFTCard key={value.uid} apidata={value} rarityinput={props.rarityinput} buynowinput={props.buynowinput}></NFTCard>
 								</Suspense>
 							</>
