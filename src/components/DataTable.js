@@ -86,7 +86,7 @@ function EnhancedTableHead(props) {
       id: "onedayvalue1",
       numeric: true,
       disablePadding: true,
-      class: "mobileCells h24-1Hidden",
+      class: "mobileCells h24-Hidden",
       label: props.label,
     },
     {
@@ -100,7 +100,7 @@ function EnhancedTableHead(props) {
       id: "onedayvalue2",
       numeric: true,
       disablePadding: true,
-      class: "mobileCells h24-1Hidden",
+      class: "mobileCells h24-Hidden",
       label: props.label,
     },
     {
@@ -374,7 +374,11 @@ export default function DataTable() {
                     const labelId = `enhanced-table-checkbox-${index}`;
                     return (
                       <TableRow
-                        sx={{ width: "100vw", cursor: 'pointer',textDecoration: 'none' }}
+                        sx={{
+                          width: "100vw",
+                          cursor: "pointer",
+                          textDecoration: "none",
+                        }}
                         hover
                         tabIndex={-1}
                         key={index}
@@ -430,8 +434,12 @@ export default function DataTable() {
                         >
                           <Box sx={{ display: "flex", alignItems: "center" }}>
                             <Box sx={{ display: "flex", alignItems: "center" }}>
-                              <Avatar variant="rounded" src={row.imgurl && row.imgurl} sx={{ width: '46px', height: '46px' }}>
-                                {(row.name).substring(0, 1)}
+                              <Avatar
+                                variant="rounded"
+                                src={row.imgurl && row.imgurl}
+                                sx={{ width: "46px", height: "46px" }}
+                              >
+                                {row.name.substring(0, 1)}
                               </Avatar>
                             </Box>
                             {row.name !== undefined && (
@@ -594,39 +602,39 @@ export default function DataTable() {
                         >
                           {row.onedayvolumevalue[rowfilter.option] !==
                             undefined && (
+                            <Box
+                              sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "end",
+                                pt: "10px",
+                                pb: "10px",
+                              }}
+                            >
                               <Box
                                 sx={{
                                   display: "flex",
-                                  alignItems: "center",
-                                  justifyContent: "end",
-                                  pt: "10px",
-                                  pb: "10px",
+                                  flexDirection: "column",
                                 }}
                               >
-                                <Box
-                                  sx={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                  }}
-                                >
-                                  <Box className="h24-Hidden">
-                                    {parseFloat(
-                                      row.onedayvolumevalue[rowfilter.option]
-                                    ).toFixed(2)}
-                                  </Box>
-                                </Box>
-                                <Box
-                                  className="h24-Hidden"
-                                  sx={{
-                                    ml: 1,
-                                    display: "flex",
-                                    justifyContent: "center",
-                                  }}
-                                >
-                                  <img src={eth} alt="ethicon" />{" "}
+                                <Box className="h24-Hidden">
+                                  {parseFloat(
+                                    row.onedayvolumevalue[rowfilter.option]
+                                  ).toFixed(2)}
                                 </Box>
                               </Box>
-                            )}
+                              <Box
+                                className="h24-Hidden"
+                                sx={{
+                                  ml: 1,
+                                  display: "flex",
+                                  justifyContent: "center",
+                                }}
+                              >
+                                <img src={eth} alt="ethicon" />{" "}
+                              </Box>
+                            </Box>
+                          )}
                         </TableCell>
                         <TableCell
                           className="mobileCells "
