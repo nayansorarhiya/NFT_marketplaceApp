@@ -6,7 +6,7 @@ import DataTable from "../DataTable";
 function Body() {
     return (<>
 
-        <Container sx={{minHeight : '100vh'}} >
+        <Container sx={{ minHeight: '100vh' }} >
             <HeroSection />
             <DataTable></DataTable>
         </Container>

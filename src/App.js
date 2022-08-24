@@ -8,6 +8,7 @@ import { Paper } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ProfilePage from "./components/pages/ProfilePage";
+import DetailsPage from "./components/pages/DetailsPage";
 window.Buffer = window.Buffer || require("buffer").Buffer;
 
 function App() {
@@ -78,6 +79,7 @@ function App() {
               <Route path='/*' element={<Body />} />
               <Route path='collection/:slug' element={<CollectionPage />} />
               <Route path='/profile' element={<ProfilePage />} />
+              <Route path='/details' element={<DetailsPage />} />
             </Routes>
             <Footer />
           </Main>

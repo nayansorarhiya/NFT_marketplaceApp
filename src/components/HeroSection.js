@@ -8,6 +8,7 @@ import Box from '@mui/material/Box/Box';
 import { alpha, useTheme } from '@mui/material/styles';
 import { makeStyles } from '@mui/styles';
 import FeaturedCard from './FeaturedCard';
+import News from "./News";
 
 
 function HeroSection() {
@@ -27,7 +28,7 @@ function HeroSection() {
     const classes = useStyles();
     return (<>
         <Box className={classes.bgGradiant} sx={{
-            width: { xs: '100%', sm: '100%', md: '50%'},
+            width: { xs: '100%', sm: '100%', md: '50%' },
         }}
         ></Box>
         <Grid container spacing={{ xs: 1, md: 2, lg: 3 }} columns={{ lg: 12 }}
@@ -42,7 +43,7 @@ function HeroSection() {
                     fontSize: { xs: '30px', sm: '30px', md: '44px', lg: '44px' },
                     lineHeight: { xs: '39px', sm: '39px', md: '57px', lg: '57px' },
                 }}>
-                    Discover, Collect, and <br />
+                    Discover, Collect, and  <br />
                     Sell NFTs Across Marketplaces
                 </Typography>
                 <Typography className="content" sx={{ marginTop: '31px', color: alpha(theme.palette.primary.buttonfont, 1) }}>
@@ -69,10 +70,11 @@ function HeroSection() {
             <Grid item md={3} lg={6} sx={{ display: { xs: 'none', sm: 'none', md: 'none', lg: 'flex' }, justifyContent: 'flex-end', alignItems: 'flex-end', marginTop: '33px' }}>
                 <Box sx={{ ml: '10px', textAlign: 'end' }}>
                     <img src={homeimage} alt="bkimage" width="100%"></img>  {/*  430px  ||  75% */}
-                    <FeaturedCard/>
+                    <FeaturedCard />
                 </Box>
             </Grid>
         </Grid>
+        <News></News>
     </>);
 }
 
