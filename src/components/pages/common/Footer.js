@@ -23,7 +23,7 @@ export default function Footer() {
             <Paper sx={{ background: alpha(theme.palette.primary.main, 1), borderRadius: 0 }}>
                 <Box sx={{ boxShadow: `0px 0px 0px 1px  ${theme.palette.primary.borderDrawer}`, padding: 2, mt: '2px' }}>
                     <Container >
-                        <Grid container columns={{ md: 12, lg: 12 }}
+                        <Grid columns={{ md: 12, lg: 12 }}
                             sx={{
                                 display: 'flex',
                                 justifyContent: 'center', alignItems: 'center', position: 'relative', flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row' }
@@ -33,26 +33,51 @@ export default function Footer() {
                                     <LogoTypography />
                                 </Box>
                             </Grid>
-                            <Grid item md={5} lg={5} sx={{ pb: { xs: 1, sm: 1 }, pt: { xs: 1, sm: 1 } }}>
+                            <Grid item md={5} lg={5} sx={{ pb: { xs: 1, sm: 1 }, pt: { xs: 1, sm: 1 }, mx: 2 }}>
                                 <Box sx={{ display: 'flex', justifyContent: 'end', color: alpha(theme.palette.primary.dark) }} className="menulist">
                                     <Box>
                                         <MenuItem>
-                                            discover
+                                            About
                                         </MenuItem>
                                     </Box>
                                     <Box sx={{ ml: { sx: 0, sm: 0, md: 3, lg: 4 } }} >
                                         <MenuItem>
-                                            Stats
+                                            API
                                         </MenuItem>
                                     </Box>
                                     <Box sx={{ ml: { sx: 0, sm: 0, md: 3, lg: 4 } }}>
                                         <MenuItem>
-                                        Rewards
+                                            Contact
                                         </MenuItem>
                                     </Box>
                                     <Box sx={{ ml: { sx: 0, sm: 0, md: 3, lg: 4 } }}>
                                         <MenuItem>
-                                            sell
+                                            Help
+                                        </MenuItem>
+                                    </Box>
+                                    <Box sx={{ ml: { sx: 0, sm: 0, md: 3, lg: 4 } }}>
+                                        <MenuItem>
+                                            Jobs
+                                        </MenuItem>
+                                    </Box>
+                                    <Box sx={{ ml: { sx: 0, sm: 0, md: 3, lg: 4 } }}>
+                                        <MenuItem>
+                                            Bug Bounty
+                                        </MenuItem>
+                                    </Box>
+                                    <Box sx={{ ml: { sx: 0, sm: 0, md: 3, lg: 4 } }}>
+                                        <MenuItem>
+                                            Brand
+                                        </MenuItem>
+                                    </Box>
+                                    <Box sx={{ ml: { sx: 0, sm: 0, md: 3, lg: 4 } }}>
+                                        <MenuItem>
+                                            Terms of Service
+                                        </MenuItem>
+                                    </Box>
+                                    <Box sx={{ ml: { sx: 0, sm: 0, md: 3, lg: 4 } }}>
+                                        <MenuItem>
+                                            Advertise with us
                                         </MenuItem>
                                     </Box>
                                 </Box>
