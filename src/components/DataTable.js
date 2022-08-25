@@ -100,13 +100,13 @@ function EnhancedTableHead(props) {
             class: "mobileCells h24-Hidden",
             label: props.label + " Volume",
         },
-        {
-            id: "onedayvalue2",
-            numeric: true,
-            disablePadding: true,
-            class: "mobileCells h24-Hidden",
-            label: props.label,
-        },
+        // {
+        //     id: "onedayvalue2",
+        //     numeric: true,
+        //     disablePadding: true,
+        //     class: "mobileCells h24-Hidden",
+        //     label: props.label,
+        // },
         {
             id: "owners",
             numeric: true,
@@ -188,13 +188,13 @@ export default function DataTable() {
 
     async function apiCallforData() {
         const resp = await fetch(
-            `https://dh-backend.vercel.app/api/getCollection`,
+            `https://dh-backend.vercel.app/api/getChainStats`,
             {
                 method: "get",
             }
         );
         const rows = await resp.json();
-        const localrows = rows.data.data.map((v) => ({
+        const localrows = rows.data.map((v) => ({
             imgurl: v.imageUrl,
             name: v.name,
             slug: v.slug,
@@ -265,10 +265,12 @@ export default function DataTable() {
     };
 
     const [dropdown, setDropdown] = React.useState(0);
+    const [networkdropdown, setNetworkDropdown] = React.useState(0);
     const [rowfilter, setRowFilter] = React.useState({
         label: "24h",
         option: 0,
     });
+
 
     const handleChange = (event) => {
         setDropdown(event.target.value);
@@ -304,6 +306,107 @@ export default function DataTable() {
         }
     };
 
+    const [allChain, setallChain] = React.useState({
+        label: "allchain",
+        option: 0,
+    });
+
+    const [ethrows, setEthRow] = React.useState([]);
+
+    async function apiCalleth() {
+        const resp = await fetch(
+            `https://dh-backend.vercel.app/api/getChainStats?network=eth`,
+            {
+                method: "get",
+            }
+        );
+        const rows = await resp.json();
+        const ethereumrows = rows.data.map((v) => ({
+            imgurl: v.imageUrl,
+            name: v.name,
+            slug: v.slug,
+            isVerified: v.isVerified,
+            floorprice: v.stats.floor_price ? v.stats.floor_price : -1,
+
+            onedayvalue1: [
+                v.stats.one_day_change ? v.stats.one_day_change : 0,
+                v.stats.seven_day_change ? v.stats.seven_day_change : 0,
+                v.stats.thirty_day_change ? v.stats.thirty_day_change : 0,
+                v.stats.total_volume ? v.stats.total_volume : 0,
+            ],
+
+            onedayvolumevalue: [
+                v.stats.one_day_volume ? v.stats.one_day_volume : 0,
+                v.stats.seven_day_volume ? v.stats.seven_day_volume : 0,
+                v.stats.thirty_day_volume ? v.stats.thirty_day_volume : 0,
+                v.stats.total_volume ? v.stats.total_volume : 0,
+            ],
+
+            onedayvalue2: [
+                v.stats.one_day_change ? v.stats.one_day_change : 0,
+                v.stats.seven_day_change ? v.stats.seven_day_change : 0,
+                v.stats.thirty_day_change ? v.stats.thirty_day_change : 0,
+                v.stats.total_volume ? v.stats.total_volume : 0,
+            ],
+
+            owners: v.stats.num_owners ? v.stats.num_owners : -1,
+            totalsupply: v.totalSupply ? v.totalSupply : -1,
+        }));
+        // localrows.push({
+        //     imgurl: 0,
+        //     name: 0,
+        //     isVerified: 0,
+        //     floorprice: 0,
+
+        //     onedayvalue1: [0, 0, 0, 0],
+
+        //     onedayvolumevalue: [0, 0, 0, 0],
+
+        //     onedayvalue2: [0, 0, 0, 0],
+
+        //     owners: 0,
+        //     totalsupply: 0
+        // });
+        setEthRow(ethereumrows);
+        setSearchRow(ethereumrows);
+
+    }
+
+    React.useEffect(() => {
+        apiCalleth();
+    }, []);
+    const handleNetworkChange = (event) => {
+        setNetworkDropdown(event.target.value);
+        switch (event.target.value) {
+            case 1:
+                setallChain({
+                    ...allChain,
+                    label: "eth",
+                    option: apiCalleth,
+                });
+                break;
+            case 2:
+                setallChain({
+                    ...allChain,
+                    label: "sol",
+                    option: event.target.value,
+                });
+                break;
+
+            default:
+                setallChain({
+                    ...allChain,
+                    label: "allchain",
+                    option: apiCallforData,
+                });
+                break;
+        }
+    };
+
+    // function allChain() {
+    //     alert("hello")
+    // }
+
     return (
         <>
             <Box
@@ -337,8 +440,12 @@ export default function DataTable() {
                 <Box sx={{ justifyContent: 'space-between', display: 'flex', mt: 3 }}>
                     <Box sx={{ display: 'flex', gap: '62px', alignItems: 'center' }}>
                         <Box sx={{
-                            display: 'flex', gap: '9.73px', fontWeight: 500, fontSize: '16px', lineHeight: '25px', cursor: 'pointer', color: '#91939B', "&:hover": {
+                            display: 'flex', gap: '9.73px', fontWeight: 500, py: '5px',
+                            px: '10px', fontSize: '16px', lineHeight: '25px', cursor: 'pointer', color: '#91939B', "&:hover": {
                                 color: alpha(theme.palette.primary.buttonfont, 1),
+                                background: '#1E212E',
+                                borderRadius: '5px'
+
                             },
                         }}>
                             <StarBorderSharpIcon sx={{ alignItems: 'end' }} />
@@ -372,7 +479,7 @@ export default function DataTable() {
 
 
                     </Box>
-                    <Box sx={{display: 'flex', gap: '20px'}}>
+                    <Box sx={{ display: 'flex', gap: '20px' }}>
                         <Box
                             sx={{
                                 minWidth: 100,
@@ -380,8 +487,8 @@ export default function DataTable() {
                             }}>
                             <FormControl>
                                 <Select
-                                    value={dropdown}
-                                    onChange={handleChange}
+                                    value={networkdropdown}
+                                    onChange={handleNetworkChange}
                                     sx={{
                                         "&:hover,&:focus": {
                                             border: "1px solid #485FE6",
@@ -707,7 +814,7 @@ export default function DataTable() {
                                                             </Box>
                                                         )}
                                                 </TableCell>
-                                                <TableCell
+                                                {/* <TableCell
                                                     className="mobileCells "
                                                     align="right"
                                                     sx={{
@@ -732,7 +839,7 @@ export default function DataTable() {
                                                             %
                                                         </Box>
                                                     )}
-                                                </TableCell>
+                                                </TableCell> */}
                                                 <TableCell
                                                     className="mobileCells "
                                                     align="right"
