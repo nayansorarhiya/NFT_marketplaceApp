@@ -189,7 +189,7 @@ export default function DataTable() {
 
     async function apiCallforData() {
         const resp = await fetch(
-            `https://dh-backend.vercel.app/api/getChainStats?network=solana`,
+            `https://dh-backend.vercel.app/api/getChainStats`,
             {
                 method: "get",
             }
