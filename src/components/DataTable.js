@@ -255,7 +255,7 @@ export default function DataTable() {
     React.useEffect(() => {
         apiCallforData();
     }, []);
-    console.log('first', rows)
+    // console.log('first', rows)
 
 
     // React.useEffect(() => {
@@ -317,68 +317,68 @@ export default function DataTable() {
 
     const [ethrows, setEthRow] = React.useState([]);
 
-    // async function apiCalleth() {
-    //     const resp = await fetch(
-    //         `https://dh-backend.vercel.app/api/getChainStats?network=eth`,
-    //         {
-    //             method: "get",
-    //         }
-    //     );
-    //     const rows = await resp.json();
-    //     const ethereumrows = rows.data.map((v) => ({
-    //         imgurl: v.imageUrl,
-    //         name: v.name,
-    //         slug: v.slug,
-    //         isVerified: v.isVerified,
-    //         floorprice: v.stats.floor_price ? v.stats.floor_price : -1,
+    async function apiCalleth() {
+        const resp = await fetch(
+            `https://dh-backend.vercel.app/api/getChainStats?network=eth`,
+            {
+                method: "get",
+            }
+        );
+        const rows = await resp.json();
+        const ethereumrows = rows.data.map((v) => ({
+            imgurl: v.imageUrl,
+            name: v.name,
+            slug: v.slug,
+            isVerified: v.isVerified,
+            floorprice: v.stats.floor_price ? v.stats.floor_price : -1,
 
-    //         onedayvalue1: [
-    //             v.stats.one_day_change ? v.stats.one_day_change : 0,
-    //             v.stats.seven_day_change ? v.stats.seven_day_change : 0,
-    //             v.stats.thirty_day_change ? v.stats.thirty_day_change : 0,
-    //             v.stats.total_volume ? v.stats.total_volume : 0,
-    //         ],
+            onedayvalue1: [
+                v.stats.one_day_change ? v.stats.one_day_change : 0,
+                v.stats.seven_day_change ? v.stats.seven_day_change : 0,
+                v.stats.thirty_day_change ? v.stats.thirty_day_change : 0,
+                v.stats.total_volume ? v.stats.total_volume : 0,
+            ],
 
-    //         onedayvolumevalue: [
-    //             v.stats.one_day_volume ? v.stats.one_day_volume : 0,
-    //             v.stats.seven_day_volume ? v.stats.seven_day_volume : 0,
-    //             v.stats.thirty_day_volume ? v.stats.thirty_day_volume : 0,
-    //             v.stats.total_volume ? v.stats.total_volume : 0,
-    //         ],
+            onedayvolumevalue: [
+                v.stats.one_day_volume ? v.stats.one_day_volume : 0,
+                v.stats.seven_day_volume ? v.stats.seven_day_volume : 0,
+                v.stats.thirty_day_volume ? v.stats.thirty_day_volume : 0,
+                v.stats.total_volume ? v.stats.total_volume : 0,
+            ],
 
-    //         onedayvalue2: [
-    //             v.stats.one_day_change ? v.stats.one_day_change : 0,
-    //             v.stats.seven_day_change ? v.stats.seven_day_change : 0,
-    //             v.stats.thirty_day_change ? v.stats.thirty_day_change : 0,
-    //             v.stats.total_volume ? v.stats.total_volume : 0,
-    //         ],
+            onedayvalue2: [
+                v.stats.one_day_change ? v.stats.one_day_change : 0,
+                v.stats.seven_day_change ? v.stats.seven_day_change : 0,
+                v.stats.thirty_day_change ? v.stats.thirty_day_change : 0,
+                v.stats.total_volume ? v.stats.total_volume : 0,
+            ],
 
-    //         owners: v.stats.num_owners ? v.stats.num_owners : -1,
-    //         totalsupply: v.totalSupply ? v.totalSupply : -1,
-    //     }));
-    //     // localrows.push({
-    //     //     imgurl: 0,
-    //     //     name: 0,
-    //     //     isVerified: 0,
-    //     //     floorprice: 0,
+            owners: v.stats.num_owners ? v.stats.num_owners : -1,
+            totalsupply: v.totalSupply ? v.totalSupply : -1,
+        }));
+        // localrows.push({
+        //     imgurl: 0,
+        //     name: 0,
+        //     isVerified: 0,
+        //     floorprice: 0,
 
-    //     //     onedayvalue1: [0, 0, 0, 0],
+        //     onedayvalue1: [0, 0, 0, 0],
 
-    //     //     onedayvolumevalue: [0, 0, 0, 0],
+        //     onedayvolumevalue: [0, 0, 0, 0],
 
-    //     //     onedayvalue2: [0, 0, 0, 0],
+        //     onedayvalue2: [0, 0, 0, 0],
 
-    //     //     owners: 0,
-    //     //     totalsupply: 0
-    //     // });
-    //     setEthRow(ethereumrows);
-    //     setSearchRow(ethereumrows);
+        //     owners: 0,
+        //     totalsupply: 0
+        // });
+        setEthRow(ethereumrows);
+        setSearchRow(ethereumrows);
 
-    // }
+    }
 
-    // React.useEffect(() => {
-    //     apiCalleth();
-    // }, []);
+    React.useEffect(() => {
+        apiCalleth();
+    }, []);
     const handleNetworkChange = (event) => {
         setNetworkDropdown(event.target.value);
         switch (event.target.value) {
@@ -386,7 +386,7 @@ export default function DataTable() {
                 setallChain({
                     ...allChain,
                     label: "eth",
-                    option: event.target.value,
+                    option: ethrows,
                 });
                 break;
             case 2:
