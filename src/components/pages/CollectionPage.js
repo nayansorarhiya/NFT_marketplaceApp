@@ -17,10 +17,11 @@ import TraitsCount from '../DropdownComponents/TraitsCount';
 import CollectionData from '../CollectionData';
 import NFTCollection from '../CollectionPageComponents/NFTCollection';
 import menu from '../../assets/images/menu.svg'
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { BigNumber, ethers } from 'ethers';
 import { useDispatch, useSelector } from "react-redux";
 import { setFilterTiles } from "../../store/IndexSlice";
+import { baseUrl } from '../../utils';
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: 'inherit',
@@ -400,6 +401,7 @@ export default function CollectionPage() {
     const handleDrawerClose = () => {
         setOpen(false);
     };
+    const [searchParams, setSearchParams] = useSearchParams();
 
     const isMobile = useMediaQuery(theme.breakpoints.between('xs', 'md'));
     React.useEffect(() => {
@@ -421,13 +423,13 @@ export default function CollectionPage() {
 
     async function apiCallforCollectionData() {
         const resp = await fetch(
-            `https://dh-backend.vercel.app/api/getCollectionDetails?slug=${slug}`,
+            `${baseUrl}/api/getCollectionDetails?slug=${slug}&network=${searchParams.get("newtork")}`,
             {
                 method: "get",
             }
         );
-        const rows = await resp.json();
-        const localrows = rows.data.data.map((v) => ({
+        const rows = await resp.json(); 
+        const localrows = rows.data.map((v) => ({
             name: v.name,
             isverified: v.isVerified,
             onedaychange: v.stats.one_day_change ? v.stats.one_day_change : 0,
@@ -446,7 +448,7 @@ export default function CollectionPage() {
     }
     async function apiCallforAssetData() {
         const assetresp = await fetch(
-            `https://dh-backend.vercel.app/api/getAssestDetails`,
+            `${baseUrl}/api/getAssestDetails/${searchParams.get("newtork")}`,
             {
                 method: "POST",
                 body: JSON.stringify(apifilter),
@@ -456,20 +458,21 @@ export default function CollectionPage() {
             }
         );
         const assetsrows = await assetresp.json();
-        setTotalNFT({ ...totalNFT, total: assetsrows.data.total, hasNext: assetsrows.data.hasNext })
+        setTotalNFT({ ...totalNFT, total: assetsrows.length, hasNext: true })
         // console.log(assetsrows.data.data);
-        const localassetsrows = assetsrows.data.data.map((v) => ({
+        const localassetsrows = assetsrows.data.map((v) => ({
             name: v.name,
             address: v.address,
             tokenType: v.tokenType,
             market: v.market,
             imageurl: v.imageUrl,
             rarityscore: v.rarityScore,
-            price: v.currentBasePrice != null ? v.currentBasePrice.toLocaleString('fullwide', { useGrouping: false }) : "0",
+            price: 10,
             tokenId: v.tokenId,
             uid: v._id,
             collection: v.collectionName,
         }));
+        console.log(localassetsrows)
         if (apifilter.offset === 0) {
             setAssetsdata(localassetsrows);
         } else {
@@ -489,8 +492,9 @@ export default function CollectionPage() {
         }
     }, [buynowinput]);
     React.useEffect(() => {
-        apiCallforAssetData();
-    }, [apifilter]);
+        if(searchParams.get("newtork"))
+            apiCallforAssetData();
+    }, [apifilter, searchParams]);
 
     // React.useEffect(() => {
     //     console.log(FilterTiles);
