@@ -189,9 +189,9 @@ export default function DataTable() {
 
     async function apiCallforData() {
         let q = "";
-        if(allChain.label == "solana") {
+        if (allChain.label == "solana") {
             q = "?network=solana";
-        }else if(allChain.label == "eth") {
+        } else if (allChain.label == "eth") {
             q = "?network=eth"
         }
         const resp = await fetch(
@@ -323,7 +323,7 @@ export default function DataTable() {
 
     const [ethrows, setEthRow] = React.useState([]);
 
-   
+
     React.useEffect(() => {
         apiCallforData();
     }, [allChain]);
@@ -331,20 +331,20 @@ export default function DataTable() {
         setNetworkDropdown(event.target.value);
         switch (event.target.value) {
             case 1:
-                setallChain({ 
+                setallChain({
                     label: "eth",
                     option: event.target.value,
                 });
                 break;
             case 2:
-                setallChain({ 
+                setallChain({
                     label: "solana",
                     option: event.target.value,
                 });
                 break;
 
             default:
-                setallChain({ 
+                setallChain({
                     label: "allchain",
                     option: event.target.value,
                 });
@@ -387,47 +387,58 @@ export default function DataTable() {
                 </Grid>
                 {/* <Grid sx={{ display: "flex", mt: 4 }}> */}
                 <Box sx={{ justifyContent: 'space-between', display: 'flex', mt: 3 }}>
-                    <Box sx={{ display: 'flex', gap: '62px', alignItems: 'center' }}>
-                        <Box sx={{
-                            display: 'flex', gap: '9.73px', fontWeight: 500, py: '5px',
-                            px: '10px', fontSize: '16px', lineHeight: '25px', cursor: 'pointer', color: '#91939B', "&:hover": {
-                                color: alpha(theme.palette.primary.buttonfont, 1),
-                                background: '#1E212E',
-                                borderRadius: '5px'
 
-                            },
-                        }}>
-                            <StarBorderSharpIcon sx={{ alignItems: 'end' }} />
-                            Popular
-                        </Box>
-                        <Box sx={{
-                            display: 'flex', gap: '9.73px', fontWeight: 500, fontSize: '16px', lineHeight: '25px', cursor: 'pointer', color: '#91939B', "&:hover": {
-                                color: alpha(theme.palette.primary.buttonfont, 1),
-                                fill: alpha(theme.palette.primary.buttonfont, 1)
-                            },
-                        }}>
-                            <img src={portfolio} />
-                            Portfolio
-                        </Box>
-                        <Box sx={{
-                            display: 'flex', gap: '9.73px', fontWeight: 500, fontSize: '16px', lineHeight: '25px', cursor: 'pointer', color: '#91939B', "&:hover": {
-                                color: alpha(theme.palette.primary.buttonfont, 1),
-                            },
-                        }}>
-                            <img src={land} />
-                            Land
-                        </Box>
-                        <Box sx={{
-                            display: 'flex', gap: '9.73px', fontWeight: 500, fontSize: '16px', lineHeight: '25px', cursor: 'pointer', color: '#91939B', "&:hover": {
-                                color: alpha(theme.palette.primary.buttonfont, 1),
-                            },
-                        }}>
-                            <img src={games} />
-                            Games
-                        </Box>
+                    <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} sx={{ alignItems: 'center', width: { xs: '100%', sm: '100%', md: '50%', lg: '50%' } }}>
+                        <Grid item xs={6} sm={6} md={6} lg={3}>
+                            <Box sx={{
+                                display: 'flex', gap: '9.73px', fontWeight: 500, py: '5px',
+                                px: '10px', fontSize: '16px', lineHeight: '25px', cursor: 'pointer', color: '#91939B', "&:hover": {
+                                    color: alpha(theme.palette.primary.buttonfont, 1),
+                                    background: '#1E212E',
+                                    borderRadius: '5px'
 
+                                },
+                            }}>
+                                <StarBorderSharpIcon sx={{ alignItems: 'end' }} />
+                                Popular
+                            </Box>
+                        </Grid>
+                        <Grid item xs={6} sm={6} md={6} lg={3}>
+                            <Box sx={{
+                                display: 'flex', gap: '9.73px', py: '5px',
+                                px: '10px', fontWeight: 500, fontSize: '16px', lineHeight: '25px', cursor: 'pointer', color: '#91939B', "&:hover": {
+                                    color: alpha(theme.palette.primary.buttonfont, 1),
+                                    fill: alpha(theme.palette.primary.buttonfont, 1)
+                                },
+                            }}>
+                                <img src={portfolio} height='20px' width='20px' />
+                                Portfolio
+                            </Box>
+                        </Grid>
+                        <Grid item xs={6} sm={6} md={6} lg={3}>
+                            <Box sx={{
+                                display: 'flex', gap: '9.73px', py: '5px',
+                                px: '10px', fontWeight: 500, fontSize: '16px', lineHeight: '25px', cursor: 'pointer', color: '#91939B', "&:hover": {
+                                    color: alpha(theme.palette.primary.buttonfont, 1),
+                                },
+                            }}>
+                                <img src={land} height='20px' width='20px' />
+                                Land
+                            </Box>
+                        </Grid>
+                        <Grid item xs={6} sm={6} md={6} lg={3}>
+                            <Box sx={{
+                                display: 'flex', gap: '9.73px', py: '5px',
+                                px: '10px', fontWeight: 500, fontSize: '16px', lineHeight: '25px', cursor: 'pointer', color: '#91939B', "&:hover": {
+                                    color: alpha(theme.palette.primary.buttonfont, 1),
+                                },
+                            }}>
+                                <img src={games} height='20px' width='20px' />
+                                Games
+                            </Box>
 
-                    </Box>
+                        </Grid>
+                    </Grid>
                     <Box sx={{ display: 'flex', gap: '20px' }}>
                         <Box
                             sx={{

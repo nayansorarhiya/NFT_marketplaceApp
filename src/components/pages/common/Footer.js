@@ -26,16 +26,16 @@ export default function Footer() {
                         <Grid columns={{ md: 12, lg: 12 }}
                             sx={{
                                 display: 'flex',
-                                justifyContent: 'center', alignItems: 'center', position: 'relative', flexDirection: { xs: 'column', sm: 'column', md: 'row', lg: 'row' }
+                                justifyContent: 'center', alignItems: 'center', position: 'relative', flexDirection: { xs: 'column', sm: 'column', md: 'column', lg: 'column' }
                             }}>
                             <Grid item md={3} lg={3} >
                                 <Box sx={{ textAlign: 'start' }}>
                                     <LogoTypography />
                                 </Box>
                             </Grid>
-                            <Grid item md={5} lg={5} sx={{ pb: { xs: 1, sm: 1 }, pt: { xs: 1, sm: 1 }, mx: 2 }}>
-                                <Box sx={{ display: 'flex', justifyContent: 'end', color: alpha(theme.palette.primary.dark) }} className="menulist">
-                                    <Box>
+                            <Grid item  sx={{ pb: { xs: 1, sm: 1 }, pt: { xs: 1, sm: 1 }, mx: 2 }}>
+                                <Box sx={{ display: { xs: 'block', sm: 'block', md: 'block', lg: 'flex' }, justifyContent: 'end', color: alpha(theme.palette.primary.dark) }} className="menulist">
+                                    <Box sx={{ ml: { sx: 0, sm: 0, md: 3, lg: 4 } }}>
                                         <MenuItem>
                                             About
                                         </MenuItem>
