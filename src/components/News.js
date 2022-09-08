@@ -11,7 +11,6 @@ const NewsContent = styled(Box)`
     font-family: 'WorkSans';
     font-style: normal;
     font-weight: 600;
-    font-size: 36px;
     line-height: 42px;
     text-transform: capitalize;
 `
@@ -44,12 +43,14 @@ function News() {
     const theme = useTheme();
     return (
         <Box sx={{ mt: 10 }}>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                <NewsContent>
-                    News & Content
-                </NewsContent>
+            <Box sx={{ display: { xs: 'flex', sm: 'flex', md: 'flex', lg: 'flex' }, justifyContent: 'space-between', overflowX: 'auto' }}>
+                <Box>
+                    <NewsContent sx={{ fontSize: { xs: '26px', sm: '36px', md: '36px', lg: '36px' } }}>
+                        News & Content
+                    </NewsContent>
+                </Box>
                 <Button variant="outlined" sx={{
-                    padding: { xs: '18px 24px', md: '18px 24px', lg: '15px 36px' }, color: alpha(theme.palette.primary.buttonfont, 1),
+                    padding: { xs: '10px 24px', md: '18px 24px', lg: '15px 36px' }, color: alpha(theme.palette.primary.buttonfont, 1),
                     border: '1px solid #485FE6',
                     fontWeight: '500',
                     fontSize: '16px',

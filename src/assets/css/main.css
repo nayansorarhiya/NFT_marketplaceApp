@@ -249,3 +249,26 @@ body {
         visibility: hidden !important;
     }
 }
+
+
+::-webkit-scrollbar {
+    width          : 5px;
+    height         : 5px;
+    /* display        : none;
+    scrollbar-width: none !important; */
+}
+
+::-webkit-scrollbar-corner {
+    background     : 0 0;
+    scrollbar-width: none;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(203, 215, 255, .1);
+    border-radius   : 6px;
+    border          : 3px solid transparent;
+}
+
+::-webkit-scrollbar-track {
+    background: 0 0;
+}
