@@ -31,6 +31,7 @@ import solana from '../assets/images/solana.svg'
 import popular from '../assets/images/popular.svg'
 import { setNetwork } from "../store/IndexSlice";
 import { useDispatch } from "react-redux";
+import { baseUrl } from "../utils";
 
 function descendingComparator(a, b, orderBy) {
     if (parseFloat(b[orderBy]) < parseFloat(a[orderBy])) {
@@ -198,7 +199,7 @@ export default function DataTable() {
             q = "?network=eth"
         }
         const resp = await fetch(
-            `https://dh-backend.vercel.app/api/getChainStats${q}`,
+            `${baseUrl}/api/getChainStats${q}`,
             {
                 method: "get",
             }

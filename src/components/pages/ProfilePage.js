@@ -10,6 +10,7 @@ import copyClip from '../../assets/images/copyClip.svg';
 import DoneIcon from '@mui/icons-material/Done';
 import ContentCopyRoundedIcon from '@mui/icons-material/ContentCopyRounded';
 import UseNFTCollection from '../CollectionPageComponents/UseNFTCollection';
+import { baseUrl } from '../../utils';
 
 
 export default function ProfilePage() {
@@ -60,7 +61,7 @@ export default function ProfilePage() {
         if (active) {
             try {
                 const nfts = await fetch(
-                    `https://dh-backend.vercel.app/api/user/getNft/${account}`,
+                    `${baseUrl}/api/user/getNft/${account}`,
                 );
                 const nftlist = (await nfts.json());
                 

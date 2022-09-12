@@ -10,6 +10,7 @@ import CustomButton from '../CustomButton';
 import { useWeb3React } from '@web3-react/core';
 import contract, { getDiamondContract } from '../../contract/contract';
 import diamondswapABI from "../../contract/ABI/diamondswapABI.json";
+import { baseUrl } from '../../utils';
 
 export default function CartDrawer({ usdprice, topdrawerwidth, cartvariant, cartopen, ConnectModal }) {
     const theme = useTheme();
@@ -71,7 +72,7 @@ export default function CartDrawer({ usdprice, topdrawerwidth, cartvariant, cart
         }
         try {
             const initRsp = await fetch(
-                `https://dh-backend.vercel.app/api/initTransaction`,
+                `${baseUrl}/api/initTransaction`,
                 {
                     method: "POST",
                     body: JSON.stringify(apifilter),
