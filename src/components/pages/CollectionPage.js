@@ -423,7 +423,7 @@ export default function CollectionPage() {
 
     async function apiCallforCollectionData() {
         const resp = await fetch(
-            `${baseUrl}/api/getCollectionDetails?slug=${slug}&network=${searchParams.get("newtork")}`,
+            `${baseUrl}/api/getCollectionStatsDetails?slug=${slug}&network=${searchParams.get("newtork")}`,
             {
                 method: "get",
             }
