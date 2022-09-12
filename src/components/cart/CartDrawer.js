@@ -16,7 +16,7 @@ export default function CartDrawer({ usdprice, topdrawerwidth, cartvariant, cart
 
     const dispatch = useDispatch();
     const { active, account, library } = useWeb3React();
-    const [balance, setBalance] = React.useState(BigNumber.from("0"));
+    const [balance, setBalance] = React.useState(0);
     const [loading, setLoading] = React.useState(false);
     useEffect(() => {
         let getBalance = async () => {
