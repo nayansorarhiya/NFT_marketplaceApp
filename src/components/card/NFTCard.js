@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getIdx, setCartIdx } from "../../store/IndexSlice";
 import placeholderImage from "../../assets/images/placeholderImage.jpg";
 import { CardSkeleton } from '../Skeleton';
+import { getCurrencyLogo } from '../../utils';
 
 
 const CountButton = styled(Button)`
@@ -118,8 +119,7 @@ export default function NFTCard(props) {
                 setReduxCartData(popCart);
             }
         }
-    }
-
+    } 
     return (<>
 
         {props.apidata.uid !== '' && props.apidata.imageurl !== '' &&
@@ -155,9 +155,9 @@ export default function NFTCard(props) {
                             </Box>
                             <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '7px', height: '21px' }}>
                                 {props.buynowinput && <><Box sx={{ color: 'rgba(145, 147, 155, 1)' }}>
-                                    {parseFloat(ethers.utils.formatEther((props.apidata.price).toString())).toFixed(3)}
+                                    {parseFloat(ethers.utils.formatUnits(props.apidata.price.toString(), props.apidata.decimal).toString()).toFixed(3)}
                                 </Box>
-                                    <img src={eth} alt="eth" height={'21px'} /></>}
+                                    <img src={getCurrencyLogo(props.apidata.network)} alt="eth" height={'21px'} /></>}
                             </Box>
                         </CardContent>
                     </Card>

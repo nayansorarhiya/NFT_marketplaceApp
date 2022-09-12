@@ -29,6 +29,9 @@ import land from '../assets/images/land.svg'
 import games from '../assets/images/games.svg'
 import solana from '../assets/images/solana.svg'
 import popular from '../assets/images/popular.svg'
+import { setNetwork } from "../store/IndexSlice";
+import { useDispatch } from "react-redux";
+import { baseUrl } from "../utils";
 
 function descendingComparator(a, b, orderBy) {
     if (parseFloat(b[orderBy]) < parseFloat(a[orderBy])) {
@@ -183,7 +186,7 @@ export default function DataTable() {
     const [searchrows, setSearchRow] = React.useState([]);
 
     const navigate = useNavigate();
-
+    const dispatch = useDispatch();
     const collectionNavigation = (slug) => {
         navigate(`/collection/${slug}`);
     };
@@ -196,7 +199,7 @@ export default function DataTable() {
             q = "?network=eth"
         }
         const resp = await fetch(
-            `https://dh-backend.vercel.app/api/getChainStats${q}`,
+            `${baseUrl}/api/getChainStats${q}`,
             {
                 method: "get",
             }
@@ -511,6 +514,7 @@ export default function DataTable() {
 
                     </Box>
                     <Box sx={{ display: 'flex', gap: '20px' }}>
+
                         <Box
                             sx={{
                                 minWidth: 100,

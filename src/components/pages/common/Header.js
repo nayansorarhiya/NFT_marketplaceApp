@@ -24,10 +24,11 @@ import close from '../../../assets/images/close.svg'
 import vector from '../../../assets/images/vector.svg'
 import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 import eth from '../../../assets/images/eth.svg';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import CartItems from '../../cart/CartItems';
 import CartDrawer from '../../cart/CartDrawer';
 import { useSelector } from 'react-redux';
+import CartDrawerSolana from '../../cart/CartDrawerSolana';
 
 
 const drawerWidth = 300;
@@ -61,6 +62,8 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 export default function Header(props) {
     const CartData = (useSelector((state) => state.Index.cartdata))
+
+    const [searchParams, setSearchParams] = useSearchParams();
     const navigate = useNavigate();
     const profile = () => {
 
@@ -72,22 +75,25 @@ export default function Header(props) {
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
     const [usdprice, setusdPrice] = React.useState(1);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+    const network = useSelector((state) => state.Index.network);
 
     const ethToUsd = async () => {
-        try {
+        try { 
             const usdPrice = await fetch(
-                `https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd`,
+                `https://api.coingecko.com/api/v3/simple/price?ids=${network}&vs_currencies=usd`,
             );
             const currentUsdPrice = (await usdPrice.json());
-            // console.log(currentUsdPrice.ethereum.usd);
-            await setusdPrice(currentUsdPrice.ethereum.usd)
+            if (network == "ethereum")
+                setusdPrice(currentUsdPrice.ethereum.usd)
+            else
+                setusdPrice(currentUsdPrice.solana.usd)
         } catch (error) {
             console.log(error)
         }
     }
     React.useEffect(() => {
         setInterval(ethToUsd, 20000)
-    }, []);
+    }, [network]);
 
     const handleMobileMenuClose = () => {
         setMobileMoreAnchorEl(null);
@@ -293,7 +299,11 @@ export default function Header(props) {
                 </AppBar>
                 {renderMobileMenu}
                 <ConnectionModal open={open && !active} onClose={handleClose}></ConnectionModal>
-                <CartDrawer usdprice={usdprice} topdrawerwidth={topdrawerwidth} cartvariant={cartvariant} cartopen={cartopen} ConnectModal={ConnectModal}></CartDrawer>
+                {
+                    network === "ethereum" ?
+                        <CartDrawer usdprice={usdprice} topdrawerwidth={topdrawerwidth} cartvariant={cartvariant} cartopen={cartopen} ConnectModal={ConnectModal}></CartDrawer> :
+                        <CartDrawerSolana usdprice={usdprice} topdrawerwidth={topdrawerwidth} cartvariant={cartvariant} cartopen={cartopen} ConnectModal={ConnectModal}></CartDrawerSolana>
+                }
             </Box>
 
         </>

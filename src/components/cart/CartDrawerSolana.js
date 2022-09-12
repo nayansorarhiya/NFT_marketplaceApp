@@ -8,31 +8,25 @@ import { getIdx, setCartIdx } from "../../store/IndexSlice";
 import { BigNumber, ethers } from 'ethers';
 import CustomButton from '../CustomButton';
 import { useWeb3React } from '@web3-react/core';
-import contract, { getDiamondContract } from '../../contract/contract';
-import diamondswapABI from "../../contract/ABI/diamondswapABI.json";
-import { baseUrl } from '../../utils';
-
-export default function CartDrawer({ usdprice, topdrawerwidth, cartvariant, cartopen, ConnectModal }) {
+import axios from 'axios';
+import { sendTxUsingExternalSignature } from '../../contract/solana/externalwallet';
+const Web3 = require('@solana/web3.js');
+export default function CartDrawerSolana({ usdprice, topdrawerwidth, cartvariant, cartopen }) {
     const theme = useTheme();
+
     const dispatch = useDispatch();
     const { active, account, library } = useWeb3React();
     const [balance, setBalance] = React.useState(BigNumber.from("0"));
     const [loading, setLoading] = React.useState(false);
-    useEffect(() => {
-        let getBalance = async () => {
-            if (active) {
-                setBalance(await library.getBalance(account));
-            }
-        }
-        getBalance();
-    }, [active, account])
+
     const [totalamount, setTotalAmount] = React.useState(BigNumber.from("0"));
     const CartData = (useSelector((state) => state.Index.cartdata))
     useEffect(() => {
-        // if (CartData.length !== 0) {
+        // if (CartData.length !== 0) { 
+        console.log(CartData);
         const total = CartData.reduce((acc, item) => {
-            return acc.add(item.price);
-        }, BigNumber.from("0"))
+            return acc + item.price;
+        }, 0)
         setTotalAmount(total.toString())
         // }
     }, [CartData]);
@@ -45,113 +39,47 @@ export default function CartDrawer({ usdprice, topdrawerwidth, cartvariant, cart
     const clearAllCartData = () => {
         dispatch(setCartIdx([]))
     }
+
+
     const buyNow = async () => {
         setLoading(true);
-        let transferList = []
-        let buylist = CartData.map((item) => {
-            if (item.tokenType == "ERC721") {
-                transferList.push({ "tokenAddr": item.address, "tokenId": item.tokenId })
-            }
-            return {
-                "address": item.address,
-                // "amount": parseFloat(ethers.utils.formatEther(item.price)),
-                "amount": 1,
-                "standard": item.tokenType,
-                "tokenId": item.tokenId,
-            }
-
-        })
-        let apifilter = {
-            "balanceToken": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
-            "buy": buylist,
-            "sell": [],
-            "sender": account,
+        const provider = await window.solana;
+        let owner = "";
+        if (provider) {
+            await window.solana.connect();
+            owner = provider.publicKey;
         }
+        else window.open("https://phantom.app/", "_blank")
         try {
-            const initRsp = await fetch(
-                `${baseUrl}/api/initTransaction`,
-                {
-                    method: "POST",
-                    body: JSON.stringify(apifilter),
-                    headers: {
-                        "Content-type": "application/json; charset=UTF-8"
-                    }
-                }
+            const connection = new Web3.Connection(Web3.clusterApiUrl("mainnet-beta"), "confirmed");
+            const bearerToken = "8d8d1532-23fe-4f16-ac78-fc4d4d69ac39"
+            console.log("owner", owner.toString());
+
+            const txns = await Promise.all(CartData.map(async (nfts)=> {
+                const res = await axios.get(
+                    'https://api-mainnet.magiceden.io/v2/instructions/buy', {
+                    params: {
+                        buyer: owner.toString(),
+                        auctionHouseAddress: 'E8cU1WiRWjanGxmn96ewBgk9vPTcL6AEZ1t6F6fkgUWe',
+                        tokenMint: nfts.tokenId,
+                        price: ethers.utils.formatUnits(nfts.price, 9).toString()
+                    },
+                    headers: { Authorization: "Bearer " + bearerToken }
+                });
+                const txSigned = res.data.txSigned
+                return Web3.Transaction.from(Buffer.from(txSigned.data))
+            }));
+            // Get buy instruction from API
+
+            sendTxUsingExternalSignature(
+                txns,
+                connection,
+                null,
+                [],
+                new Web3.PublicKey(owner)
             );
-            const initRspData = (await initRsp.json());
-            const txnvalue = initRspData.data.value.hex;
-            const buylistCode = initRspData.data.transaction;
-            const signer = await library.getSigner();
-            // const contractaddr = initRspData.data.contractAddress;
-            const contractaddr = contract.diamondSwap;
-            const diamondContract = await getDiamondContract(contractaddr, diamondswapABI, signer)
-            let token = apifilter.buy.filter(ele => ele.address.toLowerCase() != "0xb47e3cd837ddf8e4c57f05d70ab865de6e193bbb".toLowerCase())
-            let ERC721 = token.filter(ele => "ERC1155" != ele.standard);
-            let ERC1155 = token.filter(ele => "ERC1155" == ele.standard);
-            ERC1155 = ERC1155.map(ele => {
-                return [
-                    ele.address,
-                    ele.tokenId,
-                    ele.amount
-                ]
-            })
-            ERC721 = ERC721.map(ele => {
-                return [
-                    ele.address,
-                    ele.tokenId
-                ]
-            })
-            console.log(ERC721, ERC1155);
-            // const tx = await diamondContract.buyNFT(initRspData.data.contractAddress, buylistCode, ERC721, ERC1155, { value: txnvalue });
-
-            let nTx = {
-                from: account,
-                to: contractaddr,
-                value: txnvalue,
-                data: buylistCode
-            };
-            let jsonData = JSON.stringify({
-                input: nTx.data,
-                to: nTx.to,
-                value: nTx.value.toString(),
-                from: nTx.from,
-                network_id: "1",
-                save: true,
-                save_if_fails: true,
-                simulation_type: "quick",
-                generate_access_list: true,
-            }); 
-            let simulate = await fetch(
-                `https://api.tenderly.co/api/v1/account/me/project/gem-aggregator/simulate`,
-                {
-                    method: "POST",
-                    body: jsonData,
-                    headers: {
-                        "x-access-key": "sduNMNsKx5ihVpZodjWVnWsP8odX1ZiI",
-                        "Content-type": "application/json; charset=UTF-8"
-                    }
-                }
-            );
-            simulate = await simulate.json();
-            let gasUsed = simulate.transaction.gas_used;
-
-            console.log(`Before: ${gasUsed}`);
-            gasUsed += Math.ceil(gasUsed*23/100);
-            // // const limit = await library.getSigner().estimateGas(nTx)
-            // console.log(limit.toString());
-            console.log(gasUsed);
-            nTx = {
-                ...nTx,
-                gasLimit: gasUsed
-            }
-            const tx = await library.getSigner().sendTransaction(nTx);
-
-            await tx.wait();
-            clearAllCartData();
-            setLoading(false);
         } catch (err) {
             console.log(err)
-            setLoading(false);
         }
     }
     const roundOff = (figure, decimals, unit) => {
@@ -231,8 +159,8 @@ export default function CartDrawer({ usdprice, topdrawerwidth, cartvariant, cart
                         </Box>
                     </>
                     }
-                    {!active && <CustomButton onClick={() => !active && ConnectModal()} sx={{ mt: 3, whiteSpace: 'nowrap', width: '100%', lineHeight: '40px' }} variant="contained">Connect Wallet </CustomButton>}
-                    {active && CartData.length !== 0 && (balance.lt(totalamount)) && <Button onClick={() => !active && ConnectModal()}
+                    {!active && <CustomButton onClick={() => !active && buyNow()} sx={{ mt: 3, whiteSpace: 'nowrap', width: '100%', lineHeight: '40px' }} variant="contained">Connect Wallet </CustomButton>}
+                    {active && CartData.length !== 0 && (balance.lt(totalamount)) && <Button onClick={() => !active && buyNow()}
                         sx={{
                             mt: 3,
                             backgroundColor: alpha(theme.palette.primary.searchIcon, 1),
