@@ -222,7 +222,7 @@ export default function CartDrawer({ usdprice, topdrawerwidth, cartvariant, cart
                             <Box>
                                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, gap: '6px' }}>
                                     <Box sx={{ fontSize: '14px' }}>
-                                        {roundOff(parseFloat(ethers.utils.formatEther(totalamount.toString())), 4)}
+                                        {/* {roundOff(parseFloat(ethers.utils.formatEther(totalamount.toString())), 4)} */}
                                     </Box>
                                     <img src={eth} />
                                 </Box>
