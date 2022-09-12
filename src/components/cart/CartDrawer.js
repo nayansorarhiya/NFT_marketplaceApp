@@ -219,12 +219,12 @@ export default function CartDrawer({ usdprice, topdrawerwidth, cartvariant, cart
                             <Box>
                                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, gap: '6px' }}>
                                     <Box sx={{ fontSize: '14px' }}>
-                                        {/* {roundOff(parseFloat(ethers.utils.formatEther(totalamount.toString())), 4)} */}
+                                        {roundOff(parseFloat(ethers.utils.formatEther(totalamount.toString())), 4)}
                                     </Box>
                                     <img src={eth} />
                                 </Box>
                                 <Box sx={{ textAlign: 'left', fontSize: '10px', lineHeight: '110%', fontWeight: 400, color: '#91939B' }}>
-                                    {/* ${(parseFloat(ethers.utils.formatEther(totalamount.toString())) * usdprice) >= 1000000 ? roundOff((parseFloat(ethers.utils.formatEther(totalamount.toString())) * usdprice) / 1000000, 1, 'M') : ((parseFloat(ethers.utils.formatEther(totalamount.toString())) * usdprice) < 1000 ? roundOff(parseFloat(ethers.utils.formatEther(totalamount.toString())) * usdprice, 1) : roundOff((parseFloat(ethers.utils.formatEther(totalamount.toString())) * usdprice) / 1000, 1, 'K'))} */}
+                                    ${(parseFloat(ethers.utils.formatEther(totalamount.toString())) * usdprice) >= 1000000 ? roundOff((parseFloat(ethers.utils.formatEther(totalamount.toString())) * usdprice) / 1000000, 1, 'M') : ((parseFloat(ethers.utils.formatEther(totalamount.toString())) * usdprice) < 1000 ? roundOff(parseFloat(ethers.utils.formatEther(totalamount.toString())) * usdprice, 1) : roundOff((parseFloat(ethers.utils.formatEther(totalamount.toString())) * usdprice) / 1000, 1, 'K'))}
                                 </Box>
                             </Box>
                         </Box>
