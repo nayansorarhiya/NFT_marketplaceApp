@@ -247,7 +247,7 @@ export default function CartDrawer({ usdprice, topdrawerwidth, cartvariant, cart
                                 }
                             }} disabled={loading} onClick={buyNow}>Buy Now</Button>
                         </Box>
-                        <Box sx={{ mt: 1.5 }}>
+                        {/* <Box sx={{ mt: 1.5 }}>
                             <Button sx={{
                                 background: '#485FE6', borderRadius: '3px', padding: '11px 22px', color: '#ffffff', width: '100%', textTransform: 'none',
                                 '&:hover,&:focus': {
@@ -255,7 +255,7 @@ export default function CartDrawer({ usdprice, topdrawerwidth, cartvariant, cart
                                     opacity: 0.8,
                                 }
                             }}>Proceed to Checkout</Button>
-                        </Box>
+                        </Box> */}
                     </>}
 
 
