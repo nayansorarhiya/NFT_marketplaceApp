@@ -20,7 +20,7 @@ import menu from '../../assets/images/menu.svg'
 import { useParams, useSearchParams } from 'react-router-dom';
 import { BigNumber, ethers } from 'ethers';
 import { useDispatch, useSelector } from "react-redux";
-import { setFilterTiles } from "../../store/IndexSlice";
+import { setFilterTiles, setNetwork } from "../../store/IndexSlice";
 import { baseUrl } from '../../utils';
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
@@ -464,10 +464,12 @@ export default function CollectionPage() {
             name: v.name,
             address: v.address,
             tokenType: v.tokenType,
+            decimal: searchParams.get("newtork") === "solana"?9:18,
+            network: searchParams.get("newtork"),
             market: v.market,
             imageurl: v.imageUrl,
             rarityscore: v.rarityScore,
-            price: 10,
+            price: v.currentBasePrice.toString(),
             tokenId: v.tokenId,
             uid: v._id,
             collection: v.collectionName,
@@ -491,7 +493,8 @@ export default function CollectionPage() {
             setReduxFilterData([...FilterTiles, { id: 4, name: 'All', value: 'all' }])
         }
     }, [buynowinput]);
-    React.useEffect(() => {
+    React.useEffect(() => { 
+        dispatch(setNetwork(searchParams.get("newtork")))
         if(searchParams.get("newtork"))
             apiCallforAssetData();
     }, [apifilter, searchParams]);

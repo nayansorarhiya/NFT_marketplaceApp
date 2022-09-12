@@ -168,6 +168,19 @@ export default function ConnectionModal(props) {
                             <Typography sx={WalletConnect}>Coinbase Wallet</Typography>
                         </ListItem>
                         <Divider light />
+                        <ListItem button sx={{ py: 3 }} onClick={async ()=>{
+                             const provider = await window.solana;
+                             let owner = "";
+                             if (provider) {
+                                 await window.solana.connect();
+                                 owner = provider.publicKey;
+                             }
+                             else window.open("https://phantom.app/", "_blank")
+                        }}>
+                            <img src={coinbasewallet} alt='coinbase wallet' width={32} height={30} />
+                            <Typography sx={WalletConnect}>Phantom</Typography>
+                        </ListItem>
+                        <Divider light />
                     </List>
                 </Box>
             </Modal>

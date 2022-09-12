@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 let initialCartState = {
     cartdata: [],
-    filtertiles: []
+    filtertiles: [],
+    network: 'ethereum'
 }
 const slice = createSlice({
     name: 'Index',
@@ -18,9 +19,12 @@ const slice = createSlice({
             // data.idx = action.payload;
             data.filtertiles = action.payload;
         },
+        setNetwork: (data, action) => {
+            data.network = action.payload;
+        }
     }
 })
-export const { setCartIdx, setFilterTiles } = slice.actions;
+export const { setCartIdx, setFilterTiles, setNetwork } = slice.actions;
 export default slice.reducer
 export const getIdx = state => {
     return state.LPLock;

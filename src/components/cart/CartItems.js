@@ -44,7 +44,7 @@ export default function CartItems({ cartItem, popCartData, usdprice, roundOff })
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                                 <Box sx={{ fontSize: '14px' }}>
                                     {/* {parseFloat(ethers.utils.formatEther(cartItem.price)).toFixed(4)} */}
-                                    {roundOff(parseFloat(ethers.utils.formatEther(cartItem.price)), 4) }
+                                    {roundOff(parseFloat(ethers.utils.formatUnits(cartItem.price, cartItem.decimal)), 4) }
                                 </Box>
                                 <span style={{ display: 'flex' }}>
                                     <img src={eth} />
@@ -63,12 +63,7 @@ export default function CartItems({ cartItem, popCartData, usdprice, roundOff })
                             </Box>
                         </Box>
 
-                    </Box>
-                    {/* <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                                        <Box sx={{ textAlign: 'left' }}>
-                                            Mutant Ape Yacht club
-                                        </Box>
-                                    </Box> */}
+                    </Box> 
                 </Box>
 
             </Box>
