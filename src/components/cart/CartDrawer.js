@@ -14,10 +14,9 @@ import { baseUrl } from '../../utils';
 
 export default function CartDrawer({ usdprice, topdrawerwidth, cartvariant, cartopen, ConnectModal }) {
     const theme = useTheme();
-
     const dispatch = useDispatch();
     const { active, account, library } = useWeb3React();
-    const [balance, setBalance] = React.useState(0);
+    const [balance, setBalance] = React.useState(BigNumber.from("0"));
     const [loading, setLoading] = React.useState(false);
     useEffect(() => {
         let getBalance = async () => {
@@ -31,8 +30,6 @@ export default function CartDrawer({ usdprice, topdrawerwidth, cartvariant, cart
     const CartData = (useSelector((state) => state.Index.cartdata))
     useEffect(() => {
         // if (CartData.length !== 0) {
-            
-        console.log(CartData);
         const total = CartData.reduce((acc, item) => {
             return acc.add(item.price);
         }, BigNumber.from("0"))
