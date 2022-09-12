@@ -219,12 +219,12 @@ export default function CartDrawer({ usdprice, topdrawerwidth, cartvariant, cart
                             <Box>
                                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, gap: '6px' }}>
                                     <Box sx={{ fontSize: '14px' }}>
-                                        {roundOff(parseFloat(ethers.utils.formatEther(totalamount.toString())), 4)}
+                                        {/* {roundOff(parseFloat(ethers.utils.formatEther(totalamount.toString())), 4)} */}
                                     </Box>
                                     <img src={eth} />
                                 </Box>
                                 <Box sx={{ textAlign: 'left', fontSize: '10px', lineHeight: '110%', fontWeight: 400, color: '#91939B' }}>
-                                    ${(parseFloat(ethers.utils.formatEther(totalamount.toString())) * usdprice) >= 1000000 ? roundOff((parseFloat(ethers.utils.formatEther(totalamount.toString())) * usdprice) / 1000000, 1, 'M') : ((parseFloat(ethers.utils.formatEther(totalamount.toString())) * usdprice) < 1000 ? roundOff(parseFloat(ethers.utils.formatEther(totalamount.toString())) * usdprice, 1) : roundOff((parseFloat(ethers.utils.formatEther(totalamount.toString())) * usdprice) / 1000, 1, 'K'))}
+                                    {/* ${(parseFloat(ethers.utils.formatEther(totalamount.toString())) * usdprice) >= 1000000 ? roundOff((parseFloat(ethers.utils.formatEther(totalamount.toString())) * usdprice) / 1000000, 1, 'M') : ((parseFloat(ethers.utils.formatEther(totalamount.toString())) * usdprice) < 1000 ? roundOff(parseFloat(ethers.utils.formatEther(totalamount.toString())) * usdprice, 1) : roundOff((parseFloat(ethers.utils.formatEther(totalamount.toString())) * usdprice) / 1000, 1, 'K'))} */}
                                 </Box>
                             </Box>
                         </Box>
@@ -247,7 +247,7 @@ export default function CartDrawer({ usdprice, topdrawerwidth, cartvariant, cart
                                 }
                             }} disabled={loading} onClick={buyNow}>Buy Now</Button>
                         </Box>
-                        {/* <Box sx={{ mt: 1.5 }}>
+                        <Box sx={{ mt: 1.5 }}>
                             <Button sx={{
                                 background: '#485FE6', borderRadius: '3px', padding: '11px 22px', color: '#ffffff', width: '100%', textTransform: 'none',
                                 '&:hover,&:focus': {
@@ -255,7 +255,7 @@ export default function CartDrawer({ usdprice, topdrawerwidth, cartvariant, cart
                                     opacity: 0.8,
                                 }
                             }}>Proceed to Checkout</Button>
-                        </Box> */}
+                        </Box>
                     </>}
 
 
