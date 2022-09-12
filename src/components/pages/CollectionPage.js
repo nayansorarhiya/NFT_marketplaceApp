@@ -332,7 +332,7 @@ export default function CollectionPage() {
         dispatch(setFilterTiles(data))
     }
     const theme = useTheme();
-    const [open, setOpen] = React.useState(TrustedScript);
+    const [open, setOpen] = React.useState(true);
     const [dropdown, setDropdown] = React.useState(0);
     const { slug } = useParams();
     const [variant, setVariant] = React.useState({
