@@ -300,9 +300,10 @@ export default function Header(props) {
                 {renderMobileMenu}
                 <ConnectionModal open={open && !active} onClose={handleClose}></ConnectionModal>
                 {
-                    network === "ethereum" ?
-                        <CartDrawer usdprice={usdprice} topdrawerwidth={topdrawerwidth} cartvariant={cartvariant} cartopen={cartopen} ConnectModal={ConnectModal}></CartDrawer> :
-                        <CartDrawerSolana usdprice={usdprice} topdrawerwidth={topdrawerwidth} cartvariant={cartvariant} cartopen={cartopen} ConnectModal={ConnectModal}></CartDrawerSolana>
+                    <CartDrawer usdprice={usdprice} topdrawerwidth={topdrawerwidth} cartvariant={cartvariant} cartopen={cartopen} ConnectModal={ConnectModal}></CartDrawer> 
+                    // network === "ethereum" ?
+                    //     <CartDrawer usdprice={usdprice} topdrawerwidth={topdrawerwidth} cartvariant={cartvariant} cartopen={cartopen} ConnectModal={ConnectModal}></CartDrawer> :
+                    //     <CartDrawerSolana usdprice={usdprice} topdrawerwidth={topdrawerwidth} cartvariant={cartvariant} cartopen={cartopen} ConnectModal={ConnectModal}></CartDrawerSolana>
                 }
             </Box>
 
