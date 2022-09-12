@@ -159,8 +159,9 @@ export default function CartDrawer({ usdprice, topdrawerwidth, cartvariant, cart
     const roundOff = (figure, decimals, unit) => {
         if (!decimals) decimals = 2;
         if (!unit) unit = '';
-        var d = Math.pow(10, decimals);
-        return `${(parseInt(figure * d) / d).toFixed(decimals)}${unit}`;
+        return 1;
+        // var d = Math.pow(10, decimals);
+        // return `${(parseInt(figure * d) / d).toFixed(decimals)}${unit}`;
     }
 
     return (
@@ -222,7 +223,7 @@ export default function CartDrawer({ usdprice, topdrawerwidth, cartvariant, cart
                             <Box>
                                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, gap: '6px' }}>
                                     <Box sx={{ fontSize: '14px' }}>
-                                        {/* {roundOff(parseFloat(ethers.utils.formatEther(totalamount.toString())), 4)} */}
+                                        {roundOff(parseFloat(ethers.utils.formatEther(totalamount.toString())), 4)}
                                     </Box>
                                     <img src={eth} />
                                 </Box>
