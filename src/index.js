@@ -12,12 +12,10 @@ function getLibrary(provider) {
 }
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <Web3ReactProvider getLibrary={getLibrary}>
-        <App />
-      </Web3ReactProvider>
-    </Provider>
-  </React.StrictMode>,
+  <Provider store={store}>
+    <Web3ReactProvider getLibrary={getLibrary}>
+      <App />
+    </Web3ReactProvider>
+  </Provider>,
   document.getElementById('root')
 );
