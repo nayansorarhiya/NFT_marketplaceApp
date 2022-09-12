@@ -7,6 +7,7 @@ import looksrare from '../../assets/images/looksrare.svg';
 import x2y2 from '../../assets/images/x2y2.svg';
 import nftx from '../../assets/images/nftx.svg';
 import xmarket from '../../assets/images/xmarket.svg';
+import magicEden from '../../assets/images/magic_eden.svg';
 import addcarticon from '../../assets/images/addcarticon.svg';
 import verifiedtick from '../../assets/images/verifiedtick.svg';
 import { SportsRugbySharp } from '@mui/icons-material';
@@ -78,6 +79,9 @@ export default function NFTCard(props) {
             break;
         case "xMarket":
             svgpath = xmarket;
+            break;
+        case "magiceden":
+            svgpath = magicEden;
             break;
     }
 
